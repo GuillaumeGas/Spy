@@ -23,6 +23,8 @@ void Server::loop_accept() {
 	int client = accept( m_sock, (sockaddr *)&sin, &size_addr);
 	if ( client != - 1 ) {
 	    cout << "[INFO] -> nouveau client " << endl;
+	    multi_thread.push_back(Serv_session(client));
+	    multi_thread[multi_thread.size() - 1].start();
 	}
     }
 }
@@ -33,6 +35,8 @@ void Server::do_bind() {
     if ( bind( m_sock, (sockaddr *) &sin, sizeof(sin)) == -1 ) {
 	cout << "Probleme de bind changer de Port" << endl;
 	throw m_port;
+    } else {
+	cout << "[INFO] -> bind reussi " << endl;
     }
 }
 
@@ -40,6 +44,8 @@ void Server::do_listen() {
     if ( listen( m_sock, 0 ) == -1 ) {
 	cout << "Probleme de listen changer de Pc" << endl;
 	throw m_sock;
+    } else {
+	cout << "[INFO] -> listen reussi" << endl;
     }
 }
 

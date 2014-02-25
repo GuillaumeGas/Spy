@@ -13,15 +13,14 @@
 #include <pthread.h>
 
 #include "Thread.hh"
-#include <map>
+#include "Serv_session.hh"
+#include <vector>
 
 class Server {
 
 public:
 
     Server(int argc, char ** argv);
-    
-    void session();
     void start();
 
 private:
@@ -33,7 +32,7 @@ private:
     void do_bind();
     void do_listen();
     void loop_accept();
-    //    std::map<string, Session> multi_Thread;
+    std::vector<Serv_session> multi_thread;
     int m_port, m_sock;
     sockaddr_in sin;
 };
