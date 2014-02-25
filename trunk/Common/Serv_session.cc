@@ -10,3 +10,7 @@ void Serv_session::session() {
     cout << "j'ecoute " << m_sock << endl; 
 }
 
+Serv_session::~Serv_session() {
+    cout << " j'ecoute plus sur " << m_sock << endl;
+    //quit(sock); pour plus tard
+}

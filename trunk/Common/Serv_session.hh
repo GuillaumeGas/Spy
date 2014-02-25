@@ -8,7 +8,7 @@ public:
 
     Serv_session(int sock);
     void session();
-
+    ~Serv_session();
 
 private:
     int m_sock;
