@@ -6,13 +6,13 @@ Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_sessi
   m_sock = _sock;
   m_stop = false;
 
-  while(1) {
+  while(!m_stop) {
     string msg;
     cout << "msg : ";
     cin >> msg;
-    //Stream_net m(m_sock); // ERREUR
-    //m  << msg;
-    send(m_sock, "test", 5, 0);
+    Stream_net m(m_sock); // ERREUR
+    m << "1i" << 5;
+    //    send(m_sock, "test", 5, 0);
   }
 }
 
