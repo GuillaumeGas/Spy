@@ -15,7 +15,11 @@ void Serv_session::loop_recv() {
 	Stream_net m(m_sock);
 	string msg;
 	m >> msg;
-	cout <<"[" << m_sock << "] -> " <<  msg << endl;
+	if ( msg.length() != 0 ) {
+	    cout <<"[" << m_sock << "] -> " <<  msg << endl;    
+	} else {
+	    stop = true;
+	}
     }
     cout << "dommage" << endl;
 }
