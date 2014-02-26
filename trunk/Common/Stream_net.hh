@@ -50,6 +50,8 @@ public:
 
 
     std::string recv();
+    void recv(int & a);
+    void recv(char & a);
 
 private:
 
@@ -78,6 +80,8 @@ Stream_net & operator<<( Stream_net & st, T param ) {
 
 
 Stream_net & operator>>( Stream_net & st, std::string & param);
+Stream_net & operator>>( Stream_net & st, int & param);
+Stream_net & operator>>( Stream_net & st, char & param);
 
 
 
