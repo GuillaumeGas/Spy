@@ -90,7 +90,6 @@ void Stream_net::show_elem() {
 string Stream_net::recv() {
     char buffer[255];
     if ( fscanf( m_read, "%s", buffer) == 1 ) {
-	cout << strlen(buffer) << endl;
 	return string(buffer);
     } else {
 	return string("");
@@ -98,8 +97,35 @@ string Stream_net::recv() {
 }
 
 
+
+void Stream_net::recv(int & a) {
+    if ( fscanf(m_read, "%i", &a) == 1 ) {
+    } else {
+	a = -1; 
+    }
+}
+
+void Stream_net::recv(char & a) {
+    if ( fscanf(m_read, "%c", &a) == 1 ) {
+    } else {
+	a = -1; 
+    }
+}
+
 Stream_net & operator>>( Stream_net & st, string & param ) {
     param = st.recv();
     return st;
 }
 
+
+
+Stream_net & operator>>( Stream_net & st, int & a ) {
+    st.recv(a);
+    return st;
+}
+
+
+Stream_net & operator>>( Stream_net & st, char & a ) {
+    st.recv(a);
+    return st;
+}

@@ -4,6 +4,7 @@
 #include "Thread.hh"
 #include "Stream_net.hh"
 #include <atomic>
+#include <sstream>
 
 class Serv_session : public Thread<Serv_session> {
 
@@ -12,7 +13,7 @@ public:
     Serv_session(int sock);
     void loop_recv();
     void session();
-    void wait(std::string, Stream_net & s);
+    std::string wait(std::string, Stream_net & s);
     ~Serv_session();
 
 private:
