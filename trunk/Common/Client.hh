@@ -17,55 +17,115 @@
 #include <unistd.h>
 #include <netdb.h>
 
-#include "Thread.hh"
-#include "Stream_net.hh"
+using namespace std;
 
+template <class T>
 class Client {
 public:
-  Client(int argc, char** argv);
-  ~Client();
+  Client(int argc, char** argv) {
+    if(check_args(argc, argv) != -1) {
+      if(!init_network()) {
+	error("Erreur lors la connexion.");
+      } else {
+	info("Connexion etablie.");
+	m_stop = false;
 
-  int get_sock()const;
-  bool stop()const;
+	session = new T(m_sock);
+      }
+    }
+  }
+  ~Client() { close(m_sock); }
 
-  void boucle_cmd();
+
+  int get_sock()const {
+    return m_sock;
+  }
+  bool stop()const {
+    return m_stop;
+  }
+
+  T * get_session()const {
+    return session;
+  }
+
+  void quit() {
+    m_stop = true;
+  }
+
+  void error(string msg)const {
+    std::cout << msg << std::endl;
+  }
+
+  void info(string msg)const {
+    std::cout << msg << std::endl;
+  }
 
 private:
-  int init_network();
-  int check_args(int argc, char** argv);
-  void error(std::string msg)const;
-  void info(std::string msg)const;
+
+  T * session;
+
+  int init_network() {
+    m_sock = socket(AF_INET, SOCK_STREAM, 0);
+    if(m_sock == -1) {
+      error("Erreur initialisation de la socket.");
+      return -1;
+    } else {
+      struct hostent * hostinfo = NULL;
+      hostinfo = gethostbyname(m_host.c_str());
+      if(hostinfo == NULL) {
+	error("Erreur hostinfo");
+	return -1;
+      } else {
+	m_sin.sin_addr   = *(struct in_addr*)hostinfo->h_addr;
+	m_sin.sin_family = AF_INET;
+	m_sin.sin_port   = htons(m_port);
+
+	return 1;
+      }
+    }
+  }
+
+  int check_args(int argc, char** argv) {
+    if(argc < 3) {
+      error("- Client -\n Usage : Client [-P port] [-H host]");
+      return -1;
+    } else {
+      int p = -1;
+      for(int i = 0; i < argc; i++) {
+	if(strcmp(argv[i], "-P") == 0 && i != argc-1) {
+	  p = atoi(argv[i+1]);
+	}    
+      }
+
+      if(p == -1) {
+	error("Port non indiqué !");
+	return -1;
+      } else {
+	m_port = p;
+      }
+    
+      std::string h = "null";
+      for(int i = 0; i < argc; i++) {
+	if(strcmp(argv[i], "-H") == 0 && i != argc-1) {
+	  h = argv[i+1];
+	}
+      }
+      if(h == "null") {
+	error("Host non indiqué !");
+	return -1;
+      } else { 
+	m_host = h;
+      }
+
+      return 1;
+    }
+  }
 
   std::string m_host;
   int m_port;
   int m_sock;
   struct sockaddr_in m_sin;
   bool m_stop;
-};
-
-/**
- *  Classe threadée permettant la reception des messages
- **/
-
-class ThRecv : public Thread<ThRecv> {
-public:
-  ThRecv(Client * cli) : Thread<ThRecv>(&ThRecv::run, this), m_cli(cli) {
-  }
-
-  void run() {
-    while(!m_cli->stop()) {
-      Stream_net m(m_cli->get_sock());
-      std::string str;
-      m >> str;
-      if(str.length() != 0) {
-	std::cout << "[" << m_cli->get_sock() << "] : " << str << std::endl;
-      }
-    }
-    std::cout << "Fin boucle reception" << std::endl;
-  }
-
-private:
-  Client * m_cli;
 };
 
 #endif
