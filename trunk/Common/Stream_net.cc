@@ -25,11 +25,21 @@ void Stream_net::send_string( const char *  param ) {
 	    m_waited_elem.back().nb--;
 	    if ( m_waited_elem.back().nb == 0 ) {
 		m_waited_elem.pop_back();
+		if ( m_waited_elem.size() == 0 ) {
+		    send_msg();
+		}
 	    }
 	}
     }
 }
 
+
+void Stream_net::send_msg() {
+    string msg(ss.str());
+    fprintf( m_write, "%s", msg.c_str());
+    fflush(m_write);
+    ss.str("");
+}
 
 void Stream_net::show_list() {
     for ( auto it = m_waited_elem.begin() ; it != m_waited_elem.end() ; it++) {

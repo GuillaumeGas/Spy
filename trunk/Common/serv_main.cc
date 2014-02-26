@@ -5,10 +5,6 @@
 
 
 int main(int argc, char ** argv) {
-    Stream_net m(10);
-    std::string s("salut1s1i5c");
-    m << s.c_str();
-    m.show_list();
-    m <<  "jean-claude";
-    m.show_elem();
+    Server<Serv_session> server(argc, argv);
+    server.start();
 }

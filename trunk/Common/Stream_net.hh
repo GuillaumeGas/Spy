@@ -46,6 +46,7 @@ public:
     
     void show_list();
     void show_elem();
+    void send_msg();
 
 private:
 

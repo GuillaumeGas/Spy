@@ -1,5 +1,6 @@
 #include "Serv_session.hh"
 #include <iostream>
+#include "Stream_net.hh"
 using namespace std;
 
 Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::session, this) {
@@ -7,7 +8,9 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
 }
 
 void Serv_session::session() {
-    cout << "j'ecoute " << m_sock << endl; 
+    Stream_net m(m_sock);
+    std::string s("salut1s");
+    m << "1s" << "jean-claude" << "1s" << "salut";
 }
 
 Serv_session::~Serv_session() {
