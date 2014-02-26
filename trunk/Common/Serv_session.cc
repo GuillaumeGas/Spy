@@ -5,13 +5,23 @@
 
 using namespace std;
 
+
 Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::session, this) {
     m_sock = sock;
     stop = false;
     message["message"] = "1i1s";
+    sig_msg["message"] = new signal<void(string)> ;
+    sig_msg["message"]->connect(foo);
     message["m2"] = "1i";
+    sig_msg["m2"] = new signal<void(string)> ;
     message["m3"] = "5c";
+    sig_msg["m3"] = new signal<void(string)> ;
 }
+
+
+
+
+
 
 string Serv_session::wait(string msg, Stream_net & s) {
     stringstream total("");
@@ -48,7 +58,11 @@ void Serv_session::loop_recv() {
 	    cout << msg << endl;
 	    for ( auto it : message ) {
 		if ( it.first == msg ) {
-		    cout << wait(msg, m) << endl;
+		    auto it = sig_msg.find(msg);
+		    if ( it != sig_msg.end() ) {
+			it->second->operator()(wait(msg, m));
+		    }
+
 		}
 	    }
 	} else {

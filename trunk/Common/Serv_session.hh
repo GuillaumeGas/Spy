@@ -5,6 +5,9 @@
 #include "Stream_net.hh"
 #include <atomic>
 #include <sstream>
+#include <boost/signals2.hpp>
+
+using boost::signals2::signal;
 
 class Serv_session : public Thread<Serv_session> {
 
@@ -20,6 +23,7 @@ private:
     int m_sock;
     bool stop;
     std::map<std::string, std::string> message;
+    std::map<std::string, signal<void(std::string)>* > sig_msg;
 };
 
 
