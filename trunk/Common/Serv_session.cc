@@ -16,23 +16,35 @@ void Serv_session::send_msg(string msg, string content) {
     stringstream ss(content);
     string format = message.find(msg)->second;
     my_stream << format.c_str() << msg.c_str();
-    cout << format << endl;
-    for ( int i = 0 ; i < format.length() ; i++ ) {
+    for ( int i = 2 ; i < format.length() ; i++ ) {
 	if ( format[i] <= '9' && format[i] >= '0' ) {
 	    for ( int j = 0 ; j < format[i] - '0' ; j++ ) {
 		switch( format[i + 1] ) {
 		case 'i' : int a;
-		    ss >> a;
-		    my_stream << a; break;
+		    if ( !ss.eof() ) {
+			ss >> a;
+			my_stream << a;
+		    }
+		    break;
 		case 'c': char c;
-		    ss >> c;
-		    my_stream << c; break;
+		    if ( !ss.eof() ) {
+			ss >> c;
+			my_stream << c;
+		    } 
+		    break;
 		case 's': string m;
-		    ss >> m;
-		    my_stream << m.c_str(); break;
+		    if ( !ss.eof() ) {
+			ss >> m;
+			my_stream << m.c_str();
+		    }
+		    break;
 		}
 	    }
 	}
+    }
+    if ( !my_stream.send() ) {
+	cout << "[ERROR] -> message mal forme" << endl;
+	my_stream.clean();
     }
 }
 

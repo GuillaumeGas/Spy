@@ -48,7 +48,9 @@ public:
     void show_elem();
     void send_msg();
 
-
+    bool send();
+    void clean();
+    
     std::string recv();
     void recv(int & a);
     void recv(char & a);

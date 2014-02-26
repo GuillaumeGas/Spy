@@ -128,3 +128,16 @@ Stream_net & operator>>( Stream_net & st, char & a ) {
     st.recv(a);
     return st;
 }
+
+
+bool Stream_net::send() {
+    return m_waited_elem.size() == 0;
+}
+
+
+void Stream_net::clean() {
+    while ( m_waited_elem.size() != 0 ) {
+	m_waited_elem.pop_back();
+    }
+    ss.str("");
+}
