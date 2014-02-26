@@ -10,17 +10,18 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
 
 
 void Serv_session::loop_recv() {
-    cout << "ici" << endl;
+
     while ( not stop ) {
 	Stream_net m(m_sock);
 	string msg;
 	m >> msg;
-	cout << msg << endl;
+	cout <<"[" << m_sock << "] -> " <<  msg << endl;
     }
+    cout << "dommage" << endl;
 }
 
 void Serv_session::session() {
-    boost::thread(boost::bind(&Serv_session::loop_recv, this));
+    other(&Serv_session::loop_recv);
     Stream_net m(m_sock);
     m << "1s5i" << "jean_claude" <<  10 << 4 << 6 << 7 << 5 ;
     m << "1i1s" << 45 << "machin";

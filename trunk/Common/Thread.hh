@@ -2,7 +2,7 @@
 #define _THREAD
 
 #include <boost/thread.hpp>
-
+#include <vector>
 
 template <typename T>
 class Thread {
@@ -15,18 +15,25 @@ public:
     }
 
     void start() {
-	my_th = new boost::thread(boost::bind(m_fct, m_fils));
+	my_th.push_back(new boost::thread(boost::bind(m_fct, m_fils)));
+    }
+
+
+    void other(void(T::*fct)()) {
+	my_th.push_back(new boost::thread(boost::bind(fct, m_fils)));
     }
 
     void join() {
-	my_th->join();
+	for ( int i = 0 ; i < my_th.size() ; i++ ) {
+	    my_th[i]->join();
+	}
     }
 
 private:
     
     void(T::*m_fct)();
     T * m_fils;
-    boost::thread * my_th;
+    std::vector<boost::thread *> my_th;
 };
 
 
