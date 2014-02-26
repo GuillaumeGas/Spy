@@ -1,24 +1,33 @@
-#include "../Common/Thread.hh"
+#include <boost/signals2.hpp>
+using boost::signals2::signal;
+
 #include <iostream>
 using namespace std;
 
-class th: public Thread<th> {
 
-public:
-    th() : Thread<th>(&th::run, this) {
+
+void foo2(int a, char b) {
+    cout << a << b << endl;
+}
+
+
+template < typename... A >
+struct message {
+    message() {
+    }
+    
+    void operator()(A... param) {
+	sig(param...);
     }
 
-
-    void run() {
-	while ( 1 ) {
-	    cout << "hello " << endl;
-	}
-    }
+    signal<void(A...)> sig;
 };
 
+
+
+
 int main() {
-    th t;
-    t.start();
-    t.join();
-    return 0;
+    message<int, char> m;
+    m.sig.connect(foo2);
+    m(1,'c');
 }

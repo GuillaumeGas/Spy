@@ -89,8 +89,12 @@ void Stream_net::show_elem() {
 
 string Stream_net::recv() {
     char buffer[255];
-    fscanf( m_read, "%s", buffer);
-    return string(buffer);
+    if ( fscanf( m_read, "%s", buffer) == 1 ) {
+	cout << strlen(buffer) << endl;
+	return string(buffer);
+    } else {
+	return string("");
+    }
 }
 
 
