@@ -9,6 +9,8 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
     m_sock = sock;
     stop = false;
     message["message"] = "1i1s";
+    message["m2"] = "1i";
+    message["m3"] = "5c";
 }
 
 string Serv_session::wait(string msg, Stream_net & s) {
@@ -23,6 +25,7 @@ string Serv_session::wait(string msg, Stream_net & s) {
 		    total << a << " "; break;
 		case 'c': char c;
 		    s >> c;
+		    cout << c << endl;
 		    total << c << " "; break;
 		case 's': string msg;
 		    s >> msg;
@@ -42,6 +45,7 @@ void Serv_session::loop_recv() {
 	m >> msg;
 	if ( msg.length() != 0 ) {
 	    bool trouve = false;
+	    cout << msg << endl;
 	    for ( auto it : message ) {
 		if ( it.first == msg ) {
 		    cout << wait(msg, m) << endl;

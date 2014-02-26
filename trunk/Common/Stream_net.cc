@@ -12,7 +12,6 @@ Stream_net::Stream_net(int sock) {
 void Stream_net::send( const char *  param ) {
     string m_param(param);
     if ( m_waited_elem.size() == 0) {
-	ss << param <<" ";
 	for ( int i = 0 ; i < m_param.length() ; i++ ) {
 	    if ( m_param[i] >= '0' && m_param[i] <= '9' ) {
 		if ( i != m_param.length() - 1 ) {
