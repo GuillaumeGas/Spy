@@ -67,7 +67,7 @@ Stream_net & operator<<( Stream_net & st, T param ) {
     if ( name == "i" ) {
 	st.send(param);
     } else if ( name == "c" ) {
-    	
+	st.send(param);
     } else if ( name == "PKc" ) {
 	st.send(param);
     } else {

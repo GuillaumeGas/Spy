@@ -89,13 +89,13 @@ private:
 	    int client = accept( m_sock, (sockaddr *)&sin, &size_addr);
 	    if ( client != - 1 ) {
 		std::cout << "[INFO] -> nouveau client " << std::endl;
-		multi_thread.push_back(T(client));
-		multi_thread[multi_thread.size() - 1].start();
+		multi_thread.push_back(new T(client));
+		multi_thread[multi_thread.size() - 1]->start();
 	    }
 	}
     }
 
-    std::vector<T> multi_thread;
+    std::vector<T*> multi_thread;
     int m_port, m_sock;
     sockaddr_in sin;
 };
