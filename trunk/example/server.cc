@@ -8,10 +8,15 @@ class session_on_server : public Serv_session {
 public:
 
     session_on_server(int socket) : Serv_session(socket) {
-	message["salut"] = "1s";
+	message["salut"] = "1s1s";
 	sig_msg["salut"] = new signal<void(string)>;
 	sig_msg["salut"]->connect(boost::bind(&session_on_server::salut, this, _1));
+	sig_send["salut"] = new signal<void(string, string)>;
+	sig_send["salut"]->connect(boost::bind(&session_on_server::send_msg, this, _1, _2));
+	sig_send["salut"]->operator()("salut", "jkjdfk");
     }
+
+
     
     void salut(string msg) {
 	stringstream ss(msg);
@@ -19,6 +24,9 @@ public:
 	ss >> value;
 	cout << "recu " << value << endl;
     }
+
+
+
 
 private:
 
