@@ -80,6 +80,11 @@ private:
 	m_sin.sin_family = AF_INET;
 	m_sin.sin_port   = htons(m_port);
 
+	if(connect(m_sock,(struct sockaddr *)&m_sin, sizeof(struct sockaddr)) == -1) {
+	  error("Erreur lors de la connexion.");
+	  return -1;
+	}
+
 	return 1;
       }
     }
