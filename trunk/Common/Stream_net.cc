@@ -9,7 +9,7 @@ Stream_net::Stream_net(int sock) {
     m_write = fdopen(sock, "w");
 }
 
-void Stream_net::send_string( const char *  param ) {
+void Stream_net::send( const char *  param ) {
     string m_param(param);
     if ( m_waited_elem.size() == 0) {
 	for ( int i = 0 ; i < m_param.length() ; i++ ) {
@@ -26,6 +26,22 @@ void Stream_net::send_string( const char *  param ) {
 	    if ( m_waited_elem.back().nb == 0 ) {
 		m_waited_elem.pop_back();
 		if ( m_waited_elem.size() == 0 ) {
+		    send_msg();
+		}
+	    }
+	}
+    }
+}
+
+
+void Stream_net::send(int param) {
+    if ( m_waited_elem.size() != 0 ) {
+	if ( m_waited_elem.back().type == "i" ) {
+	    ss << param << " ";
+	    m_waited_elem.back().nb--;
+	    if ( m_waited_elem.back().nb == 0 ) {
+		m_waited_elem.pop_back();
+		if (m_waited_elem.size() == 0 ) {
 		    send_msg();
 		}
 	    }

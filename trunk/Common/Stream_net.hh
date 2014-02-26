@@ -40,9 +40,9 @@ public:
 
     Stream_net(int sock);
     
-    void send_string( const char * param );
-    void send_int( int param );
-    void send_char( int param );
+    void send( const char * param );
+    void send( int param );
+    void send( char param );
     
     void show_list();
     void show_elem();
@@ -60,13 +60,13 @@ private:
 
 template <typename T>
 Stream_net & operator<<( Stream_net & st, T param ) {
-    std::string name = typeid(T).name();
+    std::string name(typeid(T).name());
     if ( name == "i" ) {
-       
+	st.send(param);
     } else if ( name == "c" ) {
     	
     } else if ( name == "PKc" ) {
-	st.send_string(param);
+	st.send(param);
     } else {
 	std::cout << name << ": " << param << std::endl;
     }

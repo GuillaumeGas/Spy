@@ -10,7 +10,7 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
 void Serv_session::session() {
     Stream_net m(m_sock);
     std::string s("salut1s");
-    m << "1s" << "jean-claude" << "1s" << "salut";
+    m << "1s1i" << "jean_claude" <<  10 << "1i1s" << 45 << "machin";
 }
 
 Serv_session::~Serv_session() {
