@@ -12,6 +12,7 @@ Stream_net::Stream_net(int sock) {
 void Stream_net::send( const char *  param ) {
     string m_param(param);
     if ( m_waited_elem.size() == 0) {
+	ss << param <<" ";
 	for ( int i = 0 ; i < m_param.length() ; i++ ) {
 	    if ( m_param[i] >= '0' && m_param[i] <= '9' ) {
 		if ( i != m_param.length() - 1 ) {
@@ -50,9 +51,25 @@ void Stream_net::send(int param) {
 }
 
 
+void Stream_net::send(char param) {
+    if ( m_waited_elem.size() != 0 ) {
+	if ( m_waited_elem.back().type == "c" ) {
+	    ss << param << " ";
+	    m_waited_elem.back().nb--;
+	    if ( m_waited_elem.back().nb == 0 ) {
+		m_waited_elem.pop_back();
+		if ( m_waited_elem.size() == 0 ) {
+		    send_msg();
+		}
+	    }
+	}
+    }
+}
+
+
 void Stream_net::send_msg() {
     string msg(ss.str());
-    fprintf( m_write, "%s", msg.c_str());
+    fprintf( m_write, "%s\n", msg.c_str());
     fflush(m_write);
     ss.str("");
 }
@@ -67,3 +84,18 @@ void Stream_net::show_list() {
 void Stream_net::show_elem() {
     cout << ss.rdbuf() << endl;
 }
+
+
+
+string Stream_net::recv() {
+    char buffer[255];
+    fscanf( m_read, "%s", buffer);
+    return string(buffer);
+}
+
+
+Stream_net & operator>>( Stream_net & st, string & param ) {
+    param = st.recv();
+    return st;
+}
+

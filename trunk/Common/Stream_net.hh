@@ -48,6 +48,9 @@ public:
     void show_elem();
     void send_msg();
 
+
+    std::string recv();
+
 private:
 
     std::list<typewait> m_waited_elem;
@@ -72,7 +75,9 @@ Stream_net & operator<<( Stream_net & st, T param ) {
     }
     return st;
 }
-Stream_net & operator<<( Stream_net & st, std::string param);
+
+
+Stream_net & operator>>( Stream_net & st, std::string & param);
 
 
 
