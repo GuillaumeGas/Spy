@@ -7,7 +7,7 @@
 
 using boost::signals2::signal;
 
-template <typename... T>
+
 class Message {
 public:
 
@@ -24,13 +24,13 @@ public:
     }
     
     
-    void operator()(Stream_net & s, T... param) {
-	sig_send(s, m_name+m_content, param...);
+    void operator()(Stream_net & s) {
+	sig_send(s, m_name+m_content);
     }
 
 
-    signal<void(Stream_net&, std::string , T...)> sig_send;
-    signal<void(T...)> sig_recv;
+    signal<void(Stream_net&, std::string )> sig_send;
+    signal<void()> sig_recv;
 
 private:
     std::string m_name;

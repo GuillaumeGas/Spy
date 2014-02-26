@@ -6,7 +6,7 @@ ADD_DEFINITIONS(-std=c++0x -ggdb)
 
 ADD_EXECUTABLE(client cli_main.cc Client_session.cc Stream_net.cc)
 
-ADD_EXECUTABLE(server serv_main.cc Serv_session.cc Stream_net.cc proto.cc)
+ADD_EXECUTABLE(server serv_main.cc Serv_session.cc Stream_net.cc )
 
 TARGET_LINK_LIBRARIES(client -lboost_thread)
 
