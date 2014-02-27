@@ -10,8 +10,12 @@ namespace master {
 	start();
 	proto->message["OK"]->sig_recv.connect(boost::bind(&session_on_client::do_ok, this, _1));
 	proto->message["ERR"]->sig_recv.connect(boost::bind(&session_on_client::do_err, this, _1));
+	proto->message["SPY"]->sig_recv.connect(boost::bind(&session_on_client::do_spy, this, _1));
+	proto->message["CONTROL"]->operator()("");
+	while ( !m_stop ) {	
+	
+	}
 	proto->message["SPY"]->operator()("norbert localhost 9999");
-	while ( !m_stop ) {}
     }
 
 
@@ -24,6 +28,14 @@ namespace master {
 	cout << "[SYS] -> ERR" << endl;
     }
 
+
+    void session_on_client::do_spy(string msg) {
+	stringstream ss(msg);
+	int port;
+	string addr, name;
+	ss >> name >> addr >> port;
+	cout << name << " " << addr << " " << port << endl;
+    }
 
 
 };

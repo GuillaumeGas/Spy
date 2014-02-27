@@ -2,7 +2,7 @@
 #define _SERVSESSION
 
 #include "Thread.hh"
-#include "Session.hh"
+
 #include <atomic>
 #include <sstream>
 #include <boost/signals2.hpp>
