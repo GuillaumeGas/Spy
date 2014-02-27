@@ -15,6 +15,7 @@ namespace master {
 	
 	void do_ok(std::string msg);
 	void do_err(std::string msg);
+	void do_spy(std::string msg);
 
     };
 

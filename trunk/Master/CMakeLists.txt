@@ -10,6 +10,6 @@ ADD_EXECUTABLE(client client.cc ../Common/Client_session.cc ../Common/Stream_net
 
 
 
-TARGET_LINK_LIBRARIES(server -Wl,--copy-dt-needed-entries -lboost_thread)
-TARGET_LINK_LIBRARIES(client -Wl,--copy-dt-needed-entries -lboost_thread)
+TARGET_LINK_LIBRARIES(server  -lboost_thread)
+TARGET_LINK_LIBRARIES(client  -lboost_thread)
 
