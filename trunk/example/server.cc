@@ -2,6 +2,8 @@
 #include "../Common/Server.hh"
 #include "../Common/Serv_session.hh"
 #include "../Common/Message.hh"
+#include "proto.hh"
+
 using namespace std;
 
 class session_on_server : public Serv_session {
@@ -9,9 +11,9 @@ class session_on_server : public Serv_session {
 public:
 
     session_on_server(int socket) : Serv_session(socket) {
-	message["salut"] = new Message("salut", "1s3i", this);
-	message["salut"]->sig_recv.connect(boost::bind(&session_on_server::salut, this, _1));
-	message["salut"]->operator()("1 2 4");
+	proto = new proto1(socket);
+	proto->message["salut"]->sig_recv.connect(boost::bind(&session_on_server::salut, this, _1));
+	proto->message["salut"]->operator()("1 2 3");
     }
 
 
