@@ -11,7 +11,7 @@ using boost::signals2::signal;
 class Message {
 public:
 
-    Message( std::string nom, std::string format, Session * s);
+    Message( std::string nom, std::string format, Protocol * s);
     bool operator==(std::string);
     void operator()(std::string);
 

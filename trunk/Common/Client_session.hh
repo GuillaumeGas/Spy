@@ -11,7 +11,7 @@
 class Message;
 
 
-class Client_session : public Thread<Client_session>, public Session{
+class Client_session : public Thread<Client_session>{
 public:
     Client_session(int _sock);
   
@@ -25,7 +25,6 @@ public:
 private:
     int m_sock;
     bool m_stop;
-    std::map<std::string, Message *> message;
 };
 
 #endif

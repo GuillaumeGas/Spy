@@ -6,13 +6,14 @@
 #include <atomic>
 #include <sstream>
 #include <boost/signals2.hpp>
+#include "protocol.hh"
 
 using boost::signals2::signal;
 
 class Message;
 
 
-class Serv_session : public Thread<Serv_session>, public Session {
+class Serv_session : public Thread<Serv_session> {
 
 public:
 
@@ -25,10 +26,7 @@ public:
 protected:
 
     bool stop;
-
-    /*    std::map<std::string, std::string> message;
-    std::map<std::string, signal<void(std::string)>* > sig_msg;
-    std::map<std::string, signal<void(std::string, std::string)>* > sig_send;*/
+    Protocol * proto;
 
 };
 

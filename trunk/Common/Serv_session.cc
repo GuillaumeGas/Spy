@@ -1,12 +1,12 @@
 #include "Serv_session.hh"
 #include <iostream>
-#include "proto.hh"
+
 #include "Message.hh"
 
 using namespace std;
 
 
-Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::session, this), Session(sock) {
+Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::session, this) {
     stop = false;
 }
 
@@ -14,13 +14,13 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
 void Serv_session::loop_recv() {
     while ( ! stop ) {
 	string msg;
-	my_stream >> msg;
+	proto->my_stream >> msg;
 	if ( msg.length() != 0 ) {
 	    bool trouve = false;
 	    cout << msg << endl;
-	    for ( auto it : message ) {
+	    for ( auto it : proto->message ) {
 		if ( *(it.second) == msg ) {
-		    it.second->sig_recv(wait(*it.second));
+		    it.second->sig_recv(proto->wait(*it.second));
 		}
 	    }
 	} else {
@@ -34,13 +34,9 @@ void Serv_session::loop_recv() {
 
 void Serv_session::session() {
     other(&Serv_session::loop_recv);
-    Stream_net m(m_sock);
-    int a;
-    cin >> a;
-    stop = true;
 }
 
 Serv_session::~Serv_session() {
-    cout << " j'ecoute plus sur " << m_sock << endl;
+    cout << " j'ecoute plus sur " << proto->m_sock << endl;
     //quit(sock); pour plus tard
 }
