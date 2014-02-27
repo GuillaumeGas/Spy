@@ -1,7 +1,7 @@
 #include "Message.hh"
 using namespace std;
 
-Message::Message(string name, string format, Serv_session * s) {
+Message::Message(string name, string format, Session * s) {
     m_name = name;
     m_format = format;
     sig_send.connect(boost::bind(&Serv_session::send_msg, s, _1, _2));

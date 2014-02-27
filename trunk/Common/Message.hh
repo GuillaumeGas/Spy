@@ -8,11 +8,10 @@
 
 using boost::signals2::signal;
 
-
 class Message {
 public:
 
-    Message( std::string nom, std::string format, Serv_session * s);
+    Message( std::string nom, std::string format, Session * s);
     bool operator==(std::string);
     void operator()(std::string);
 
