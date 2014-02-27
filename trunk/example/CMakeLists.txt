@@ -4,7 +4,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 ADD_DEFINITIONS(-std=c++0x -ggdb)
 
-ADD_EXECUTABLE(out server.cc ../Common/Serv_session.cc ../Common/Stream_net.cc)
+ADD_EXECUTABLE(out server.cc ../Common/Serv_session.cc ../Common/Stream_net.cc ../Common/Message.cc)
 
 
 
