@@ -6,11 +6,12 @@
 
 #include "Thread.hh"
 #include "Stream_net.hh"
+#include "Session.hh"
 
 class Message;
 
 
-class Client_session : Thread<Client_session>{
+class Client_session : public Thread<Client_session>, public Session{
 public:
     Client_session(int _sock);
   
@@ -24,7 +25,7 @@ public:
 private:
     int m_sock;
     bool m_stop;
-    std::map<std::string, Message<Client_session> *> message;
+    std::map<std::string, Message *> message;
 };
 
 #endif

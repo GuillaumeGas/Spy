@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_session::loop_recv, this) {
+Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_session::loop_recv, this), Session(_sock) {
   m_sock = _sock;
   m_stop = false;
   Stream_net m(m_sock); // ERREUR
