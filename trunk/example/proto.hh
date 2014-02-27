@@ -2,7 +2,7 @@
 #define _PROTO
 
 #include "../Common/protocol.hh"
-
+#include "../Common/Message.hh"
 
 class proto1 : public Protocol {
 public:

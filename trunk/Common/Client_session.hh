@@ -7,6 +7,7 @@
 #include "Thread.hh"
 #include "Stream_net.hh"
 #include "Session.hh"
+#include "protocol.hh"
 
 class Message;
 
@@ -22,9 +23,10 @@ public:
 
     void set_stop();
 
-private:
+protected:
     int m_sock;
     bool m_stop;
+    Protocol * proto;
 };
 
 #endif

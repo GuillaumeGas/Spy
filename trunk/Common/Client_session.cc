@@ -1,30 +1,31 @@
 #include "Client_session.hh"
+#include "Message.hh"
 
 using namespace std;
 
 Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_session::loop_recv, this) {
   m_sock = _sock;
   m_stop = false;
-  Stream_net m(m_sock); // ERREUR
-  while(!m_stop) {
-    string msg;
-    cout << "msg : ";
-    cin >> msg;
-    m << msg.c_str();
-    m.show_list();
-  }
+  start();
 }
 
 void Client_session::loop_recv() {
-  while(!m_stop) {
-    Stream_net m(m_sock);
-    string str;
-    m >> str;
-    if(str.length() != 0) {
-      cout << "[" << m_sock << "] : " << str << endl;
+
+    while ( !m_stop ) {
+	string msg;
+	proto->my_stream >> msg;
+	if ( msg.length() != 0 ) {
+	    bool trouve = false;
+	    for ( auto it : proto->message ) {
+		if ( it.first == msg ) {
+		    it.second->sig_recv(proto->wait(*it.second));
+		}
+	    }
+	} else {
+	    m_stop = true;
+	}
     }
-  }
-  std::cout << "Fin boucle reception" << std::endl;
+    cout << " quitter" << endl;
 }
 
 int Client_session::get_sock()const {
