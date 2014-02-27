@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Stream_net.hh"
+#include "Serv_session.hh"
 #include <boost/signals2.hpp>
 
 using boost::signals2::signal;
@@ -11,32 +12,20 @@ using boost::signals2::signal;
 class Message {
 public:
 
+    Message( std::string nom, std::string format, Serv_session * s);
+    bool operator==(std::string);
+    void operator()(std::string);
 
-    Message(std::string name, std::string content) {
-	m_name = name;
-	m_content = content;
+    std::string get_format();
+    std::string get_name();
 
-    }
+    signal<void(std::string)> sig_recv;
+    signal<void(Message&, std::string)> sig_send;
     
-
-    void operator==(std::string name) {
-	return m_name == name;
-    }
-    
-    
-    void operator()(Stream_net & s) {
-	sig_send(s, m_name+m_content);
-    }
-
-
-    signal<void(Stream_net&, std::string )> sig_send;
-    signal<void()> sig_recv;
-
-private:
+private:    
     std::string m_name;
-    std::string m_content;
+    std::string m_format;
 };
-
 
 
 #endif

@@ -1,6 +1,7 @@
 #include "Serv_session.hh"
 #include <iostream>
 #include "proto.hh"
+#include "Message.hh"
 
 using namespace std;
 
@@ -12,10 +13,10 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
 
 
 
-void Serv_session::send_msg(string msg, string content) {
+void Serv_session::send_msg(Message &m, string content) {
     stringstream ss(content);
-    string format = message.find(msg)->second;
-    my_stream << format.c_str() << msg.c_str();
+    string format = m.get_format();
+    my_stream << format.c_str() << m.get_name().c_str();
     for ( int i = 2 ; i < format.length() ; i++ ) {
 	if ( format[i] <= '9' && format[i] >= '0' ) {
 	    for ( int j = 0 ; j < format[i] - '0' ; j++ ) {
@@ -48,12 +49,13 @@ void Serv_session::send_msg(string msg, string content) {
     }
 }
 
-string Serv_session::wait(string msg) {
+string Serv_session::wait(Message &m) {
     stringstream total("");
-    string format = message.find(msg)->second;
-    for ( int i = 0 ; i < format.length() ; i++ ) {
+    string format = m.get_format();
+    for ( int i = 2 ; i < format.length() ; i++ ) {
 	if ( format[i] <= '9' && format[i] >= '0' ) {
-	    for ( int j = 0 ; j < format[i] - '0' ; i++ ) {
+	    cout << format[i] << endl;
+	    for ( int j = 0 ; j < format[i] - '0' ; j++ ) {
 		switch(format[i + 1]) {
 		case 'i': int a;
 		    my_stream >> a;
@@ -81,12 +83,8 @@ void Serv_session::loop_recv() {
 	    bool trouve = false;
 	    cout << msg << endl;
 	    for ( auto it : message ) {
-		if ( it.first == msg ) {
-		    auto it = sig_msg.find(msg);
-		    if ( it != sig_msg.end() ) {
-			it->second->operator()(wait(msg));
-		    }
-
+		if ( *(it.second) == msg ) {
+		    it.second->sig_recv(wait(*it.second));
 		}
 	    }
 	} else {
