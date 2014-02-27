@@ -6,7 +6,7 @@
 
 #include "Thread.hh"
 #include "Stream_net.hh"
-#include "Session.hh"
+
 #include "protocol.hh"
 
 class Message;
