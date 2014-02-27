@@ -69,7 +69,7 @@ private:
 	    std::cout << "Probleme de bind changer de Port" << std::endl;
 	    throw m_port;
 	} else {
-	    std::cout << "[INFO] -> bind reussi " << std::endl;
+	    std::cout << "[INFO] -> bind success " << std::endl;
 	}
     }
 
@@ -78,7 +78,7 @@ private:
 	    std::cout << "Probleme de listen changer de Pc" << std::endl;
 	    throw m_sock;
 	} else {
-	    std::cout << "[INFO] -> listen reussi" << std::endl;
+	    std::cout << "[INFO] -> listen success" << std::endl;
 	}
     }
 
@@ -88,7 +88,7 @@ private:
 	while ( 1 ) {
 	    int client = accept( m_sock, (sockaddr *)&sin, &size_addr);
 	    if ( client != - 1 ) {
-		std::cout << "[INFO] -> nouveau client " << std::endl;
+		std::cout << "[INFO] -> new client " << std::endl;
 		multi_thread.push_back(new T(client));
 		multi_thread[multi_thread.size() - 1]->start();
 	    }

@@ -6,11 +6,9 @@ using namespace std;
 Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_session::loop_recv, this) {
   m_sock = _sock;
   m_stop = false;
-  start();
 }
 
 void Client_session::loop_recv() {
-
     while ( !m_stop ) {
 	string msg;
 	proto->my_stream >> msg;

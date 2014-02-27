@@ -17,17 +17,17 @@ void Serv_session::loop_recv() {
 	proto->my_stream >> msg;
 	if ( msg.length() != 0 ) {
 	    bool trouve = false;
-	    cout << msg << endl;
 	    for ( auto it : proto->message ) {
 		if ( *(it.second) == msg ) {
 		    it.second->sig_recv(proto->wait(*it.second));
+		    cout << "[INFO] -> " << msg << " recv" << endl;
 		}
 	    }
 	} else {
 	    stop = true;
 	}
     }
-    cout << "dommage" << endl;
+    cout << "[INFO] -> client quit" << endl;
 }
 
 
@@ -37,6 +37,5 @@ void Serv_session::session() {
 }
 
 Serv_session::~Serv_session() {
-    cout << " j'ecoute plus sur " << proto->m_sock << endl;
     //quit(sock); pour plus tard
 }
