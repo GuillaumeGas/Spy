@@ -1,11 +1,12 @@
 #include <iostream>
 #include "Process.hh"
+#include "ScreenShot.hh"
 
 using namespace std;
 
 int main() {
-  Process proc;
-  //proc.show_list_process();
+  /*Process proc;
+  proc.show_list_process();
 
   string s = "";
   while(s != "quit") {
@@ -17,6 +18,9 @@ int main() {
       cout << "none" << endl;
     }
     proc.refresh();
-  }
+    }*/
+
+  ScreenShot sc("test.bmp");
+  
   return 0;
 }
