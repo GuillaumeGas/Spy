@@ -56,9 +56,14 @@ namespace master {
     class master_cont : public Client_session {
     public:
 	master_cont ( int socket );
+	void do_begin();
 	void do_ok ( std::string msg );
 	void do_err ( std::string msg );
 	void do_spy ( std::string msg );
+	void aff_map();
+
+    private:
+	std::map < std::string, std::pair < std::string, int > > spy;
     };
 
 
