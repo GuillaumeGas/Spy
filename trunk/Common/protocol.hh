@@ -14,6 +14,8 @@ public:
     Protocol(int socket);
     void send_msg(Message &s, std::string);
     std::string wait(Message &s);
+    Message & operator[](std::string key);
+
 
     std::map< std::string, Message*> message;
     Stream_net my_stream;
