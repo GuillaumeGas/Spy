@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Process.hh"
 #include "ScreenShot.hh"
+#include "MsgBox.hh"
 
 using namespace std;
 
@@ -20,7 +21,10 @@ int main() {
     proc.refresh();
     }*/
 
-  ScreenShot sc("test.bmp");
+  //ScreenShot sc("test.bmp");
   
+  MsgBox::info("l'info du jour!");
+  MsgBox::warning("C'est pas bien du tout");
+
   return 0;
 }
