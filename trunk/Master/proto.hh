@@ -14,6 +14,7 @@ public:
 	message["OBSERVE"] = new Message("OBSERVER", "1s", this);
 	message["OK"] = new Message("OK", "1s", this);
 	message["ERR"] = new Message("ERR", "1s", this);
+	message["DSPY"] = new Message("DSPY", "1s1s", this);
     }
     
 };

@@ -15,6 +15,7 @@ namespace master {
 	session_on_server(int socket);
     
 	void do_spy(std::string s);
+	void do_dspy(std::string s);
 	void do_control(std::string s);
 	void do_observe(std::string s);
 
