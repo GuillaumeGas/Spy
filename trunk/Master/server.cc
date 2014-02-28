@@ -50,14 +50,19 @@ namespace master {
 	for ( auto it : spy_connected ) {
 	    stringstream ss;
 	    ss << it.first << " " << it.second.first << " " << it.second.second;    
-	    proto->message["SPY"]->operator()(ss.str());
+	    (*proto)["SPY"](ss.str());
 	}
-	proto->message["OK"]->operator()("");
+	(*proto)["OK"]("");
     }
 
     void session_on_server::do_observe(string msg) {
 	cout << "[INFO] -> request from Observer" << endl;
-	proto->message["OK"]->operator()("");
+	for ( auto it : spy_connected ) {
+	    stringstream ss;
+	    ss << it.first << " " << it.second.first << " " << it.second.second;    
+	    (*proto)["SPY"](ss.str());
+	}	
+	(*proto)["OK"]("");
     }
 
 };
