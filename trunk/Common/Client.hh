@@ -31,9 +31,15 @@ public:
 	m_stop = false;
 
 	session = new T(m_sock);
+	session->start();
       }
     }
   }
+
+    void join() {
+	session->join();
+    }
+
   ~Client() { close(m_sock); }
 
 

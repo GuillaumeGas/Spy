@@ -12,6 +12,7 @@ Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::sessi
 
 
 void Serv_session::loop_recv() {
+    begin();
     while ( ! stop ) {
 	string msg;
 	proto->my_stream >> msg;
@@ -27,6 +28,7 @@ void Serv_session::loop_recv() {
 	    stop = true;
 	}
     }
+    end();
     cout << "[INFO] -> client quit" << endl;
 }
 

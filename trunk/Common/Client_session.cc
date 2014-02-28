@@ -9,6 +9,7 @@ Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_sessi
 }
 
 void Client_session::loop_recv() {
+    begin();
     while ( !m_stop ) {
 	string msg;
 	proto->my_stream >> msg;
@@ -23,6 +24,7 @@ void Client_session::loop_recv() {
 	    m_stop = true;
 	}
     }
+    end();
     cout << " quitter" << endl;
 }
 
