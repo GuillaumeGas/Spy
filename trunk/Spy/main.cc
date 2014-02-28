@@ -2,7 +2,7 @@
 #include "Process.hh"
 #include "ScreenShot.hh"
 #include "MsgBox.hh"
-
+#include "Cmd.hh"
 using namespace std;
 
 int main() {
@@ -23,8 +23,11 @@ int main() {
 
   //ScreenShot sc("test.bmp");
   
-  MsgBox::info("l'info du jour!");
-  MsgBox::warning("C'est pas bien du tout");
+  //MsgBox::info("l'info du jour!");
+  //MsgBox::warning("C'est pas bien du tout");
+
+  Cmd::exec("ls");
+  cout << Cmd::get_res() << endl;
 
   return 0;
 }
