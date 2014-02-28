@@ -13,9 +13,10 @@ namespace master {
 
     session_on_server::session_on_server ( int socket ) : Serv_session(socket) {
 	proto = new master_proto(socket);
-	proto->message["SPY"]->sig_recv.connect(boost::bind(&session_on_server::do_spy, this, _1));
-	proto->message["CONTROL"]->sig_recv.connect(boost::bind(&session_on_server::do_control, this, _1));
-	proto->message["OBSERVE"]->sig_recv.connect(boost::bind(&session_on_server::do_observe, this, _1));
+	(*proto)["SPY"].sig_recv.connect(boost::bind(&session_on_server::do_spy, this, _1));
+	(*proto)["DSPY"].sig_recv.connect(boost::bind(&session_on_server::do_dspy, this, _1));
+	(*proto)["CONTROL"].sig_recv.connect(boost::bind(&session_on_server::do_control, this, _1));
+	(*proto)["OBSERVE"].sig_recv.connect(boost::bind(&session_on_server::do_observe, this, _1));
     }
 
 
@@ -25,24 +26,51 @@ namespace master {
 	string addr, name;
 	ss >> name >> addr >> port;
 	cout << "[INFO] -> new Spy at " << addr << ":" << port << " name " << name << endl;
+	m.lock();
 	spy_connected[name] = pair<string, int>(addr, port);
-	proto->message["OK"]->operator()("");
+	m.unlock();
+	(*proto)["OK"]("");
+    }
+
+
+    void session_on_server::do_dspy( string msg ) {
+	stringstream ss(msg);
+	string name;
+	ss >> name;
+	m.lock();
+	if ( auto it = spy_connected.find(name) != spy_connected.end() ) {
+	    (*proto)["OK"]("");
+	    cout << "[INFO] -> Spy name " << name << " has deco " << endl;
+	} else {
+	    (*proto)["ERR"]("");
+	    cout << "[ERROR] -> unknown Spy try to deco " << endl;
+	}
+	m.unlock();
     }
 
 
     void session_on_server::do_control(string msg) {
 	cout << "[INFO] -> request from Controller" << endl;
+	m.lock();
 	for ( auto it : spy_connected ) {
 	    stringstream ss;
 	    ss << it.first << " " << it.second.first << " " << it.second.second;    
-	    proto->message["SPY"]->operator()(ss.str());
+	    (*proto)["SPY"](ss.str());
 	}
-	proto->message["OK"]->operator()("");
+	m.unlock();
+	(*proto)["OK"]("");
     }
 
     void session_on_server::do_observe(string msg) {
 	cout << "[INFO] -> request from Observer" << endl;
-	proto->message["OK"]->operator()("");
+	m.lock();
+	for ( auto it : spy_connected ) {
+	    stringstream ss;
+	    ss << it.first << " " << it.second.first << " " << it.second.second;    
+	    (*proto)["SPY"](ss.str());
+	}	
+	m.unlock();
+	(*proto)["OK"]("");
     }
 
 };

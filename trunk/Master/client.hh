@@ -9,15 +9,65 @@
 
 namespace master {
 
-    class session_on_client : public Client_session {
+    class master_spy_co : public Client_session {
     public:	
-	session_on_client( int socket );
+	master_spy_co( int socket );
 	
+	void do_begin();
 	void do_ok(std::string msg);
 	void do_err(std::string msg);
-	void do_spy(std::string msg);
+	
+	std::string & name();
+	std::string & addr();
+	int & port();
+	bool & isset();
 
+
+    private:
+	bool m_isset;
+	std::string m_name, m_addr;
+	int m_port;
     };
+
+    class master_spy_deco : public Client_session {
+    public:
+	master_spy_deco ( int socket );
+	void do_begin();
+	void do_ok( std::string msg );
+	void do_err( std::string msg );
+    };
+
+    class master_obse : public Client_session {
+    public:
+	master_obse ( int socket );
+	void do_begin();
+	void do_ok ( std::string msg );
+	void do_err ( std::string msg );
+	void do_spy ( std::string msg );
+	void aff_map();
+	
+    private:
+	std::map < std::string , std::pair <std::string, int> > spy;
+	
+    };
+
+
+
+    class master_cont : public Client_session {
+    public:
+	master_cont ( int socket );
+	void do_begin();
+	void do_ok ( std::string msg );
+	void do_err ( std::string msg );
+	void do_spy ( std::string msg );
+	void aff_map();
+
+    private:
+	std::map < std::string, std::pair < std::string, int > > spy;
+    };
+
+
+
 
 };
 

@@ -3,11 +3,13 @@
 
 #include <map>
 #include <iostream>
-
+#include <boost/signals2.hpp>
 #include "Thread.hh"
 #include "Stream_net.hh"
 
 #include "protocol.hh"
+
+using boost::signals2::signal;
 
 class Message;
 
@@ -24,6 +26,8 @@ public:
     void set_stop();
 
 protected:
+    signal<void()> begin;
+    signal<void()> end;
     int m_sock;
     bool m_stop;
     Protocol * proto;

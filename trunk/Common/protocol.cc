@@ -65,3 +65,9 @@ string Protocol::wait(Message &m) {
     }
     return total.str();  
 }
+
+
+
+Message & Protocol::operator[](string key) {
+    return *message[key];
+}

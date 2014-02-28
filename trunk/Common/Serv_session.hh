@@ -24,7 +24,8 @@ public:
     ~Serv_session();
 
 protected:
-
+    signal<void()> begin;
+    signal<void()> end;
     bool stop;
     Protocol * proto;
 
