@@ -26,7 +26,9 @@ namespace master {
 	string addr, name;
 	ss >> name >> addr >> port;
 	cout << "[INFO] -> new Spy at " << addr << ":" << port << " name " << name << endl;
+	m.lock();
 	spy_connected[name] = pair<string, int>(addr, port);
+	m.unlock();
 	(*proto)["OK"]("");
     }
 
@@ -35,6 +37,7 @@ namespace master {
 	stringstream ss(msg);
 	string name;
 	ss >> name;
+	m.lock();
 	if ( auto it = spy_connected.find(name) != spy_connected.end() ) {
 	    (*proto)["OK"]("");
 	    cout << "[INFO] -> Spy name " << name << " has deco " << endl;
@@ -42,26 +45,31 @@ namespace master {
 	    (*proto)["ERR"]("");
 	    cout << "[ERROR] -> unknown Spy try to deco " << endl;
 	}
+	m.unlock();
     }
 
 
     void session_on_server::do_control(string msg) {
 	cout << "[INFO] -> request from Controller" << endl;
+	m.lock();
 	for ( auto it : spy_connected ) {
 	    stringstream ss;
 	    ss << it.first << " " << it.second.first << " " << it.second.second;    
 	    (*proto)["SPY"](ss.str());
 	}
+	m.unlock();
 	(*proto)["OK"]("");
     }
 
     void session_on_server::do_observe(string msg) {
 	cout << "[INFO] -> request from Observer" << endl;
+	m.lock();
 	for ( auto it : spy_connected ) {
 	    stringstream ss;
 	    ss << it.first << " " << it.second.first << " " << it.second.second;    
 	    (*proto)["SPY"](ss.str());
 	}	
+	m.unlock();
 	(*proto)["OK"]("");
     }
 
