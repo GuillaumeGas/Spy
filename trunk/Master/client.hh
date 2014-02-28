@@ -12,7 +12,8 @@ namespace master {
     class master_spy_co : public Client_session {
     public:	
 	master_spy_co( int socket );
-	
+
+	void do_begin();
 	void do_ok(std::string msg);
 	void do_err(std::string msg);
     };
