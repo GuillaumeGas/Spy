@@ -36,6 +36,20 @@ public:
 	}
     }
 
+    Client( std::string addr, int port ) {
+	m_port = port;
+	m_host = addr;
+	if ( !init_network() ) {
+	    error("Erreur lors de la connexion");
+	} else {
+	    info("Connexion etablie");
+	    m_stop = false;
+
+	    session = new T(m_sock);
+	    session->start();
+	}
+    }
+
     void join() {
 	session->join();
     }

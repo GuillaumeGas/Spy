@@ -14,6 +14,7 @@ public:
 	proto = new proto1(socket);
 	proto->message["salut"]->sig_recv.connect(boost::bind(&session_on_server::salut, this, _1));
 	proto->message["salut"]->operator()("1 2 3");
+	(*proto)["ERR"]("c'est mal de faire ca //end// ");
     }
 
 

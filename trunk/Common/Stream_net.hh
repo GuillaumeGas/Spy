@@ -55,6 +55,10 @@ public:
     void recv(int & a);
     void recv(char & a);
 
+
+    std::string str();
+    int length();
+
 private:
 
     std::list<typewait> m_waited_elem;

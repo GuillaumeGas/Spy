@@ -6,10 +6,6 @@ using namespace std;
 namespace master {
 
 
-
-
-
-
     master_cont::master_cont( int socket ) :Client_session ( socket ) {
 	proto = new master_proto( socket );
 	(*proto)["OK"].sig_recv.connect(boost::bind(&master_cont::do_ok, this, _1));
@@ -25,7 +21,6 @@ namespace master {
 
     void master_cont::do_ok( string msg ) {
 	cout << "[SYS] -> OK " << endl;
-	aff_map();
 	m_stop = true;
     }
     
@@ -47,6 +42,11 @@ namespace master {
 	for ( auto it : spy ) {
 	    cout << it.first << " " << it.second.first << ":" << it.second.second << endl;
 	}
+    }
+
+
+    map< string, pair<string, int> > master_cont::get_map() {
+	return spy;
     }
 
 

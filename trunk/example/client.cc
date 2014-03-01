@@ -14,10 +14,14 @@ public:
     session_on_client(int socket) : Client_session(socket) {
 	proto = new proto1(socket);
 	proto->message["salut"]->sig_recv.connect(boost::bind(&session_on_client::salut, this, _1));
+	proto->message["ERR"]->sig_recv.connect(boost::bind(&session_on_client::do_err, this, _1));
 	proto->message["salut"]->operator()("1 2 3");
-	while ( !m_stop ){}
     }
 
+
+    void do_err(string msg) {
+	cout << "[SYS] -> ERR :! " << msg << endl;
+    }
 
     void salut(string msg) {
 	stringstream ss(msg);
@@ -36,4 +40,5 @@ public:
 
 int main(int argc, char ** argv) {
     Client <session_on_client> client(argc, argv);
+    client.join();
 }

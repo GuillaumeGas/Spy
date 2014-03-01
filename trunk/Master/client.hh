@@ -61,7 +61,8 @@ namespace master {
 	void do_err ( std::string msg );
 	void do_spy ( std::string msg );
 	void aff_map();
-
+	std::map< std::string, std::pair< std::string, int> > get_map();
+	
     private:
 	std::map < std::string, std::pair < std::string, int > > spy;
     };

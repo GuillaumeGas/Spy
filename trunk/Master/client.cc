@@ -12,6 +12,4 @@ int main(int argc, char ** argv) {
     cli._session().port() = 9999;
     cli._session().isset() = true;
     cli.join();
-    Client< master::master_cont > client(argc, argv);
-    client.join();
 }

@@ -20,7 +20,7 @@ void Stream_net::send( const char *  param ) {
 	    }
 	}
     } else {
-	if ( m_waited_elem.back().type == "s" ) {
+	if ( m_waited_elem.back().type == "s" || m_waited_elem.back().type == "a" ) {
 	    ss << m_param << " ";
 	    m_waited_elem.back().nb--;
 	    if ( m_waited_elem.back().nb == 0 ) {
@@ -140,4 +140,13 @@ void Stream_net::clean() {
 	m_waited_elem.pop_back();
     }
     ss.str("");
+}
+
+
+string Stream_net::str() {
+    return ss.str();
+}
+
+int Stream_net::length() {
+    return ss.str().length();
 }

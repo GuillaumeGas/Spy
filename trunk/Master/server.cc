@@ -25,11 +25,25 @@ namespace master {
 	int port;
 	string addr, name;
 	ss >> name >> addr >> port;
-	cout << "[INFO] -> new Spy at " << addr << ":" << port << " name " << name << endl;
+
 	m.lock();
-	spy_connected[name] = pair<string, int>(addr, port);
+	bool exist = false;
+	for ( auto it : spy_connected ) {
+	    if ( it.first == name ) {
+		exist = true;
+	    } else if ( it.second.first == addr && it.second.second == port ) {
+		exist = true;
+	    }
+	}
 	m.unlock();
-	(*proto)["OK"]("");
+	if ( !exist ) {
+	    spy_connected[name] = pair<string, int>(addr, port);
+	    (*proto)["OK"]("");
+	    cout << "[INFO] -> Nouveau Spy a " << addr << ":" << port << " nomme " << name << endl;
+	} else {
+	    (*proto)["ERR"]("");
+	    cout << "[ERROR] -> Spy " << name << " exist deja mais a tentant de se connecter" << endl;
+	}
     }
 
 
@@ -40,17 +54,17 @@ namespace master {
 	m.lock();
 	if ( auto it = spy_connected.find(name) != spy_connected.end() ) {
 	    (*proto)["OK"]("");
-	    cout << "[INFO] -> Spy name " << name << " has deco " << endl;
+	    cout << "[INFO] -> Spy nomme " << name << " s'est deco " << endl;
 	} else {
 	    (*proto)["ERR"]("");
-	    cout << "[ERROR] -> unknown Spy try to deco " << endl;
+	    cout << "[ERROR] -> Spy inconnu tente de se deconnecte " << endl;
 	}
 	m.unlock();
     }
 
 
     void session_on_server::do_control(string msg) {
-	cout << "[INFO] -> request from Controller" << endl;
+	cout << "[INFO] -> requete d'un Controller" << endl;
 	m.lock();
 	for ( auto it : spy_connected ) {
 	    stringstream ss;
@@ -62,7 +76,7 @@ namespace master {
     }
 
     void session_on_server::do_observe(string msg) {
-	cout << "[INFO] -> request from Observer" << endl;
+	cout << "[INFO] -> requete d'un Observer" << endl;
 	m.lock();
 	for ( auto it : spy_connected ) {
 	    stringstream ss;

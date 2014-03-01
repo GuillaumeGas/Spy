@@ -26,10 +26,17 @@ void Protocol::send_msg(Message &m, string content) {
 			my_stream << c;
 		    } 
 		    break;
-		case 's': string m;
+		case 's':
 		    if ( !ss.eof() ) {
+			string m;
 			ss >> m;
 			my_stream << m.c_str();
+		    }
+		    break;
+		case 'a': string tmp;
+		    if ( !ss.eof() ) {
+			tmp = ss.str().substr(my_stream.length() - m.get_name().length() - 1, ss.str().length());
+			my_stream << tmp.c_str();
 		    }
 		    break;
 		}
@@ -48,17 +55,27 @@ string Protocol::wait(Message &m) {
     for ( int i = 2 ; i < format.length() ; i++ ) {
 	if ( format[i] <= '9' && format[i] >= '0' ) {
 	    for ( int j = 0 ; j < format[i] - '0' ; j++ ) {
-		switch(format[i + 1]) {
-		case 'i': int a;
+		if ( format[i + 1] == 'a' ) {
+		    string msg;
+		    my_stream >> msg;
+		    while ( msg != "//end//" ) {
+			total << msg << " ";
+			my_stream >> msg;
+		    }
+		} else if ( format[i + 1] == 'i' ) {
+		    int a;
 		    my_stream >> a;
-		    total << a << " "; break;
-		case 'c': char c;
+		    total << a << " "; 
+		} else if ( format[i + 1] == 'c' ) {
+		    char c;
 		    my_stream >> c;
 		    cout << c << endl;
-		    total << c << " "; break;
-		case 's': string m;
+		    total << c << " "; 
+		} else if ( format[i + 1] == 's' ) {
+		    string m;
 		    my_stream >> m;
-		    total << m << " "; break;
+		    total << m << " ";
+		    
 		}
 	    }
 	}
