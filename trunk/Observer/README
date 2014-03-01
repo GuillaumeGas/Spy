@@ -1,0 +1,8 @@
+Qt 4
+ -- Installation --
+sudo apt-get install libqt4-dev
+
+ -- Compilation --
+qmake -project
+qmake
+make
