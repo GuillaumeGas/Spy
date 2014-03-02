@@ -37,21 +37,26 @@ bool Observer::ask_room() {
 
 void Observer::create_window() {
 
+  get_screen_size();
+
   window = new QWidget;
   main_layout = new QVBoxLayout;
   menu_layout = new QHBoxLayout;
-  //grid_layout = new QGridLayout;
+  grid_layout = new QGridLayout;
+  content     = new QWidget;
 
+  scroll = new QScrollArea;
+ 
   create_title();
   create_menu();
-  //create_grid();
+  create_grid();
 
   create_connections();
 
   window->setLayout(main_layout);
   setCentralWidget(window);
 
-  setMinimumSize(800, 600);
+  setMinimumSize(1300, 800);
   //setWindowIcon(Icon(""));
   setWindowTitle("Observer");
 
@@ -73,6 +78,45 @@ void Observer::create_menu() {
   main_layout->addLayout(menu_layout);
 }
 
+void Observer::create_grid() {
+  /*
+    insertions de test
+  */
+  QVector<Miniature*> vec_posts(30);
+  for(int i = 0; i < vec_posts.size(); i++) {
+    vec_posts[i] = new Miniature;
+  }
+  /* Fin test */
+  
+  int x = 0, y = 0;
+  for(int i = 0; i < vec_posts.size(); i++) {
+    grid_layout->addLayout(vec_posts[i], x, y);
+    if(y == 2) {
+      x++;
+      y = 0;
+    } else {
+      y++;
+    }
+  }
+
+  content->setLayout(grid_layout);
+  scroll->setWidget(content);
+  main_layout->addWidget(scroll);
+}
+
 void Observer::create_connections() {
   connect(button_quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+}
+
+void Observer::get_screen_size() {
+
+    QDesktopWidget *desktop = QApplication::desktop(); 
+    QSize windowSize;
+
+    screen_w = desktop->width(); //     obtenir la largeur de l'écran
+    screen_h = desktop->height(); // obtenir la hauteur de l'écran
+
+    /*    windowSize = size();              //    taille de notre fenêtre de l'application
+    width = windowSize.width();
+    height = windowSize.height();*/
 }
