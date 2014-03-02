@@ -57,7 +57,7 @@ void Observer::create_window() {
   setCentralWidget(window);
 
   setMinimumSize(1300, 800);
-  //setWindowIcon(Icon(""));
+  setWindowIcon(QIcon("iconSPY.png"));
   setWindowTitle("Observer");
 
 }
