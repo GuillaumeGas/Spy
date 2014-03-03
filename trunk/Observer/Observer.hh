@@ -25,10 +25,15 @@
 
 class Observer : public QMainWindow{
 
+  Q_OBJECT
+
 public:
   Observer();
 
   bool ask_room();
+
+private slots:
+  void change_room_slot();
 
 private:
   QString m_room;
@@ -49,6 +54,8 @@ private:
   QPushButton * button_changeRoom;
   QPushButton * button_settingProc;
   QPushButton * button_quit;
+
+  QVector<Miniature*> vec_posts;
   /* Fin éléments d'affichage */
 
   void create_window();
