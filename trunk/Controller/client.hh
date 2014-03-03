@@ -8,10 +8,10 @@
 
 namespace controller {
 
-    class controller_session {
+    class controller_master {
     public:
 
-	controller_session(  );
+	controller_master();
 
     private:
 
@@ -20,6 +20,25 @@ namespace controller {
 
 
     };
+
+
+
+
+    class controller_client : public Client_session {
+    public:
+	
+	controller_client(int);
+	
+	void do_return(std::string);
+	
+
+    private:
+	std::string name;
+	std::string ip;
+	int port;
+	
+    };
+
 };
 
 
