@@ -45,6 +45,7 @@ private:
   QLabel * title;
   QPushButton * button_sendMsg;
   QPushButton * button_changeRoom;
+  QPushButton * button_addProc;
   QPushButton * button_quit;
   /* Fin éléments d'affichage */
 
