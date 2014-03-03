@@ -47,9 +47,14 @@ SettingProcWindow::SettingProcWindow() {
 void SettingProcWindow::add_to_procTable() {
   QString content = line_edit->text();
   if(content.length() > 0) {
-    int count = proc_table->rowCount();
-    proc_table->insertRow(count);
-    proc_table->setItem(0, count, new QTableWidgetItem(content));
+    if((proc_table->findItems(content, Qt::MatchExactly)).empty()) {
+      int count = proc_table->rowCount();
+      proc_table->insertRow(count);
+      proc_table->setItem(0, count, new QTableWidgetItem(content));
+    } else {
+      QMessageBox::critical(this, "Erreur", "Le processus se trouve deja dans la liste !");
+      line_edit->clear();
+    }
   } else {
     QMessageBox::critical(this, "Erreur", "Le champs est vide !");
   }
