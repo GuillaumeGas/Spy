@@ -21,6 +21,7 @@
 #include <QDesktopWidget>
 
 #include "Miniature.hh"
+#include "MessageWindow.hh"
 
 class Observer : public QMainWindow{
 
@@ -35,6 +36,7 @@ private:
 
   /* Elements d'affichage */
   QWidget * window;
+  MessageWindow * message_window; //Fenetre type QDialog pour envoyer msg aux etu
 
   QVBoxLayout * main_layout;
   QHBoxLayout * menu_layout;
@@ -45,7 +47,7 @@ private:
   QLabel * title;
   QPushButton * button_sendMsg;
   QPushButton * button_changeRoom;
-  QPushButton * button_addProc;
+  QPushButton * button_settingProc;
   QPushButton * button_quit;
   /* Fin éléments d'affichage */
 

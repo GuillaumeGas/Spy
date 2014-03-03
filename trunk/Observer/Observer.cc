@@ -51,6 +51,8 @@ void Observer::create_window() {
   create_menu();
   create_grid();
 
+  message_window = new MessageWindow;
+
   create_connections();
 
   window->setLayout(main_layout);
@@ -69,13 +71,13 @@ void Observer::create_title() {
 
 void Observer::create_menu() {
   button_sendMsg = new QPushButton("Envoyer un message a tous");
-  button_addProc = new QPushButton("Ajouter un processus");
+  button_settingProc = new QPushButton("Gerer processus a surveiller");
   button_changeRoom = new QPushButton("Changer de salle");
   button_quit = new QPushButton("Quitter");
 
   menu_layout->addWidget(button_sendMsg);
   menu_layout->addWidget(button_changeRoom);
-  menu_layout->addWidget(button_addProc);
+  menu_layout->addWidget(button_settingProc);
   menu_layout->addWidget(button_quit);
   main_layout->addLayout(menu_layout);
 }
@@ -107,6 +109,7 @@ void Observer::create_grid() {
 }
 
 void Observer::create_connections() {
+  connect(button_sendMsg, SIGNAL(clicked()), message_window, SLOT(exec()));
   connect(button_quit, SIGNAL(clicked()), qApp, SLOT(quit()));
 }
 
