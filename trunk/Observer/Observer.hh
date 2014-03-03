@@ -22,6 +22,7 @@
 
 #include "Miniature.hh"
 #include "MessageWindow.hh"
+#include "SettingProcWindow.hh"
 
 class Observer : public QMainWindow{
 
@@ -42,6 +43,7 @@ private:
   /* Elements d'affichage */
   QWidget * window;
   MessageWindow * message_window; //Fenetre type QDialog pour envoyer msg aux etu
+  SettingProcWindow * setting_proc_win;
 
   QVBoxLayout * main_layout;
   QHBoxLayout * menu_layout;
@@ -54,7 +56,7 @@ private:
   QPushButton * button_changeRoom;
   QPushButton * button_settingProc;
   QPushButton * button_quit;
-
+  
   QVector<Miniature*> vec_posts;
   /* Fin éléments d'affichage */
 
@@ -64,7 +66,8 @@ private:
   void create_grid();
 
   void create_connections(); //connect les boutons...
-  void get_screen_size();
+
+
 
 };
 

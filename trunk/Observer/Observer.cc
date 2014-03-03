@@ -38,8 +38,6 @@ bool Observer::ask_room() {
 
 void Observer::create_window() {
 
-  get_screen_size();
-
   window = new QWidget;
   main_layout = new QVBoxLayout;
   menu_layout = new QHBoxLayout;
@@ -53,6 +51,7 @@ void Observer::create_window() {
   create_grid();
 
   message_window = new MessageWindow;
+  setting_proc_win = new SettingProcWindow;
 
   create_connections();
 
@@ -112,20 +111,8 @@ void Observer::create_grid() {
 void Observer::create_connections() {
   connect(button_sendMsg, SIGNAL(clicked()), message_window, SLOT(exec()));
   connect(button_changeRoom, SIGNAL(clicked()), this, SLOT(change_room_slot()));
+  connect(button_settingProc, SIGNAL(clicked()), setting_proc_win, SLOT(exec()));
   connect(button_quit, SIGNAL(clicked()), qApp, SLOT(quit()));
-}
-
-void Observer::get_screen_size() {
-
-    QDesktopWidget *desktop = QApplication::desktop(); 
-    QSize windowSize;
-
-    screen_w = desktop->width(); //     obtenir la largeur de l'écran
-    screen_h = desktop->height(); // obtenir la hauteur de l'écran
-
-    /*    windowSize = size();              //    taille de notre fenêtre de l'application
-    width = windowSize.width();
-    height = windowSize.height();*/
 }
 
 void Observer::change_room_slot() {
