@@ -9,6 +9,7 @@
 */
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_rotozoom.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
@@ -22,6 +23,7 @@ public:
   void shot();
   SDL_Surface * get_sdl_surf();
   bool save(const char * file);
+  bool save_miniature(const char * file, const double zoom);
 
 private:
   SDL_Surface * m_surf;
