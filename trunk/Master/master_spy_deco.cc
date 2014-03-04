@@ -14,7 +14,8 @@ namespace master {
     }
 
     void master_spy_deco::do_begin() {
-	(*proto)["DSPY"]("norbert");
+	while( ! m_isset ) {}
+	(*proto)["DSPY"](m_name);
     }
 
     void master_spy_deco::do_ok( string msg ) {
@@ -26,6 +27,14 @@ namespace master {
 	cout << "[SYS] -> ERR " << endl;
 	m_stop = true;
     }
+    
+    string & master_spy_deco::name() {
+	return m_name;
+    }
 
+
+    bool & master_spy_deco::isset() {
+	return m_isset;
+    }
 
 };

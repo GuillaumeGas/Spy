@@ -9,6 +9,7 @@ namespace master {
 
     master_spy_co::master_spy_co ( int socket ) : Client_session( socket ) {
 	proto = new master_proto(socket);
+	cout << "ici" << endl;
 	(*proto)["OK"].sig_recv.connect(boost::bind(&master_spy_co::do_ok, this, _1));
 	(*proto)["ERR"].sig_recv.connect(boost::bind(&master_spy_co::do_err, this, _1));
 	begin.connect(boost::bind(&master_spy_co::do_begin, this));

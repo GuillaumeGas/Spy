@@ -93,4 +93,5 @@ namespace master {
 int main(int argc, char ** argv) {
     Server <master::session_on_server> serv(argc, argv);
     serv.start();
+    serv.join();
 }

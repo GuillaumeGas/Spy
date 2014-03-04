@@ -35,6 +35,11 @@ namespace master {
 	void do_begin();
 	void do_ok( std::string msg );
 	void do_err( std::string msg );
+	bool & isset();
+	std::string & name();
+    private:
+	std::string m_name;
+	bool m_isset;
     };
 
     class master_obse : public Client_session {
