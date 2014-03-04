@@ -15,25 +15,52 @@
 #include "Thread.hh"
 #include "Serv_session.hh"
 #include <vector>
+#include <boost/signals2.hpp>
 
+using boost::signals2::signal;
 
 template <typename T>
-class Server {
+class Server : public Thread < Server<T> >{
 
 public:
 
-    Server(int argc, char ** argv) {
+    Server(int argc, char ** argv) : Thread < Server<T> >(&Server::loop_accept, this){
 	load_port(argc, argv);
 	init_sock();
 	init_addr();
 	do_bind();
 	do_listen();
+	m_stop = false;
     }
     
-    void start() {
-	loop_accept();
-    }    
- 
+
+    void loop_accept() {
+	socklen_t size_addr = sizeof(sin);
+	started();
+	while ( !m_stop ) {
+	    int client = accept( m_sock, (sockaddr *)&sin, &size_addr);
+	    if ( client != - 1 ) {
+		std::cout << "[INFO] -> new client " << std::endl;
+		multi_thread.push_back(new T(client));
+		multi_thread[multi_thread.size() - 1]->start();
+	    } else {
+		continue;
+	    }
+	}
+
+    }
+
+
+    void finish() {
+	this->kill();
+	stoped();
+    }
+
+
+    signal<void()> started;
+    signal<void()> stoped;
+
+
 
 private:
     
@@ -83,21 +110,11 @@ private:
     }
 
 
-    void loop_accept() {
-	socklen_t size_addr = sizeof(sin);
-	while ( 1 ) {
-	    int client = accept( m_sock, (sockaddr *)&sin, &size_addr);
-	    if ( client != - 1 ) {
-		std::cout << "[INFO] -> new client " << std::endl;
-		multi_thread.push_back(new T(client));
-		multi_thread[multi_thread.size() - 1]->start();
-	    }
-	}
-    }
 
     std::vector<T*> multi_thread;
     int m_port, m_sock;
     sockaddr_in sin;
+    bool m_stop;
 };
 
 

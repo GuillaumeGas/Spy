@@ -4,6 +4,7 @@
 #include <boost/thread.hpp>
 #include <vector>
 
+
 template <typename T>
 class Thread {
 
@@ -26,6 +27,12 @@ public:
     void join() {
 	for ( int i = 0 ; i < my_th.size() ; i++ ) {
 	    my_th[i]->join();
+	}
+    }
+
+    void kill() {
+	for ( int i = 0 ; i < my_th.size() ; i++ ) {
+	    my_th[i]->interrupt();
 	}
     }
 

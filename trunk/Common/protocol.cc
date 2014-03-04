@@ -35,7 +35,11 @@ void Protocol::send_msg(Message &m, string content) {
 		    break;
 		case 'a': string tmp;
 		    if ( !ss.eof() ) {
-			tmp = ss.str().substr(my_stream.length() - m.get_name().length() - 1, ss.str().length());
+			int deb = my_stream.length() - m.get_name().length() - 1;
+			if ( deb < 0 ) {
+			    deb = 0;
+			}
+			tmp = ss.str().substr(deb , ss.str().length());
 			my_stream << tmp.c_str();
 		    }
 		    break;

@@ -25,12 +25,14 @@ public:
 
     void set_stop();
 
+    Protocol * proto;
+
 protected:
     signal<void()> begin;
     signal<void()> end;
     int m_sock;
     bool m_stop;
-    Protocol * proto;
+
 };
 
 #endif
