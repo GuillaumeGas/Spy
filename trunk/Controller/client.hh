@@ -8,22 +8,6 @@
 
 namespace controller {
 
-    class controller_master {
-    public:
-
-	controller_master();
-
-    private:
-
-	std::map <std::string, std::pair<std::string, int> > spy;
-    
-
-
-    };
-
-
-
-
     class controller_client : public Client_session {
     public:
 	
@@ -38,6 +22,25 @@ namespace controller {
 	int port;
 	
     };
+
+
+    class controller_master {
+    public:
+
+	controller_master();
+	void loop_cmd();
+
+    private:
+
+	std::map <std::string, Client < controller_client >* > spy;
+	bool m_stop;
+
+
+    };
+
+
+
+
 
 };
 
