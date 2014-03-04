@@ -35,5 +35,11 @@ StationWindow::StationWindow(QString _station, QString _user) {
   setLayout(main_layout);
   setWindowIcon(QIcon("iconSPY.png"));
 
+  message_window  = new MessageWindow(m_station, m_user);
+  lst_proc_window = new ListProcWindow(m_station); 
+
+  connect(button_sendMsg, SIGNAL(clicked()), message_window, SLOT(exec()));
+  connect(button_checkProc, SIGNAL(clicked()), lst_proc_window, SLOT(exec()));
   connect(button_close, SIGNAL(clicked()), this, SLOT(accept()));
+  
 }

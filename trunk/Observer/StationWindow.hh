@@ -14,6 +14,9 @@
 #include <QPushButton>
 #include <QPixmap>
 
+#include "MessageWindow.hh"
+#include "ListProcWindow.hh"
+
 class StationWindow : public QDialog {
 
 public:
@@ -30,6 +33,9 @@ private:
   QPushButton * button_checkProc;
   QPushButton * button_cmd;
   QPushButton * button_close;
+
+  MessageWindow * message_window;
+  ListProcWindow * lst_proc_window;
 
   QString m_station;
   QString m_user;
