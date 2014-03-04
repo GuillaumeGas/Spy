@@ -6,3 +6,8 @@ sudo apt-get install libqt4-dev
 qmake -project
 qmake
 make
+
+###################
+Ajout du c++11 à la compilation :
+Ajouter dans le .pro :
+QMAKE_CXXFLAGS += -std=c++11

@@ -16,6 +16,7 @@
 
 #include "MessageWindow.hh"
 #include "ListProcWindow.hh"
+#include "CmdWindow.hh"
 
 class StationWindow : public QDialog {
 
@@ -36,6 +37,7 @@ private:
 
   MessageWindow * message_window;
   ListProcWindow * lst_proc_window;
+  CmdWindow * cmd_window;
 
   QString m_station;
   QString m_user;
