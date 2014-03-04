@@ -57,7 +57,7 @@ private:
   QPushButton * button_settingProc;
   QPushButton * button_quit;
   
-  QVector<Miniature*> vec_posts;
+  QVector<Miniature*> vec_stations;
   /* Fin éléments d'affichage */
 
   void create_window();

@@ -88,13 +88,17 @@ void Observer::create_grid() {
     insertions de test
   */
   for(int i = 0; i < 30; i++) {
-    vec_posts.push_back(new Miniature("img.bmp"));
+    if(i%2==0) {
+      vec_stations.push_back(new Miniature("img.bmp", "info21", "Cadorel"));
+    } else {
+      vec_stations.push_back(new Miniature("img.bmp", "info21", "Gas"));
+    }
   }
   /* Fin test */
   
   int x = 0, y = 0;
-  for(int i = 0; i < vec_posts.size(); i++) {
-    grid_layout->addLayout(vec_posts[i], x, y);
+  for(int i = 0; i < vec_stations.size(); i++) {
+    grid_layout->addWidget(vec_stations[i], x, y);
     if(y == 2) {
       x++;
       y = 0;
