@@ -55,7 +55,7 @@ bool ScreenShot::save(const char * file) {
   }
 }
 
-bool ScreenShot::save_miniature(const char * file, const double zoom) {
+bool ScreenShot::save(const char * file, const double zoom) {
   if(m_surf) {
     SDL_Surface * surf_mini = rotozoomSurface(m_surf, 0, zoom, 1);
     if(surf_mini) {
