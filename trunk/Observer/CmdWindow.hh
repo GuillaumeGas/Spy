@@ -7,11 +7,12 @@
 
 #include <QDialog>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QKeyEvent>
+#include <QMessageBox>
 
 /* Test */
 #include "../Spy/Cmd.hh"
@@ -27,15 +28,19 @@ private slots:
   void exec_cmd();
 
 private:
+  void keyPressEvent(QKeyEvent *event);
+  QString get_prev_cmd();
+  QString get_next_cmd();
+
   QVBoxLayout * main_layout;
-  QHBoxLayout * line_edit_layout;
 
   QLabel * title_label;
   QTextEdit * text_edit;
   QLineEdit * line_edit;
-  QPushButton * button_send;
   QPushButton * button_close;
 
+  QVector<QString> lst_cmd;
+  int pos;
 };
 
 #endif
