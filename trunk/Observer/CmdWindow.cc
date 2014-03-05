@@ -8,15 +8,18 @@ CmdWindow::CmdWindow(QString _station) : pos(0){
   main_layout->addWidget(title_label);
 
   text_edit = new QTextEdit;
+  text_edit->setStyleSheet("QTextEdit{background-color:black;color:white;font-family:courier;}");
   main_layout->addWidget(text_edit);
 
   line_edit = new QLineEdit;
+  line_edit->setStyleSheet("QLineEdit{background-color:black;color:white;font-family:courier;}");
   main_layout->addWidget(line_edit);
 
   button_close = new QPushButton("Fermer");
   main_layout->addWidget(button_close);
 
   setLayout(main_layout);
+  resize(650, 450);
   
   connect(button_close, SIGNAL(clicked()), this, SLOT(accept()));
 
