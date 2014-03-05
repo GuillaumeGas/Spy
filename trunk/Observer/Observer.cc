@@ -8,6 +8,7 @@ Observer::Observer() {
 
   if(room_ok) {
   
+    init_data();
     create_window();
       
   } else{
@@ -51,14 +52,14 @@ void Observer::create_window() {
   create_grid();
 
   message_window = new MessageWindow;
-  setting_proc_win = new SettingProcWindow;
+  setting_proc_win = new SettingProcWindow(&m_lst_proc);
 
   create_connections();
 
   window->setLayout(main_layout);
   setCentralWidget(window);
 
-  setMinimumSize(1300, 800);
+  setMinimumSize(1320, 800);
   setWindowIcon(QIcon("iconSPY.png"));
   setWindowTitle("Observer");
 
@@ -102,6 +103,7 @@ void Observer::create_grid() {
     if(y == 2) {
       x++;
       y = 0;
+      vec_stations[i]->set_hover_style("background-color: red;");
     } else {
       y++;
     }
@@ -151,4 +153,9 @@ void Observer::change_room_slot() {
   } else{
     QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
   }
+}
+
+void Observer::init_data() {
+  m_lst_proc.push_back("Firefox");
+  m_lst_proc.push_back("Teeworld");
 }

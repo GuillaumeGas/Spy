@@ -1,6 +1,9 @@
 #include "SettingProcWindow.hh"
 
-SettingProcWindow::SettingProcWindow() {
+SettingProcWindow::SettingProcWindow(QVector<QString> * vec_proc) {
+
+  m_vec_proc = vec_proc;
+
   main_layout = new QVBoxLayout;
   buttons_layout = new QHBoxLayout;
 
@@ -21,9 +24,10 @@ SettingProcWindow::SettingProcWindow() {
   QHeaderView *headers = proc_table->horizontalHeader();
   headers->setResizeMode(QHeaderView::Stretch);
 
-  /* Test */
-  proc_table->setItem(0, 0, new QTableWidgetItem("Firefox"));
-  proc_table->setItem(0, 1, new QTableWidgetItem("Teelol"));
+  /* On rempli le tableau */
+  for(int i = 0; i < vec_proc->size(); i++) {
+    proc_table->setItem(0, i, new QTableWidgetItem((*vec_proc)[i]));
+  }
 
   main_layout->addWidget(proc_table);
 
@@ -51,11 +55,12 @@ void SettingProcWindow::add_to_procTable() {
       int count = proc_table->rowCount();
       proc_table->insertRow(count);
       proc_table->setItem(0, count, new QTableWidgetItem(content));
+      m_vec_proc->push_back(content);
     } else {
       QMessageBox::critical(this, "Erreur", "Le processus se trouve deja dans la liste !");
-      line_edit->clear();
     }
   } else {
     QMessageBox::critical(this, "Erreur", "Le champs est vide !");
   }
+  line_edit->clear();
 }
