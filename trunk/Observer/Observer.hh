@@ -38,7 +38,7 @@ private slots:
 
 private:
   QString m_room;
-  int screen_w, screen_h;
+  QVector<QString> m_lst_proc; //list proc a surveiller
 
   /* Elements d'affichage */
   QWidget * window;
@@ -64,9 +64,8 @@ private:
   void create_title();
   void create_menu();
   void create_grid();
-
   void create_connections(); //connect les boutons...
-
+  void init_data();
 
 
 };

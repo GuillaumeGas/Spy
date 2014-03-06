@@ -19,12 +19,14 @@ class SettingProcWindow : public QDialog {
   Q_OBJECT
 
 public:
-  SettingProcWindow();
+  SettingProcWindow(QVector<QString> * vec_proc);
 
 private slots:
   void add_to_procTable();
 
 private:
+  QVector<QString> * m_vec_proc;
+
   QVBoxLayout * main_layout;
   QHBoxLayout * buttons_layout;
 

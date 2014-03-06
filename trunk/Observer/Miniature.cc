@@ -43,6 +43,7 @@ Miniature::Miniature(const char * _file, const char * _station, const char * _us
   main_layout->addWidget(m_user_label);
 
   setLayout(main_layout);
+  setStyleSheet("QWidget:hover{background-color: #808080;}");
 }
 
 void Miniature::mouseReleaseEvent(QMouseEvent * e) {
@@ -50,3 +51,10 @@ void Miniature::mouseReleaseEvent(QMouseEvent * e) {
   station_win.exec();
 }
 
+void Miniature::set_hover_style(QString style) {
+  setStyleSheet("QWidget:hover{"+style+"}");
+}
+
+void Miniature::set_style(QString style) {
+  setStyleSheet("QWidget{"+style+"}");
+}

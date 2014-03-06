@@ -1,0 +1,2 @@
+-- Compilation --
+g++ -std=c++0x -o out fichier.cc ... -lSDL -lSDL_gfx -lX11
