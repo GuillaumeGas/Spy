@@ -19,19 +19,23 @@ template <typename T>
 class Client_UDP {
 public:
 
-    Client_UDP ( string ip, int port) {
-	
+    Client_UDP ( std::string ip, int port) {	
     }
     
-    Client_UDP ( int argc, char * argv) {
+    Client_UDP ( int argc, char **argv) {
 	load_portIp(argc, argv);
+	init_info();
+    }
+
+
+    void join() {
+	session->join();
     }
 
 private:
 
 
     void init_info() {
-	m_sock = socket( AF_INET, SOCK_DGRAM, 0 );
 	m_sin = {0};
 	m_sin.sin_addr.s_addr = htonl(INADDR_ANY);
 	m_sin.sin_family = AF_INET;
@@ -39,7 +43,7 @@ private:
 	hostent * hostinfo = NULL;
 	hostinfo = gethostbyname(m_ip.c_str());
 	m_sin.sin_addr = *(in_addr*)hostinfo->h_addr; 
-	T = new T(m_sin);
+	session = new T(m_sin);
     }
 
 
@@ -57,12 +61,12 @@ private:
 	    m_port = 9999;
 	} 
 	if ( m_ip == "" ) {
-	    m_ip = localhost;
+	    m_ip = "localhost";
 	}
     }
 
 
-    string m_ip;
+    std::string m_ip;
     int m_port, m_socket;
     sockaddr_in m_sin;
     T * session;

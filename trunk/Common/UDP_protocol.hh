@@ -24,11 +24,12 @@ public:
     UDP_Protocol ( sockaddr_in sin );
     void send_msg( UDP_Message &, std::string );
     std::string wait( UDP_Message & );
+    void waitmsg( std::string & s);
     UDP_Message & operator[]( std::string key );
 
     std::map < std::string, UDP_Message*> message;
     sockaddr_in m_sin;
-
+    int m_sock;
 };
 
 
