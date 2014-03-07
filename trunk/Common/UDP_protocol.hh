@@ -21,15 +21,16 @@ class UDP_Protocol {
 
 public:
 
-    UDP_Protocol ( sockaddr_in sin );
+    UDP_Protocol ( int & port , int & ,std::string &sock);
     void send_msg( UDP_Message &, std::string );
     std::string wait( UDP_Message & );
     void waitmsg( std::string & s);
     UDP_Message & operator[]( std::string key );
 
     std::map < std::string, UDP_Message*> message;
-    sockaddr_in m_sin;
-    int m_sock;
+    sockaddr_in m_sin, m_sendsin;
+    int m_sock, m_sendsocket;
+    int m_port;
 };
 
 

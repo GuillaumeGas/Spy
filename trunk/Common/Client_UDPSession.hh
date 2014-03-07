@@ -25,7 +25,7 @@ class Client_UDPSession : public Thread < Client_UDPSession > {
 
 public:
 
-    Client_UDPSession ( sockaddr_in sin );
+    Client_UDPSession ( int & , int & , std::string & );
     void loop_recv();
 
 

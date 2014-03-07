@@ -32,18 +32,15 @@ public:
 	session->join();
     }
 
+    T & _session() {
+	return * session;
+    }
+
 private:
 
 
     void init_info() {
-	m_sin = {0};
-	m_sin.sin_addr.s_addr = htonl(INADDR_ANY);
-	m_sin.sin_family = AF_INET;
-	m_sin.sin_port = htons(m_port);
-	hostent * hostinfo = NULL;
-	hostinfo = gethostbyname(m_ip.c_str());
-	m_sin.sin_addr = *(in_addr*)hostinfo->h_addr; 
-	session = new T(m_sin);
+	session = new T(m_port, m_port2, m_ip);
     }
 
 
@@ -55,11 +52,16 @@ private:
 		m_port = atoi(argv[i+1]);
 	    } else if ( strcmp( argv[i], "-H" ) == 0 ) {
 		m_ip = argv[i + 1];
+	    } else if ( strcmp(argv[i], "-P2") == 0 ) {
+		m_port2 = atoi(argv[i+1]);
 	    }
 	}
 	if ( m_port == -1 ) {
 	    m_port = 9999;
 	} 
+	if ( m_port2 == -1 ) {
+	    m_port2 = 9998;
+	}
 	if ( m_ip == "" ) {
 	    m_ip = "localhost";
 	}
@@ -67,7 +69,7 @@ private:
 
 
     std::string m_ip;
-    int m_port, m_socket;
+    int m_port, m_sock, m_sensock, m_port2;
     sockaddr_in m_sin;
     T * session;
 };

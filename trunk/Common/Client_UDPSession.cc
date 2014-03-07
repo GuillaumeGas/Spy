@@ -3,13 +3,9 @@
 
 using namespace std;
 
-Client_UDPSession::Client_UDPSession( sockaddr_in sin ) : Thread < Client_UDPSession >(&Client_UDPSession::loop_recv, this) {
-    m_sin = sin;
+Client_UDPSession::Client_UDPSession( int & , int & , string & ) : Thread < Client_UDPSession >(&Client_UDPSession::loop_recv, this) {
     m_stop = false;
-    start();
 }
-
-
 
 void Client_UDPSession::loop_recv() {
     this->begin();
