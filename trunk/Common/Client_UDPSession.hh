@@ -33,8 +33,8 @@ public:
 
 protected:
 
-    signal <void()> begin;
-    signal <void()> end;
+    signal <void()> sig_begin;
+    signal <void()> sig_end;
 
     sockaddr_in m_sin;
     bool m_stop;

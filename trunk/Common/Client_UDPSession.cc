@@ -8,7 +8,7 @@ Client_UDPSession::Client_UDPSession( int & , int & , string & ) : Thread < Clie
 }
 
 void Client_UDPSession::loop_recv() {
-    this->begin();
+    this->sig_begin();
     while ( !m_stop ) {
 	string msg;
 	proto->waitmsg(msg);
@@ -24,6 +24,6 @@ void Client_UDPSession::loop_recv() {
 	}
     }
     
-    end();
+    sig_end();
     cout << "quitter" << endl;
 }

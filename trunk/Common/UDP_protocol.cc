@@ -54,7 +54,7 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
 		    if ( !ss.eof() ) {
 			string msg;
 			ss >> msg;
-			total << msg;
+			total << msg << " " ;
 		    } else {
 			cout << "[ERROR] -> Message mal forme" << endl;
 			return;
