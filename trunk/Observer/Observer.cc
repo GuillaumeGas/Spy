@@ -103,7 +103,6 @@ void Observer::create_grid() {
     if(y == 2) {
       x++;
       y = 0;
-      vec_stations[i]->set_hover_style("background-color: red;");
     } else {
       y++;
     }
