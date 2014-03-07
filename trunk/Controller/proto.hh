@@ -1,8 +1,7 @@
 #ifndef _CONTPROTO
 #define _CONTPROTO
 
-#include "../Common/UDP_protocol.hh"
-#include "../Common/UDP_Message.hh"
+#include "../Net.hh"
 #include <iostream>
 
 

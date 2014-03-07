@@ -2,10 +2,7 @@
 #define _SESSION_MASTER_SERVER
 
 #include <iostream>
-#include "../Common/Server.hh"
-#include "../Common/Serv_session.hh"
-#include "../Common/Message.hh"
-#include "../Common/Mutex.hh"
+#include "../Net.hh"
 #include "proto.hh"
 
 

@@ -3,8 +3,7 @@
 
 
 #include "proto.hh"
-#include "../Common/Client_UDP.hh"
-#include "../Common/Client_UDPSession.hh"
+#include "../Net.hh"
 #include <iostream>
 
 namespace controller {

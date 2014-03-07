@@ -2,9 +2,7 @@
 #define _SESSION_MASTER_CLIENT
 
 #include <iostream>
-#include "../Common/Client.hh"
-#include "../Common/Client_session.hh"
-#include "../Common/Message.hh"
+#include "../Net.hh"
 #include "proto.hh"
 
 namespace master {

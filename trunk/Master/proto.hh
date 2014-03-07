@@ -1,8 +1,7 @@
 #ifndef _PROTO
 #define _PROTO
 
-#include "../Common/protocol.hh"
-#include "../Common/Message.hh"
+#include "../Net.hh"
 
 class master_proto : public Protocol {
     

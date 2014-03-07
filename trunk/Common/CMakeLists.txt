@@ -4,7 +4,7 @@ ADD_DEFINITIONS(-std=c++0x -ggdb)
 file(
   GLOB_RECURSE
   sources_file 
-  ./*.cc
+  src/*.cc
 )
 
 SET(LIBRARY_OUTPUT_PATH /usr/local/lib/)
