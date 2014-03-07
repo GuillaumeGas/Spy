@@ -1,24 +1,24 @@
-#ifndef _PROTOCONT
-#define _PROTOCONT
+#ifndef _CONTPROTO
+#define _CONTPROTO
+
+#include "../Common/UDP_protocol.hh"
+#include "../Common/UDP_Message.hh"
+#include <iostream>
 
 
-#include "../Common/protocol.hh"
-#include "../Common/Message.hh"
+class cont_proto : public UDP_Protocol {
+
+public:
+
+    cont_proto ( int & write , int & read, std::string & ip ) : UDP_Protocol ( write, read, ip) {
+	message["HERE?"] = new UDP_Message("HERE?", "1s", this);
+	message["YES"] = new UDP_Message("YES", "1s1s1i", this);
+    }
 
 
-namespace controller {
-
-    class cont_proto : public Protocol {
-    public:
-	cont_proto( int socket ) : Protocol (socket) {
-	    message["CMD"] = new Message("CMD", "1s1a", this);
-	    message["RETURN"] = new Message("RETURN", "1s1a", this);
-	    message["ERR"] = new Message("ERR", "1s1a", this);
-	    message["OK"] = new Message("OK", "1s", this);
-	}
-    };
 
 };
+
 
 
 
