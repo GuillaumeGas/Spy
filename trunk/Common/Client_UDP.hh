@@ -48,11 +48,11 @@ private:
 	m_port = -1;
 	m_ip = "";
 	for ( int i = 1 ; i < argc - 1 ; i++ ) {
-	    if ( strcmp(argv[i], "-P") == 0 ) {
+	    if ( strcmp(argv[i], "-R") == 0 ) {
 		m_port = atoi(argv[i+1]);
 	    } else if ( strcmp( argv[i], "-H" ) == 0 ) {
 		m_ip = argv[i + 1];
-	    } else if ( strcmp(argv[i], "-P2") == 0 ) {
+	    } else if ( strcmp(argv[i], "-W") == 0 ) {
 		m_port2 = atoi(argv[i+1]);
 	    }
 	}
