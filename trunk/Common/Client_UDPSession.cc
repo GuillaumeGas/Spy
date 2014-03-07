@@ -12,19 +12,18 @@ void Client_UDPSession::loop_recv() {
     while ( !m_stop ) {
 	string msg;
 	proto->waitmsg(msg);
-	cout << msg << endl;
 	if ( msg.length() != 0 ) {
 	    bool trouve = false;
-	    /*	    for ( auto it : proto->message ) {
-		    if ( it.first == msg ) {
-		    //it.second->sig_recv( proto->wait(*it.second) );
-		    }
-		    }
-		    } else {
-		    m_stop = true;
-		    }*/
+	    for ( auto it : proto->message ) {
+		if ( it.first == msg ) {
+		    it.second->sig_recv( proto->wait(*it.second) );
+		}
+	    }
+	} else {
+	    m_stop = true;
 	}
     }
+    
     end();
     cout << "quitter" << endl;
 }

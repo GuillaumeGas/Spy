@@ -19,7 +19,11 @@ template <typename T>
 class Client_UDP {
 public:
 
-    Client_UDP ( std::string ip, int port) {	
+    Client_UDP ( std::string ip, int port, int port2) {	
+	m_port = port;
+	m_port2 = port2;
+	m_ip = ip;
+	init_info();
     }
     
     Client_UDP ( int argc, char **argv) {

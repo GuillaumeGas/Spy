@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <map>
-
+#include <sstream>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -27,6 +27,7 @@ public:
     void waitmsg( std::string & s);
     UDP_Message & operator[]( std::string key );
 
+    std::stringstream m_tmp;
     std::map < std::string, UDP_Message*> message;
     sockaddr_in m_sin, m_sendsin;
     int m_sock, m_sendsocket;
