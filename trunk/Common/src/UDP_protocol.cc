@@ -10,6 +10,7 @@ UDP_Protocol::UDP_Protocol ( int & port1, int & port2 , std::string & ip ) {
     hostent * hostinfo = NULL;
     hostinfo = gethostbyname(ip.c_str());
     m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
+    m_ip = ip;
     
     m_sock = socket( AF_INET, SOCK_DGRAM, 0);
     m_sin.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -134,4 +135,17 @@ void UDP_Protocol::waitmsg( string & msg ) {
 
 UDP_Message & UDP_Protocol::operator[]( string key ) {
     return *message[key];
+}
+
+
+
+void UDP_Protocol::change_write_port(int port) {
+    m_sendsocket = socket ( AF_INET, SOCK_DGRAM, 0 );
+    m_sendsin.sin_addr.s_addr = htonl(INADDR_ANY);
+    m_sendsin.sin_family = AF_INET;
+    m_sendsin.sin_port = htons(port);
+    hostent * hostinfo = NULL;
+    hostinfo = gethostbyname(m_ip.c_str());
+    m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
+    
 }

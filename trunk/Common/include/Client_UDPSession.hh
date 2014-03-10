@@ -27,7 +27,7 @@ public:
 
     Client_UDPSession ( int & , int & , std::string & );
     void loop_recv();
-
+    void change_write_port( int );
 
     UDP_Protocol * proto;
 

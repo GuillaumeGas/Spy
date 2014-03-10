@@ -14,6 +14,10 @@ namespace controller {
     }
 
     void spy_session::do_HERE( string msg ) {
+	stringstream ss(msg);
+	int port;
+	ss >> port;
+	change_write_port(port);
 	cout << "[SYS] -> Are You Here ??" << endl;
 	(*proto)["YES"]("localhost 8888");
     }

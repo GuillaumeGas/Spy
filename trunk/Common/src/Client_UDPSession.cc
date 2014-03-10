@@ -27,3 +27,8 @@ void Client_UDPSession::loop_recv() {
     sig_end();
     cout << "quitter" << endl;
 }
+
+
+void Client_UDPSession::change_write_port( int port )  {
+    proto->change_write_port(port);
+}

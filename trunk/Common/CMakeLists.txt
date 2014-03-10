@@ -7,7 +7,7 @@ file(
   src/*.cc
 )
 
-SET(LIBRARY_OUTPUT_PATH /usr/local/lib/)
+SET(LIBRARY_OUTPUT_PATH ~/lib/)
 ADD_LIBRARY(Net SHARED ${sources_file})
 
 TARGET_LINK_LIBRARIES(Net -lboost_thread -lboost_system)
