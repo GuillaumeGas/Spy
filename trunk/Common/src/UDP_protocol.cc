@@ -139,13 +139,13 @@ UDP_Message & UDP_Protocol::operator[]( string key ) {
 
 
 
-void UDP_Protocol::change_write_port(int port) {
+void UDP_Protocol::change_write_port(int port, string ip) {
     m_sendsocket = socket ( AF_INET, SOCK_DGRAM, 0 );
     m_sendsin.sin_addr.s_addr = htonl(INADDR_ANY);
     m_sendsin.sin_family = AF_INET;
     m_sendsin.sin_port = htons(port);
     hostent * hostinfo = NULL;
-    hostinfo = gethostbyname(m_ip.c_str());
+
+    hostinfo = gethostbyname(ip.c_str());
     m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
-    
 }

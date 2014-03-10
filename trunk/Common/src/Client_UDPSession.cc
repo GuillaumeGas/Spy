@@ -29,6 +29,6 @@ void Client_UDPSession::loop_recv() {
 }
 
 
-void Client_UDPSession::change_write_port( int port )  {
-    proto->change_write_port(port);
+void Client_UDPSession::change_write_port( int port, string ip )  {
+    proto->change_write_port(port, ip);
 }

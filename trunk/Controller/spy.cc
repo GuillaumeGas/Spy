@@ -24,6 +24,7 @@ namespace controller {
 	ss.str("");
 	ss << m_ip << " " << m_port;
 	(*proto)["YES"](ss.str());
+	change_write_port( m_port, m_ip);
     }
 
 

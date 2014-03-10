@@ -26,7 +26,7 @@ public:
     std::string wait( UDP_Message & );
     void waitmsg( std::string & s);
     UDP_Message & operator[]( std::string key );
-    void change_write_port(int);
+    void change_write_port(int, std::string);
 
 
 
