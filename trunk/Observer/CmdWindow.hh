@@ -5,6 +5,8 @@
  *  Classe permettant à l'utilisateur d'executer des commandes sur un poste
  */
 
+#include <sstream>
+
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -39,8 +41,10 @@ private:
   QLineEdit * line_edit;
   QPushButton * button_close;
 
+  Cmd m_cmd;
   QVector<QString> lst_cmd;
   int pos;
+  QString m_station;
 };
 
 #endif
