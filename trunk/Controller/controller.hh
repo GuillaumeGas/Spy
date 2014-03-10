@@ -22,7 +22,8 @@ namespace controller {
 	void set_port(int);
 	void set_ip(std::string);
 	std::string info();
-	
+	void reset();
+
     private:
 	bool m_recv;
 	std::string m_info;

@@ -1,4 +1,6 @@
 #include "controller.hh"
+#include "../Master/client.hh"
+#include "Sniffer.hh"
 #include <sstream>
 #include <fstream>
 
@@ -59,66 +61,14 @@ namespace controller {
 	return p;
     }
     
+
+    void controller_session::reset() {
+	m_recv = false;
+    }
+
 };
 
 
-
-void send_to_master ( string s ) {
-}
-
-
-string load_rep () {
-    ifstream file ( "rep" );
-    string rep;
-    file >> rep;
-    return rep;
-}
-
-
-void loop_create(int salle, int write, int read) {
-    stringstream ss;
-    ss << "info" << salle << "-01";
-    Client_UDP < controller::controller_session > client(ss.str(), read, write);
-    client._session().set_port ( read );
-    system("hostname > rep ");
-    client._session().set_ip( load_rep() );
-    client._session().start();
-    while ( 1 ) {
-	map < string, pair <string, int > > spy_map;
-	for ( int i = 1 ; i < 30 ; i++) {
-	    ss.str("");
-	    ss << "info" << salle << "-";
-	    if ( i < 10 ) {
-		ss << "0";
-	    } 
-	    ss << i;
-	    client._session().change_write_port( write , ss.str() );
-	    client._session().send();
-	    
-	    if ( client._session().received() ) {
-		spy_map[client._session().recv().first] = client._session().recv().second;
-	    } else {
-	    continue;
-	    }
-	}
-	for ( auto it : spy_map ) {
-	    cout << it.first << " -> " << it.second.first << ":" << it.second.second << endl; 
-	    spy_map.erase(it.first);
-	}
-	sleep( 5 );
-    }
-    client._session().change_write_port( read, "info23-21" );
-    client.join();
-}
-
-
-void home_test(int argc, char ** argv) {
-    Client_UDP < controller::controller_session > client (argc, argv);
-    client._session().set_port( 9999 );
-    client._session().set_ip( "localhost" );
-    client._session().start();
-    client.join();
-}
 
 
 
@@ -126,6 +76,6 @@ int main(int argc, char ** argv) {
     int salle;
     cout << "Salle :";
     cin >> salle;
-    loop_create(salle, 8888, 9999);
-    //home_test(argc, argv);
+    controller::Sniffer s ( "localhost", 4444, 9999, 8888, salle );
+    s.start();
 }
