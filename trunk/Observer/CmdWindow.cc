@@ -19,6 +19,7 @@ CmdWindow::CmdWindow(QString _station) : pos(0), m_station(_station) {
   main_layout->addWidget(button_close);
 
   setLayout(main_layout);
+  setWindowIcon(QIcon("iconSPY.png"));
   resize(650, 450);
   
   connect(button_close, SIGNAL(clicked()), this, SLOT(accept()));
@@ -31,7 +32,7 @@ void CmdWindow::exec_cmd() {
   m_cmd.exec(cmd.c_str());
   std::string res = m_cmd.get_res();
   std::stringstream content; 
-  content << res << "\n<" << m_station.toStdString() << "> ";
+  content << res << "\n<" << m_station.toStdString() << " " << m_cmd.get_path() << "> ";
   text_edit->append(QString(content.str().c_str()));
   lst_cmd.push_back(line_edit->text());
   pos = lst_cmd.size();

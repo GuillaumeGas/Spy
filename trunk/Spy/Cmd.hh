@@ -31,16 +31,12 @@ public:
 
     /* Si la commande cd a été demandée, on met à jour le path */
     if(c.find("cd") != std::string::npos) {
-      ss << "cd " << m_path.substr(0, m_path.length()-1) << " ; " << cmd << " ; pwd > " << m_init_path.substr(0, m_init_path.length()-1) << "/path";
+      ss << "cd " << m_path << " ; " << cmd << " ; pwd > " << m_init_path << "/path";
       system(ss.str().c_str());
       m_path = get_path();
-      std::cout << ss.str() << std::endl;
-      std::cout << m_path << std::endl;
     } else {
-      ss << "cd " << m_path.substr(0, m_path.length()-1) << " ; " << cmd << " > " << m_init_path.substr(0, m_init_path.length()-1) << "/res_cmd";
+      ss << "cd " << m_path << " ; " << cmd << " > " << m_init_path << "/res_cmd";
       system(ss.str().c_str());
-      std::cout << ss.str() << std::endl;
-      std::cout << m_path << std::endl;
     }
   }
 
@@ -67,7 +63,7 @@ public:
       std::string line;
       while(getline(file, line)) {
 	res += line;
-	res += "\n";
+	//res += "\n";
       }
     }
     return res;
