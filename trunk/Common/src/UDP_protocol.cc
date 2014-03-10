@@ -123,7 +123,7 @@ string UDP_Protocol::wait( UDP_Message & m ) {
 
 void UDP_Protocol::waitmsg( string & msg ) {
     char buffer[255];
-    m_tmp.str("");
+    m_tmp.clear();
     sockaddr * sin = new sockaddr;
     socklen_t sizesin = sizeof(sin);
     int n = recvfrom(m_sock, buffer, 254, 0, sin, &sizesin);

@@ -1,5 +1,6 @@
 #include "controller.hh"
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -25,6 +26,7 @@ namespace controller {
 
 
     void controller_session::set_ip( string ip ) {
+	cout << ip << endl;
 	m_ip = ip;
     }
 
@@ -56,12 +58,22 @@ namespace controller {
 void send_to_master ( string s ) {
 }
 
+
+string load_rep () {
+    ifstream file ( "rep" );
+    string rep;
+    file >> rep;
+    return rep;
+}
+
+
 void loop_create(int salle, int write, int read) {
     stringstream ss;
     ss << "info" << salle << "-01";
     Client_UDP < controller::controller_session > client(ss.str(), read, write);
     client._session().set_port ( read );
-    client._session().set_ip( "info23-21" );
+    system("hostname > rep ");
+    client._session().set_ip( load_rep() );
     client._session().start();
     for ( int i = 1 ; i < 30 ; i++) {
 	ss.str("");
@@ -70,7 +82,7 @@ void loop_create(int salle, int write, int read) {
 	    ss << "0";
 	} 
 	ss << i;
-	client._session().change_write_port( 8888, ss.str() );
+	client._session().change_write_port( write , ss.str() );
 	client._session().send();
 	/*	if ( client._session().received() ) {
 	    send_to_master(client._session().info() );
@@ -78,6 +90,7 @@ void loop_create(int salle, int write, int read) {
 	    continue;
 	    }*/
     }
+    client._session().change_write_port( read, "info23-21" );
     client.join();
 }
 
@@ -93,6 +106,9 @@ void home_test(int argc, char ** argv) {
 
 
 int main(int argc, char ** argv) {
-    loop_create(23, 7777, 9999);
+    int salle;
+    cout << "Salle :";
+    cin >> salle;
+    loop_create(salle, 8888, 9999);
     //home_test(argc, argv);
 }

@@ -17,13 +17,11 @@ void Client_UDPSession::loop_recv() {
 	    for ( auto it : proto->message ) {
 		if ( it.first == msg ) {
 		    it.second->sig_recv( proto->wait(*it.second) );
+		    break;
 		}
 	    }
-	} else {
-	    m_stop = true;
 	}
     }
-    
     sig_end();
     cout << "quitter" << endl;
 }
