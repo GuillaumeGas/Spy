@@ -1,6 +1,6 @@
 #include "CmdWindow.hh"
 
-CmdWindow::CmdWindow(QString _station) : pos(0){
+CmdWindow::CmdWindow(QString _station) : pos(0), m_station(_station) {
 
   main_layout = new QVBoxLayout;
 
@@ -28,9 +28,11 @@ CmdWindow::CmdWindow(QString _station) : pos(0){
 
 void CmdWindow::exec_cmd() {
   std::string cmd = (line_edit->text()).toStdString();
-  Cmd::exec(cmd.c_str());
-  std::string res = Cmd::get_res();
-  text_edit->append(QString(res.c_str()));
+  m_cmd.exec(cmd.c_str());
+  std::string res = m_cmd.get_res();
+  std::stringstream content; 
+  content << res << "\n<" << m_station.toStdString() << "> ";
+  text_edit->append(QString(content.str().c_str()));
   lst_cmd.push_back(line_edit->text());
   pos = lst_cmd.size();
 }
