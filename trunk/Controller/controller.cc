@@ -14,10 +14,15 @@ namespace controller {
     }
 
     void controller_session::on_begin() {
+    }
+
+
+    void controller_session::send() {
 	stringstream ss;
 	ss << m_ip << " " << m_port;
 	(*proto)["HERE?"](ss.str());
     }
+
 
     void controller_session::set_ip( string ip ) {
 	m_ip = ip;
@@ -53,22 +58,27 @@ void send_to_master ( string s ) {
 
 void loop_create(int salle, int write, int read) {
     stringstream ss;
-
-    for ( int i = 0 ; i < 30 ; i++) {
-	ss << "info" << salle;
+    ss << "info" << salle << "-01";
+    Client_UDP < controller::controller_session > client(ss.str(), read, write);
+    client._session().set_port ( read );
+    client._session().set_ip( "info23-21" );
+    client._session().start();
+    for ( int i = 1 ; i < 30 ; i++) {
+	ss.str("");
+	ss << "info" << salle << "-";
 	if ( i < 10 ) {
 	    ss << "0";
 	} 
 	ss << i;
-	Client_UDP < controller::controller_session > client(ss.str(), write, read);
-	client._session().start();
-	sleep(1);
-	if ( client._session().received() ) {
+	client._session().change_write_port( 8888, ss.str() );
+	client._session().send();
+	/*	if ( client._session().received() ) {
 	    send_to_master(client._session().info() );
 	} else {
 	    continue;
-	}
+	    }*/
     }
+    client.join();
 }
 
 
@@ -83,6 +93,6 @@ void home_test(int argc, char ** argv) {
 
 
 int main(int argc, char ** argv) {
-    //loop_create(23, 8000, 9000); testable uniquement a l'iut
-    home_test(argc, argv);
+    loop_create(23, 7777, 9999);
+    //home_test(argc, argv);
 }

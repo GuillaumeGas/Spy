@@ -19,6 +19,7 @@ namespace controller {
 	string addr;
 	ss >> addr >> port;
 	change_write_port(port, addr);
+	cout << " send to "<< addr << ":" << port << endl;
 	cout << "[SYS] -> Are You Here ??" << endl;
 	ss.str("");
 	ss << m_ip << " " << m_port;
@@ -40,7 +41,7 @@ namespace controller {
 int main( int argc, char ** argv ) {
     Client_UDP < controller::spy_session > client ( argc, argv );
     client._session().set_port( 8888 );
-    client._session().set_ip( "localhost" );
+    client._session().set_ip( "info23-21" );
     client._session().start();
     client.join();
 }

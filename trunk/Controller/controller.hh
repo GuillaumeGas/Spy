@@ -16,6 +16,7 @@ namespace controller {
 	void do_YES(std::string);
 	void on_begin();
 	bool received();
+	void send();
 	void set_port(int);
 	void set_ip(std::string);
 	std::string info();
