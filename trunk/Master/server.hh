@@ -4,7 +4,8 @@
 #include <iostream>
 #include "../Net.hh"
 #include "proto.hh"
-
+#include <map>
+#include <vector>
 
 namespace master {
 
@@ -19,7 +20,9 @@ namespace master {
 	void do_control(std::string s);
 	void do_observe(std::string s);
 
-    
+    private:
+	
+	std::map < std::string, std::map < std::string, std::pair < std::string, int > > > spy_map;
     
     };
 
