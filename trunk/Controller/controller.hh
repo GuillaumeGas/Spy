@@ -16,11 +16,15 @@ namespace controller {
 	void do_YES(std::string);
 	void on_begin();
 	bool received();
+	void set_port(int);
+	void set_ip(std::string);
 	std::string info();
 	
     private:
 	bool m_recv;
 	std::string m_info;
+	std::string m_ip;
+	int m_port;
   
     };
 };

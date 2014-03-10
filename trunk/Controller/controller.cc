@@ -14,7 +14,17 @@ namespace controller {
     }
 
     void controller_session::on_begin() {
-	(*proto)["HERE?"]("9999");
+	stringstream ss;
+	ss << m_ip << " " << m_port;
+	(*proto)["HERE?"](ss.str());
+    }
+
+    void controller_session::set_ip( string ip ) {
+	m_ip = ip;
+    }
+
+    void controller_session::set_port ( int port )  {
+	m_port = port;
     }
 
 
@@ -64,6 +74,8 @@ void loop_create(int salle, int write, int read) {
 
 void home_test(int argc, char ** argv) {
     Client_UDP < controller::controller_session > client (argc, argv);
+    client._session().set_port( 9999 );
+    client._session().set_ip( "localhost" );
     client._session().start();
     client.join();
 }

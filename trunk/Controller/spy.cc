@@ -16,10 +16,22 @@ namespace controller {
     void spy_session::do_HERE( string msg ) {
 	stringstream ss(msg);
 	int port;
-	ss >> port;
-	change_write_port(port);
+	string addr;
+	ss >> addr >> port;
+	change_write_port(port, addr);
 	cout << "[SYS] -> Are You Here ??" << endl;
-	(*proto)["YES"]("localhost 8888");
+	ss.str("");
+	ss << m_ip << " " << m_port;
+	(*proto)["YES"](ss.str());
+    }
+
+
+    void spy_session::set_ip ( string ip ) {
+	m_ip = ip;
+    }
+
+    void spy_session::set_port ( int port ) {
+	m_port = port;
     }
 
 };
@@ -27,6 +39,8 @@ namespace controller {
 
 int main( int argc, char ** argv ) {
     Client_UDP < controller::spy_session > client ( argc, argv );
+    client._session().set_port( 8888 );
+    client._session().set_ip( "localhost" );
     client._session().start();
     client.join();
 }

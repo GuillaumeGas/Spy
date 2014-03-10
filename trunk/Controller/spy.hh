@@ -14,6 +14,15 @@ namespace controller {
 	spy_session ( int & , int & , std::string & );
 	void do_HERE(std::string);
 
+	void set_port( int );
+	void set_ip ( std::string );
+	
+	
+    private:
+	int m_port;
+	std::string m_ip;
+
+
     };
 
 };
