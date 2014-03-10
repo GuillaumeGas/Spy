@@ -5,6 +5,7 @@
 #include "proto.hh"
 #include "../Net.hh"
 #include <iostream>
+#include <map>
 
 
 namespace controller {
@@ -17,6 +18,7 @@ namespace controller {
 	void on_begin();
 	bool received();
 	void send();
+	std::pair < std::string, std::pair < std::string, int > > recv();
 	void set_port(int);
 	void set_ip(std::string);
 	std::string info();
@@ -26,7 +28,9 @@ namespace controller {
 	std::string m_info;
 	std::string m_ip;
 	int m_port;
-  
+	std::string name, ip;
+	int port;
+	
     };
 };
 

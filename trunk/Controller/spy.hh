@@ -16,12 +16,12 @@ namespace controller {
 
 	void set_port( int );
 	void set_ip ( std::string );
-	
+	void set_name( std::string );
 	
     private:
 	int m_port;
 	std::string m_ip;
-
+	std::string m_name;
 
     };
 

@@ -22,7 +22,7 @@ namespace controller {
 	cout << " send to "<< addr << ":" << port << endl;
 	cout << "[SYS] -> Are You Here ??" << endl;
 	ss.str("");
-	ss << m_ip << " " << m_port;
+	ss << m_name << " " << m_ip << " " << m_port;
 	(*proto)["YES"](ss.str());
 	change_write_port( m_port, m_ip);
     }
@@ -36,6 +36,11 @@ namespace controller {
 	m_port = port;
     }
 
+    void spy_session::set_name ( string name ) {
+	m_name = name;
+    }
+
+
 };
 
 
@@ -43,6 +48,7 @@ int main( int argc, char ** argv ) {
     Client_UDP < controller::spy_session > client ( argc, argv );
     client._session().set_port( 8888 );
     client._session().set_ip( "info23-21" );
+    client._session().set_name( "norbert" );
     client._session().start();
     client.join();
 }

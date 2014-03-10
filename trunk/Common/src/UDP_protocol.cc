@@ -32,7 +32,7 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
     total << m.get_name() << " ";
     for ( int i = 2 ; i < format.length() ; i++ ) {
 	if ( format[i] <= '9' && format[i] >= '0' ) {
-	    for (int j = 0 ; j < format[i] - '0' ; i++ ) {
+	    for (int j = 0 ; j < format[i] - '0' ; j++ ) {
 		if ( format[i + 1] == 'i' ) {
 		    if ( !ss.eof() ) {
 			int a;

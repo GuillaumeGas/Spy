@@ -37,10 +37,9 @@ namespace controller {
 
     void controller_session::do_YES ( string msg ) {
 	stringstream ss(msg);
-	int port;
-	string addr;
-	ss >> addr >> port;
-	cout << "[SYS] -> Yes " << addr << ":" << port << endl;
+	ss >> name >> ip >> port;
+	cout << "[SYS] -> Yes " << name << " " << ip << ":" << port << endl;
+	m_recv = true;
     }
     
     bool controller_session::received() {
@@ -49,6 +48,15 @@ namespace controller {
     
     string controller_session::info() {
 	return m_info;
+    }
+
+
+    pair < string , pair < string, int > > controller_session::recv() {
+	pair < string , pair < string, int > > p;
+	p.first = name;
+	p.second.first = ip;
+	p.second.second = port;
+	return p;
     }
     
 };
@@ -75,20 +83,29 @@ void loop_create(int salle, int write, int read) {
     system("hostname > rep ");
     client._session().set_ip( load_rep() );
     client._session().start();
-    for ( int i = 1 ; i < 30 ; i++) {
-	ss.str("");
-	ss << "info" << salle << "-";
-	if ( i < 10 ) {
-	    ss << "0";
-	} 
-	ss << i;
-	client._session().change_write_port( write , ss.str() );
-	client._session().send();
-	/*	if ( client._session().received() ) {
-	    send_to_master(client._session().info() );
-	} else {
+    while ( 1 ) {
+	map < string, pair <string, int > > spy_map;
+	for ( int i = 1 ; i < 30 ; i++) {
+	    ss.str("");
+	    ss << "info" << salle << "-";
+	    if ( i < 10 ) {
+		ss << "0";
+	    } 
+	    ss << i;
+	    client._session().change_write_port( write , ss.str() );
+	    client._session().send();
+	    
+	    if ( client._session().received() ) {
+		spy_map[client._session().recv().first] = client._session().recv().second;
+	    } else {
 	    continue;
-	    }*/
+	    }
+	}
+	for ( auto it : spy_map ) {
+	    cout << it.first << " -> " << it.second.first << ":" << it.second.second << endl; 
+	    spy_map.erase(it.first);
+	}
+	sleep( 5 );
     }
     client._session().change_write_port( read, "info23-21" );
     client.join();
