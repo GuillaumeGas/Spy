@@ -1,5 +1,5 @@
-#include "UDP_protocol.hh"
-#include "UDP_Message.hh"
+#include "../include/UDP_protocol.hh"
+#include "../include/UDP_Message.hh"
 #include <sstream>
 
 UDP_Protocol::UDP_Protocol ( int & port1, int & port2 , std::string & ip ) {
@@ -9,7 +9,12 @@ UDP_Protocol::UDP_Protocol ( int & port1, int & port2 , std::string & ip ) {
     m_sendsin.sin_port = htons(port2);
     hostent * hostinfo = NULL;
     hostinfo = gethostbyname(ip.c_str());
-    m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
+    if ( hostinfo ) {
+	m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
+	m_host = true;
+    } else {
+	std::cout << "[INFO]-> Host non reconnu" << std::endl;
+    }
     m_ip = ip;
     
     m_sock = socket( AF_INET, SOCK_DGRAM, 0);
@@ -26,66 +31,70 @@ UDP_Protocol::UDP_Protocol ( int & port1, int & port2 , std::string & ip ) {
 using namespace std;
 
 void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
-    stringstream ss(msg);
-    stringstream total;
-    string format = m.get_format();
-    total << m.get_name() << " ";
-    for ( int i = 2 ; i < format.length() ; i++ ) {
-	if ( format[i] <= '9' && format[i] >= '0' ) {
-	    for (int j = 0 ; j < format[i] - '0' ; j++ ) {
-		if ( format[i + 1] == 'i' ) {
-		    if ( !ss.eof() ) {
-			int a;
-			ss >> a;
-			total << a;
-		    } else {
-			cout << "[ERROR] -> Message mal forme" << endl;
-			return;
-		    }
-		} else if ( format[i + 1] == 'c' ) {
-		    if ( !ss.eof() ) {
-			char c;
-			ss >> c;
-			total << c;
-		    } else {
-			cout << "[ERROR] -> Message mal forme" << endl;
-			return;
-		    }
-		} else if ( format[i + 1] == 's' ) {
-		    if ( !ss.eof() ) {
-			string msg;
-			ss >> msg;
-			total << msg << " " ;
-		    } else {
-			cout << "[ERROR] -> Message mal forme" << endl;
-			return;
-		    }
-		} else if ( format[i + 1] == 'a' ) {
-		    if ( !ss.eof() ) {
-			string tmp;
-			int deb = total.str().length() - m.get_name().length() - 1;
-			if ( deb < 0 ) {
-			    deb = 0;
+    if ( m_host ) {
+	stringstream ss(msg);
+	stringstream total;
+	string format = m.get_format();
+	total << m.get_name() << " ";
+	for ( int i = 2 ; i < format.length() ; i++ ) {
+	    if ( format[i] <= '9' && format[i] >= '0' ) {
+		for (int j = 0 ; j < format[i] - '0' ; j++ ) {
+		    if ( format[i + 1] == 'i' ) {
+			if ( !ss.eof() ) {
+			    int a;
+			    ss >> a;
+			    total << a;
+			} else {
+			    cout << "[ERROR] -> Message mal forme" << endl;
+			    return;
 			}
-			tmp = ss.str().substr(deb, ss.str().length() );
-			total << tmp;
-		    } else {
-			cout << "[ERROR] -> Message mal forme" << endl;
-			return;
-		    }
-		}  
+		    } else if ( format[i + 1] == 'c' ) {
+			if ( !ss.eof() ) {
+			    char c;
+			    ss >> c;
+			    total << c;
+			} else {
+			    cout << "[ERROR] -> Message mal forme" << endl;
+			    return;
+			}
+		    } else if ( format[i + 1] == 's' ) {
+			if ( !ss.eof() ) {
+			    string msg;
+			    ss >> msg;
+			    total << msg << " " ;
+			} else {
+			    cout << "[ERROR] -> Message mal forme" << endl;
+			    return;
+			}
+		    } else if ( format[i + 1] == 'a' ) {
+			if ( !ss.eof() ) {
+			    string tmp;
+			    int deb = total.str().length() - m.get_name().length() - 1;
+			    if ( deb < 0 ) {
+				deb = 0;
+			    }
+			    tmp = ss.str().substr(deb, ss.str().length() );
+			    total << tmp;
+			} else {
+			    cout << "[ERROR] -> Message mal forme" << endl;
+			    return;
+			}
+		    }  
+		}
+		
 	    }
-	    
 	}
-    }
-    if ( ss.str().length() > (total.str().length() - m.get_name().length() )  ) {
-	cout << "[WARNING] -> element superflux en fin de message" << endl;
-    } 
-    total << " //end//";
-    if ( sendto(m_sendsocket, total.str().c_str(), total.str().length(), 0, (sockaddr*)&m_sendsin, sizeof(m_sendsin)) == -1 ) {
-	cout << "[ERROR] -> Probleme d'envoi" << endl;
+	if ( ss.str().length() > (total.str().length() - m.get_name().length() )  ) {
+	    cout << "[WARNING] -> element superflux en fin de message" << endl;
+	} 
+	total << " //end//";
+	if ( sendto(m_sendsocket, total.str().c_str(), total.str().length(), 0, (sockaddr*)&m_sendsin, sizeof(m_sendsin)) == -1 ) {
+	    cout << "[ERROR] -> Probleme d'envoi" << endl;
+	} else {
+	    cout << "[INFO] -> Message envoye " << total.str() <<  endl;
+	}
     } else {
-	cout << "[INFO] -> Message envoye " << total.str() <<  endl;
+	cout << "[ERROR] -> Connecte nul part " << endl;
     }
 }
 
@@ -147,5 +156,11 @@ void UDP_Protocol::change_write_port(int port, string ip) {
     hostent * hostinfo = NULL;
 
     hostinfo = gethostbyname(ip.c_str());
-    m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
+    if ( hostinfo ) {
+	m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
+	m_host = true;
+    } else {
+	cout << "[ERROR] -> Host non reconnu " << endl;
+	m_host = false;
+    }
 }

@@ -1,4 +1,4 @@
-#include "Stream_net.hh"
+#include "../include/Stream_net.hh"
 using namespace std;
 
 

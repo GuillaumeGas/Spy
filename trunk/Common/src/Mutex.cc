@@ -1,4 +1,4 @@
-#include "Mutex.hh"
+#include "../include/Mutex.hh"
 
 Mutex::Mutex() {
 }

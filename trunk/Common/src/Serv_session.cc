@@ -1,7 +1,7 @@
-#include "Serv_session.hh"
+#include "../include/Serv_session.hh"
 #include <iostream>
 
-#include "Message.hh"
+#include "../include/Message.hh"
 
 using namespace std;
 

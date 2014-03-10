@@ -36,6 +36,7 @@ public:
     int m_sock, m_sendsocket;
     int m_port;
     std::string m_ip;
+    bool m_host;
 };
 
 

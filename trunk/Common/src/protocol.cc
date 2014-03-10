@@ -1,5 +1,5 @@
-#include "protocol.hh"
-#include "Message.hh"
+#include "../include/protocol.hh"
+#include "../include/Message.hh"
 using namespace std;
 
 Protocol::Protocol(int sock): my_stream(sock) {
