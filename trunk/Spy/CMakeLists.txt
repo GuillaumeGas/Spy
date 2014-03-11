@@ -4,6 +4,6 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 
 ADD_DEFINITIONS(-std=c++0x -ggdb)
 
-ADD_EXECUTABLE(Spy server.cc)
+ADD_EXECUTABLE(Spy server.cc Process.cc)
 
 TARGET_LINK_LIBRARIES(Spy -lboost_thread -lNet)
