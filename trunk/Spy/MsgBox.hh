@@ -8,21 +8,42 @@
 
 #include <cstdlib> //system()
 #include <iostream>
+#include <sstream>
 
 class MsgBox {
 public:
   static void info(const char * msg) {
-    std::string cmd = "zenity --info --text=\"";
-    cmd += msg;
-    cmd += "\"";
-    system(cmd.c_str());
+    std::stringstream cmd;
+    cmd << "zenity --info --text=\"";
+    cmd << msg;
+    cmd << "\"";
+    system(cmd.str().c_str());
   }
+  static void info(const std::string msg) {
+    std::stringstream cmd;
+    cmd << "zenity --info --text=\"";
+    cmd << msg;
+    cmd << "\"";
+    system(cmd.str().c_str());
+  }
+    
+
   static void warning(const char * msg) {
-    std::string cmd = "zenity --warning --text=\"";
-    cmd += msg;
-    cmd += "\"";
-    system(cmd.c_str());
+    std::stringstream cmd;
+    cmd << "zenity --warning --text=\"";
+    cmd << msg;
+    cmd << "\"";
+    system(cmd.str().c_str());
   }
+  static void warning(const std::string msg) {
+    std::stringstream cmd;
+    cmd << "zenity --warning --text=\"";
+    cmd << msg;
+    cmd << "\"";
+    system(cmd.str().c_str());
+  }
+  
+  
 };
 
 #endif

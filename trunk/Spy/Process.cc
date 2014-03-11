@@ -121,7 +121,7 @@ string Process::get_proc_name_from_cmdfile(const string file) {
 
 bool Process::is_pid(char * s) {
   for(int i = 0; s[i] != '\0'; i++) {
-    if(s[i] < '0' && s[i] > '9') {
+    if(s[i] < '0' && s[i] > '9' || s[i] == '.') {
       return false;
     }
   }
