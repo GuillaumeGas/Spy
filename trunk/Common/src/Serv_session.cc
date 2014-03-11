@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "../include/Message.hh"
+#include "../include/Img_Message.hh"
 
 using namespace std;
 
@@ -19,11 +20,18 @@ void Serv_session::loop_recv() {
 	if ( msg.length() != 0 ) {
 	    bool trouve = false;
 	    for ( auto it : proto->message ) {
-		if ( *(it.second) == msg ) {
-		    it.second->sig_recv(proto->wait(*it.second));
+		if ( it.first == msg ) {
+		    it.second->recv ( );
 		    cout << "[INFO] -> " << msg << " recv" << endl;
 		}
+		
 	    }
+	    for ( auto it : proto->imessage ) {
+		if ( it.first == msg ) {
+		    it.second->recv( );
+		}
+	    }
+
 	} else {
 	    stop = true;
 	}

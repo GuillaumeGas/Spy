@@ -1,5 +1,6 @@
 #include "../include/protocol.hh"
 #include "../include/Message.hh"
+#include "../include/Img_Message.hh"
 using namespace std;
 
 Protocol::Protocol(int sock): my_stream(sock) {
@@ -7,6 +8,7 @@ Protocol::Protocol(int sock): my_stream(sock) {
 }
 
 void Protocol::send_msg(Message &m, string content) {
+
     stringstream ss(content);
     string format = m.get_format();
     my_stream << format.c_str() << m.get_name().c_str();
@@ -63,6 +65,7 @@ string Protocol::wait(Message &m) {
 		    string msg;
 		    my_stream >> msg;
 		    while ( msg != "//end//" ) {
+			cout << msg << endl;
 			total << msg << " ";
 			my_stream >> msg;
 		    }
@@ -94,6 +97,12 @@ Message & Protocol::operator[](string key) {
 }
 
 
+
+Img_Message & Protocol::operator()(string key) {
+    return *imessage[key];
+}
+
+
 void Protocol::unactive_annotation ( Annotation::Flags f ) {
     a.unactive ( f );
 }
@@ -114,3 +123,28 @@ void Protocol::reactive_annotation ( ) {
 }
 
 
+void Protocol::send_img ( Img_Message & m, string content, int h, int l ) {
+    my_stream.send_string ( m.get_name() );
+    my_stream.send_int ( content.length() );
+    my_stream.send_string ( content );
+    my_stream.send_string ( " " );
+    my_stream.send_int ( h );
+    my_stream.send_int ( l );
+} 
+
+
+void Protocol::wait_msg ( Message & m ) {
+    m.sig_recv ( wait ( m ) );
+}
+
+
+void Protocol::wait_img ( Img_Message & m ) {
+    int h, l, size;
+    string content;
+    my_stream.recv ( size );
+    content = my_stream.recv_string ( size );
+    my_stream.recv( h );
+    my_stream.recv( l );
+    
+    m.sig_recv( content , h , l );
+}

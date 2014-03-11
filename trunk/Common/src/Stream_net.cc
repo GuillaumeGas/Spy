@@ -73,6 +73,20 @@ void Stream_net::send_msg() {
     ss.str("");
 }
 
+
+
+void Stream_net::send_string( string msg ) {
+    fprintf( m_write, "%s\n", msg.c_str() );
+    fflush( m_write );
+}
+
+
+void Stream_net::send_int ( int a ) {
+    fprintf ( m_write, "%d\n", a);
+    fflush( m_write );
+}
+
+
 void Stream_net::show_list() {
     for ( auto it = m_waited_elem.begin() ; it != m_waited_elem.end() ; it++) {
 	cout << it->type << " " << it->nb << endl;
@@ -108,6 +122,16 @@ void Stream_net::recv(char & a) {
     if ( fscanf(m_read, "%c", &a) == 1 ) {
     } else {
 	a = -1; 
+    }
+}
+
+string Stream_net::recv_string ( int size ) {
+    char buffer[size + 1];
+    if ( fread ( buffer, 1 , size , m_read )  == size ) {
+	buffer[size] = 0;
+	return string(buffer);
+    } else {
+	return string("");
     }
 }
 

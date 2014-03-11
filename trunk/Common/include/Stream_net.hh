@@ -54,7 +54,10 @@ public:
     std::string recv();
     void recv(int & a);
     void recv(char & a);
+    void send_string( std::string );
+    void send_int ( int );
 
+    std::string recv_string ( int );
 
     std::string str();
     int length();

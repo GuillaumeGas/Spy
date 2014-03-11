@@ -15,6 +15,6 @@
 #include "Common/include/Thread.hh"
 #include "Common/include/UDP_Message.hh"
 #include "Common/include/UDP_protocol.hh"
-
+#include "Common/include/Img_Message.hh"
 
 #endif

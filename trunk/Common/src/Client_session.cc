@@ -1,5 +1,6 @@
 #include "../include/Client_session.hh"
 #include "../include/Message.hh"
+#include "../include/Img_Message.hh"
 
 using namespace std;
 
@@ -17,7 +18,12 @@ void Client_session::loop_recv() {
 	    bool trouve = false;
 	    for ( auto it : proto->message ) {
 		if ( it.first == msg ) {
-		    it.second->sig_recv(proto->wait(*it.second));
+		    it.second->recv( );
+		}
+	    }
+	    for ( auto it : proto->imessage ) {
+		if ( it.first == msg ) {
+		    it.second->recv( );
 		}
 	    }
 	} else {
