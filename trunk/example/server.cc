@@ -1,7 +1,4 @@
 #include <iostream>
-#include "../Common/Server.hh"
-#include "../Common/Serv_session.hh"
-#include "../Common/Message.hh"
 #include "proto.hh"
 
 using namespace std;
@@ -14,7 +11,9 @@ public:
 	proto = new proto1(socket);
 	proto->message["salut"]->sig_recv.connect(boost::bind(&session_on_server::salut, this, _1));
 	proto->message["salut"]->operator()("1 2 3");
-	(*proto)["ERR"]("c'est mal de faire ca //end// ");
+	(*proto)["ERR"]("c'est............... mal.... de..faire ca.. //end// ");
+
+	(*proto)("IMG1")("djhfjdhfjk dhf jdhjhjhfjdh ", 5, 10 );
     }
 
 
@@ -42,4 +41,5 @@ private:
 int main(int argc, char ** argv) {
     Server<session_on_server> serv(argc, argv);
     serv.start();
+    serv.join();
 }

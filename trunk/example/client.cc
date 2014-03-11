@@ -1,9 +1,6 @@
 #include <iostream>
 #include "proto.hh"
-#include "../Common/Client.hh"
-#include "../Common/Client_session.hh"
-#include "../Common/Message.hh"
-
+#include "../Net.hh"
 using namespace std;
 
 
@@ -16,6 +13,7 @@ public:
 	proto->message["salut"]->sig_recv.connect(boost::bind(&session_on_client::salut, this, _1));
 	proto->message["ERR"]->sig_recv.connect(boost::bind(&session_on_client::do_err, this, _1));
 	proto->message["salut"]->operator()("1 2 3");
+	(*proto)("IMG1").sig_recv.connect ( boost::bind ( & session_on_client::do_img, this, _1 , _2 , _3 ));
     }
 
 
@@ -33,6 +31,11 @@ public:
 	ss >> value;
 	cout << value << " " << endl;
 	m_stop = false;
+    }
+
+
+    void do_img ( string img, int h, int l ) {
+	cout << "image de " << h << " * " << l << "contenant " << img << endl; 
     }
 
 };

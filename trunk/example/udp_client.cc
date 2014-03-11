@@ -1,8 +1,5 @@
 #include <iostream>
 #include "udp_proto.hh"
-#include "../Common/Client_UDP.hh"
-#include "../Common/Client_UDPSession.hh"
-#include "../Common/UDP_Message.hh"
 
 using namespace std;
 
