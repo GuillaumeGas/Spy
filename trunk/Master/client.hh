@@ -47,11 +47,17 @@ namespace master {
 	void do_begin();
 	void do_ok ( std::string msg );
 	void do_err ( std::string msg );
-	void do_spy ( std::string msg );
-	void aff_map();
+	void do_map_spy ( std::string msg );
+	void send( std::string );
+	bool received();
+	void reset();
+	
+	std::map < std::string , std::pair < std::string , int > > & get_map();
+
 	
     private:
-	std::map < std::string , std::pair <std::string, int> > spy;
+	bool m_recv;
+	std::map < std::string , std::pair <std::string, int> > spy_map;
 	
     };
 

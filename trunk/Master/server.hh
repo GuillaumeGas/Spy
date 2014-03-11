@@ -22,7 +22,6 @@ namespace master {
 
     private:
 	
-	std::map < std::string, std::map < std::string, std::pair < std::string, int > > > spy_map;
     
     };
 
