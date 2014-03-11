@@ -14,7 +14,7 @@
 class Cmd {
 public:
   Cmd() {
-    m_path = ".\n";
+    m_path = ".";
 
     system("pwd > path");
     m_init_path = get_path();
@@ -63,7 +63,6 @@ public:
       std::string line;
       while(getline(file, line)) {
 	res += line;
-	//res += "\n";
       }
     }
     return res;
