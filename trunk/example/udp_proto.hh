@@ -1,8 +1,6 @@
 #ifndef _PROTOUDP
 #define _PROTOUDP
-
-#include "../Common/UDP_protocol.hh"
-#include "../Common/UDP_Message.hh"
+#include "../Net.hh"
 #include <iostream>
 
 class udp_proto : public UDP_Protocol {
