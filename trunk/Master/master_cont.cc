@@ -24,6 +24,8 @@ namespace master {
     }
     
     void master_cont::send_map ( stringstream & ss ) {
+	ss << " //end//";
+	cout << ss.str() << endl;
 	(*proto)["MAP_SPY"](ss.str());
     }
 

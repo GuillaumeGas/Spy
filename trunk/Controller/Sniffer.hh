@@ -10,14 +10,15 @@
 
 namespace controller {
 
-    class Sniffer : Thread < Sniffer > {
+    class Sniffer : public Thread < Sniffer > {
 
     public:
 
 	Sniffer ( std::string mast_ip, int mast_port, int read , int write , int salle );
-	void start();
+	void launch();
 	void stop();
 	void set_speed(int );
+	void wait();
 
     private:
 

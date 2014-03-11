@@ -77,5 +77,6 @@ int main(int argc, char ** argv) {
     cout << "Salle :";
     cin >> salle;
     controller::Sniffer s ( "localhost", 4444, 9999, 8888, salle );
-    s.start();
+    s.launch();
+    s.join();
 }
