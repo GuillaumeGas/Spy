@@ -114,39 +114,22 @@ private:
   }
 
   int check_args(int argc, char** argv) {
-    if(argc < 3) {
-      error("- Client -\n Usage : Client [-P port] [-H host]");
-      return -1;
-    } else {
-      int p = -1;
-      for(int i = 0; i < argc; i++) {
-	if(strcmp(argv[i], "-P") == 0 && i != argc-1) {
-	  p = atoi(argv[i+1]);
-	}    
-      }
-
-      if(p == -1) {
-	error("Port non indiqué !");
-	return -1;
-      } else {
-	m_port = p;
-      }
-    
-      std::string h = "null";
-      for(int i = 0; i < argc; i++) {
-	if(strcmp(argv[i], "-H") == 0 && i != argc-1) {
-	  h = argv[i+1];
-	}
-      }
-      if(h == "null") {
-	error("Host non indiqué !");
-	return -1;
-      } else { 
-	m_host = h;
-      }
-
-      return 1;
+    m_port = 9999;
+    for(int i = 0; i < argc; i++) {
+      if(strcmp(argv[i], "-P") == 0 && i != argc-1) {
+	m_port = atoi(argv[i+1]);
+      }    
     }
+    
+    m_host = "localhost";
+    for(int i = 0; i < argc; i++) {
+      if(strcmp(argv[i], "-H") == 0 && i != argc-1) {
+	m_host = argv[i+1];
+      }
+    }
+
+    return 1;
+    
   }
 
   std::string m_host;
