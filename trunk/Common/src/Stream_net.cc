@@ -126,12 +126,25 @@ void Stream_net::recv(char & a) {
 }
 
 string Stream_net::recv_string ( int size ) {
-    char buffer[size + 1];
-    if ( fread ( buffer, 1 , size , m_read )  == size ) {
-	buffer[size] = 0;
-	return string(buffer);
+
+    if ( size > 1000 ) {
+	char buffer[1001];
+	stringstream ss;
+	for (int i = 0 ; i < size ; i += 1000 ) {
+	    if (  int n = fread ( buffer , 1 , 1000, m_read ) > 0 ) {
+		buffer[n] = 0 ;
+		ss << buffer;
+	    } 
+	}
+	return ss.str();
     } else {
-	return string("");
+	char buffer [ size + 1 ];
+	if ( fread ( buffer, 1 , size , m_read )  == size ) {
+	    buffer[size] = 0;
+	    return string(buffer);   
+	} else {
+	    return string("");
+	}
     }
 }
 
