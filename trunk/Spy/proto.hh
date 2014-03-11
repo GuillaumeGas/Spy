@@ -1,14 +1,14 @@
-#ifndef _PROTO_SPY
-#define _PROTO_SPY
+#ifndef _PROTO
+#define _PROTO
 
-#include "../Common/protocol.hh"
-#include "../Common/Message.hh"
+#include "../Net.hh"
 
-class spy_proto : public Protocol {
+class proto_observer : public Protocol {
 public:
-    spy_proto(int socket) : Protocol(socket) {
-        
-    }
+  proto_observer(int socket) : Protocol(socket) {
+    message["info"] = new Message("info", "1s1a", this);
+    message["warning"] = new Message("warning", "1s1a", this);
+  }
 };
 
 #endif
