@@ -5,6 +5,7 @@
 #include <map>
 
 #include "Stream_net.hh"
+#include "Annotation.hh"
 
 class Message;
 
@@ -16,11 +17,17 @@ public:
     std::string wait(Message &s);
     Message & operator[](std::string key);
 
+    void unactive_annotation( Annotation::Flags );
+    void unactive_annotation( );
+
+    void reactive_annotation( Annotation::Flags );
+    void reactive_annotation( );
+
 
     std::map< std::string, Message*> message;
     Stream_net my_stream;
     int m_sock;
-
+    Annotation a;
 
 };
 

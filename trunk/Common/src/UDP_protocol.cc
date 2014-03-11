@@ -45,7 +45,7 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
 			    ss >> a;
 			    total << a;
 			} else {
-			    cout << "[ERROR] -> Message mal forme" << endl;
+			    a.show ( Annotation::ERROR, "Message mal forme" );
 			    return;
 			}
 		    } else if ( format[i + 1] == 'c' ) {
@@ -54,7 +54,7 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
 			    ss >> c;
 			    total << c;
 			} else {
-			    cout << "[ERROR] -> Message mal forme" << endl;
+			    a.show ( Annotation::ERROR, "Message mal forme" );
 			    return;
 			}
 		    } else if ( format[i + 1] == 's' ) {
@@ -63,7 +63,7 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
 			    ss >> msg;
 			    total << msg << " " ;
 			} else {
-			    cout << "[ERROR] -> Message mal forme" << endl;
+			    a.show ( Annotation::ERROR, "Message mal forme" );			    
 			    return;
 			}
 		    } else if ( format[i + 1] == 'a' ) {
@@ -76,7 +76,7 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
 			    tmp = ss.str().substr(deb, ss.str().length() );
 			    total << tmp;
 			} else {
-			    cout << "[ERROR] -> Message mal forme" << endl;
+			    a.show ( Annotation::ERROR, "Message mal forme" );			    			
 			    return;
 			}
 		    }  
@@ -85,16 +85,17 @@ void UDP_Protocol::send_msg( UDP_Message & m, string msg ) {
 	    }
 	}
 	if ( ss.str().length() > (total.str().length() - m.get_name().length() )  ) {
-	    cout << "[WARNING] -> element superflux en fin de message" << endl;
+	    a.show ( Annotation::WARNING, "element superflux en fin de message" );			    			
 	} 
 	total << " //end//";
 	if ( sendto(m_sendsocket, total.str().c_str(), total.str().length(), 0, (sockaddr*)&m_sendsin, sizeof(m_sendsin)) == -1 ) {
-	    cout << "[ERROR] -> Probleme d'envoi" << endl;
+	    
+	    a.show ( Annotation::ERROR, "Probleme envoi" );	
 	} else {
-	    cout << "[INFO] -> Message envoye " << total.str() <<  endl;
+	    a.show ( Annotation::INFO, "Message envoye" );	
 	}
     } else {
-	cout << "[ERROR] -> Connecte nul part " << endl;
+	a.show ( Annotation::ERROR, "Host Inconnu" );	
     }
 }
 
@@ -160,7 +161,28 @@ void UDP_Protocol::change_write_port(int port, string ip) {
 	m_sendsin.sin_addr = *(in_addr*)hostinfo->h_addr;
 	m_host = true;
     } else {
-	cout << "[ERROR] -> Host non reconnu " << endl;
+	a.show ( Annotation::ERROR, " Host Inconnu " );
 	m_host = false;
     }
+}
+
+
+
+void UDP_Protocol::unactive_annotation ( Annotation::Flags f ) {
+    a.unactive ( f );
+}
+
+
+void UDP_Protocol::reactive_annotation ( Annotation::Flags f ) {
+    a.reactive ( f );
+}
+
+
+
+void UDP_Protocol::unactive_annotation ( ) {
+    a.unactive_all ( );
+}
+
+void UDP_Protocol::reactive_annotation ( ) {
+    a.reactive_all ( );
 }

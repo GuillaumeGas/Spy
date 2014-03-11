@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <netdb.h>
 
+#include "Annotation.hh"
 
 class UDP_Message;
 
@@ -28,6 +29,12 @@ public:
     UDP_Message & operator[]( std::string key );
     void change_write_port(int, std::string);
 
+    void unactive_annotation( Annotation::Flags );
+    void unactive_annotation( );
+
+    void reactive_annotation( Annotation::Flags );
+    void reactive_annotation( );
+
 
 
     std::stringstream m_tmp;
@@ -37,6 +44,7 @@ public:
     int m_port;
     std::string m_ip;
     bool m_host;
+    Annotation a;
 };
 
 

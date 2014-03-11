@@ -48,7 +48,7 @@ void Protocol::send_msg(Message &m, string content) {
 	}
     }
     if ( !my_stream.send() ) {
-	cout << "[ERROR] -> message mal forme" << endl;
+	a.show ( Annotation::ERROR, " Message mal forme " );
 	my_stream.clean();
     }
 }
@@ -92,3 +92,25 @@ string Protocol::wait(Message &m) {
 Message & Protocol::operator[](string key) {
     return *message[key];
 }
+
+
+void Protocol::unactive_annotation ( Annotation::Flags f ) {
+    a.unactive ( f );
+}
+
+
+void Protocol::reactive_annotation ( Annotation::Flags f ) {
+    a.reactive ( f );
+}
+
+
+
+void Protocol::unactive_annotation ( ) {
+    a.unactive_all ( );
+}
+
+void Protocol::reactive_annotation ( ) {
+    a.reactive_all ( );
+}
+
+
