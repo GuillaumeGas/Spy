@@ -6,7 +6,7 @@ ADD_DEFINITIONS(-std=c++0x -ggdb)
 
 ADD_EXECUTABLE(server server.cc)
 
-ADD_EXECUTABLE(client client.cc master_spy_co.cc master_spy_deco.cc master_obse.cc master_cont.cc)
+ADD_EXECUTABLE(client client.cc  master_obse.cc master_cont.cc)
 
 
 

@@ -9,15 +9,10 @@ namespace master {
 	proto = new master_proto(socket);
 	(*proto)["OK"].sig_recv.connect(boost::bind(&master_obse::do_ok, this, _1));
 	(*proto)["ERR"].sig_recv.connect(boost::bind(&master_obse::do_err, this, _1));
-	(*proto)["SPY"].sig_recv.connect(boost::bind(&master_obse::do_spy, this, _1));
-	begin.connect(boost::bind(&master_obse::do_begin, this));
+	(*proto)["MAP_SPY"].sig_recv.connect( boost::bind ( &master_obse::do_map_spy, this, _1));
     }
 
 
-    void master_obse::do_begin() {
-	(*proto)["OBSERVE"]("");
-    }
-    
     void master_obse::do_ok( string msg ) {
 	cout << "[SYS] -> OK " << endl;
 	m_stop = true;
@@ -28,17 +23,35 @@ namespace master {
 	m_stop = true;
     }
 
-    void master_obse::do_spy( string msg ) {
+    void master_obse::do_map_spy ( string msg ) {
 	stringstream ss(msg);
-	int port;
-	string name, addr;
-	ss >> name >> addr >> port;
-	spy[name] = pair<string, int>(addr, port);
+	int size;
+	ss >> size;
+	for ( int i = 0 ; i < size ; i++) {
+	    string name, ip;
+	    int port;
+	    ss >> name >> ip >> port;
+	    spy_map[name] = pair < string, int >(ip, port);
+	}
+	m_recv = true;
     }
 
-    void master_obse::aff_map() {
-	for ( auto it : spy ) {
-	    cout << it.first << " " << it.second.first << ":" << it.second.second << endl;
-	}
+    bool master_obse::received() {
+	return m_recv;
+    }
+
+
+    void master_obse::reset() {
+	m_recv = false;
+	spy_map.clear();
+    }
+
+
+    void master_obse::send(string salle) {
+	(*proto)["OBSERVE"](salle);
+    }
+
+    map < string, pair < string, int > > & master_obse::get_map () {
+	return spy_map;
     }
 };

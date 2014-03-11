@@ -9,7 +9,7 @@ using namespace std;
 
 namespace master {
 
-    map <std::string, pair<std::string, int> > spy_connected;
+    map < string, map <std::string, pair<std::string, int> > > spy_map;
 
     session_on_server::session_on_server ( int socket ) : Serv_session(socket) {
 	proto = new master_proto(socket);
@@ -50,21 +50,24 @@ namespace master {
     }
 
     void session_on_server::do_observe(string msg) {
-	cout << "[INFO] -> requete d'un Observer" << endl;
+	stringstream s1(msg), ss;
+	string salle;
+	s1 >> salle;
 	m.lock();
-	for ( auto it : spy_connected ) {
-	    stringstream ss;
-	    ss << it.first << " " << it.second.first << " " << it.second.second;    
-	    (*proto)["SPY"](ss.str());
-	}	
+	ss << spy_map[salle].size() << " ";
+	for ( auto it : spy_map[salle] ) {
+	    ss << it.first << " " << it.second.first << " " << it.second.second << " ";
+	}
+	ss << "//end//";
+	(*proto)["MAP_SPY"](ss.str());
 	m.unlock();
-	(*proto)["OK"]("");
     }
 
 };
 
 
 int main(int argc, char ** argv) {
+    master::spy_map["27"]["norbert"] = pair < string , int > ( "info27-15", 9999);
     Server <master::session_on_server> serv(argc, argv);
     serv.start();
     serv.join();
