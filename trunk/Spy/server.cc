@@ -46,16 +46,23 @@ namespace Spy {
     }
     
     void do_get_screenshot(string data) {
-      stringstream ss;
-      ss << data;
+      stringstream s1, ss;
+      s1 << data;
       double zoom;
-      ss >> zoom;
+      s1 >> zoom;
+      
       ScreenShot sc;
       int w, h;
+      cout << "zoom : " << zoom << endl;
       sc.save("test.bmp", zoom);
-      //sc.get_stringstream("test.bmp", ss, w, h);
-      ss << " //end//";
-      //(*proto)["screenshot"](ss.str(), w, h);
+      sc.get_stringstream("test.bmp", ss, w, h, zoom);
+
+      ofstream f("truc");
+      f << ss.rdbuf();
+      f.close();
+
+      cout << ss.str().length() << endl;
+      (*proto)("screenshot")(ss.str(), w, h);
     }
 
     void do_send_cmd(string _cmd) {

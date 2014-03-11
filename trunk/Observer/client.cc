@@ -17,14 +17,15 @@ namespace Observer {
       proto = new proto_observer(socket);
       (*proto)["info"].sig_recv.connect(boost::bind(&session_on_observer::info, this, _1));
       (*proto)["list_proc"].sig_recv.connect(boost::bind(&session_on_observer::do_list_proc, this, _1));
-      //(*proto)["screenshot"].sig_recv.connect(boost::bind(&session_on_observer::do_screenshot, this, _1));
       (*proto)["res_cmd"].sig_recv.connect(boost::bind(&session_on_observer::do_res_cmd, this, _1));
+      (*proto)("screenshot").sig_recv.connect(boost::bind(&session_on_observer::do_screenshot, this, _1, _2, _3));
 
       //(*proto)["info"]("Le message //end//");
       //(*proto)["warning"]("err !! //end//");
       //(*proto)["get_list_proc"]("");
-      //(*proto)["get_screenshot"]("0.3");
-      (*proto)["send_cmd"]("ls //end//");
+      cout << "taille : 0.1" << endl;
+      (*proto)["get_screenshot"]("0.1");
+      //(*proto)["send_cmd"]("ls //end//");
     }
 
     void info(string msg) {
@@ -48,11 +49,20 @@ namespace Observer {
       }
     }
 
-    void do_screenshot(string data) {
+    void do_screenshot(string data, int w, int h) {
+      cout << "test" << endl;
+
+      data = data.substr( 1 , data.length()-1 );
       stringstream ss(data);
-      int w, h;
-      ss >> w >> h;
+      cout <<"data = "<< data[0] << endl;
+
+
+      ofstream f("truc");
+      f << data;
+      f.close();
+
       ScreenShot::build_bmp_fromStringstream("test.bmp", ss, w, h);
+      cout << "test 2" << endl;
     }
     
     void do_res_cmd(string data) {

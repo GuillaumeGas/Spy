@@ -1,6 +1,9 @@
 #include "../include/protocol.hh"
 #include "../include/Message.hh"
 #include "../include/Img_Message.hh"
+
+#include <fstream>
+
 using namespace std;
 
 Protocol::Protocol(int sock): my_stream(sock) {
@@ -127,7 +130,6 @@ void Protocol::send_img ( Img_Message & m, string content, int h, int l ) {
     my_stream.send_string ( m.get_name() );
     my_stream.send_int ( content.length() );
     my_stream.send_string ( content );
-    my_stream.send_string ( " " );
     my_stream.send_int ( h );
     my_stream.send_int ( l );
 } 
@@ -141,10 +143,13 @@ void Protocol::wait_msg ( Message & m ) {
 void Protocol::wait_img ( Img_Message & m ) {
     int h, l, size;
     string content;
+    stringstream ss;
     my_stream.recv ( size );
-    content = my_stream.recv_string ( size );
+    cout << "size : " << size << endl;
+    my_stream.recv_string ( size , ss);
     my_stream.recv( h );
     my_stream.recv( l );
     
-    m.sig_recv( content , h , l );
+    
+    m.sig_recv( ss.str() , h , l );
 }

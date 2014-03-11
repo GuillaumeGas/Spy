@@ -8,6 +8,8 @@
     Flags nécessaires : -lSDL -lSDL_gfx -lX11
 */
 
+#include <iostream>
+#include <sstream>
 #include <SDL/SDL.h>
 #include <SDL/SDL_rotozoom.h>
 #include <X11/Xlib.h>
@@ -51,8 +53,34 @@ public:
    */
   bool save(const char * file, const double zoom);
 
+  void get_stringstream(const char * file, std::stringstream & ss, int &w, int &h, double zoom);
+
+  static void build_bmp_fromStringstream(const char * file, std::stringstream &ss, int width, int height) {
+    SDL_Surface * surf = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32, 0, 0, 0, 0);
+    SDL_LockSurface(surf);
+    int i = 0;
+    while(!ss.eof()) {
+      int a;
+      ss >> a;
+      //std::cout << "a = " << a << std::endl;
+      ((unsigned int *)surf->pixels)[i++] = a;
+      //std::cout << "i = " << i << std::endl;
+    }
+    SDL_UnlockSurface(surf);
+
+    if(surf) {
+      SDL_SaveBMP(surf, file);
+    } else {
+      std::cout << "Erreur, surface vide." << std::endl;
+    }
+  }
+
 private:
+  void create_surface();
+
+  int m_dimx, m_dimy;
   SDL_Surface * m_surf;
+  unsigned long * m_pixels;
 
 };
 

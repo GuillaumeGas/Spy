@@ -82,7 +82,7 @@ void Stream_net::send_string( string msg ) {
 
 
 void Stream_net::send_int ( int a ) {
-    fprintf ( m_write, "%d\n", a);
+    fprintf ( m_write, "%d", a);
     fflush( m_write );
 }
 
@@ -125,25 +125,34 @@ void Stream_net::recv(char & a) {
     }
 }
 
-string Stream_net::recv_string ( int size ) {
+void Stream_net::recv_string ( int size, stringstream &ss) {
 
-    if ( size > 1000 ) {
-	char buffer[1001];
-	stringstream ss;
-	for (int i = 0 ; i < size ; i += 1000 ) {
-	    if (  int n = fread ( buffer , 1 , 1000, m_read ) > 0 ) {
+    if ( size > 5000 ) {
+	char buffer[5001];
+	int toRead = 5000;
+	for (int i = 0 ; i < size ; i += 5000 ) {
+	  cout << "i = " << i << endl;
+	  cout << "size = " << size << endl;
+	  if(i + 5000 > size) {
+	    toRead = size-i;
+	  }
+	  int n;
+	  if (  (n = fread ( buffer , 1 , toRead, m_read )) == 5000 ) {
 		buffer[n] = 0 ;
+		
 		ss << buffer;
-	    } 
+	    } else {
+	      buffer[n] = 0;
+	      ss << buffer;
+	      break;
+	    }
 	}
-	return ss.str();
+	cout << "sortie" << endl;
     } else {
 	char buffer [ size + 1 ];
 	if ( fread ( buffer, 1 , size , m_read )  == size ) {
 	    buffer[size] = 0;
-	    return string(buffer);   
-	} else {
-	    return string("");
+	    ss << buffer;   
 	}
     }
 }
