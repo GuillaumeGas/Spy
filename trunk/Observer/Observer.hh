@@ -71,6 +71,7 @@ private:
   void create_network_connections(); //connexion à chaque spy
 
   Client<master_obse> cli_master;
+  std::vector<Client<Observer::session_on_observer>* > vec_spy;
 };
 
 #endif
