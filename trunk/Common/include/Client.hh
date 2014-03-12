@@ -64,6 +64,9 @@ public:
   int get_sock()const {
     return m_sock;
   }
+  std::string get_host()const {
+    return m_host;
+  }
   bool stop()const {
     return m_stop;
   }
@@ -83,6 +86,8 @@ public:
   void info(std::string msg)const {
     std::cout << msg << std::endl;
   }
+
+  
 
 private:
 
