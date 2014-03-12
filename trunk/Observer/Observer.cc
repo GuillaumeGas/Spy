@@ -92,15 +92,19 @@ void Observer::create_grid() {
   /*
     insertions de test
   */
-  for(int i = 0; i < 30; i++) {
+  /*for(int i = 0; i < 30; i++) {
     if(i%2==0) {
       vec_stations.push_back(new Miniature("img.bmp", "info21", "Cadorel"));
     } else {
       vec_stations.push_back(new Miniature("img.bmp", "info21", "Gas"));
     }
-  }
+    }*/
   /* Fin test */
   
+  for(it : map_spy) {
+    vec_stations.push_back(new Miniature("img.bmp", it.second->get_host(), it.first));
+  }
+
   int x = 0, y = 0;
   for(int i = 0; i < vec_stations.size(); i++) {
     grid_layout->addWidget(vec_stations[i], x, y);
@@ -165,7 +169,7 @@ void Observer::init_data() {
 
 void Observer::create_network_connections() {
   for(it : map_spy_info) {
-    vec_spy.push_back(new Client<Observer::session_on_observer>(it.second.first, it.second.second));
-    vec_spy[vec_spy.size()-1].join();
+    map_spy[it.first] = new Client<Observer::session_on_observer>(it.second.first, it.second.second);
+    map_spy[it.first]->join();
   }
 }
