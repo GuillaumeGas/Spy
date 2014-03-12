@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Observer::Observer() {
+Observer::Observer(int argc, char** argv) : cli_master(argc, argv) {
 
   bool room_ok = ask_room();
 
@@ -26,6 +26,9 @@ bool Observer::ask_room() {
     m_room = QInputDialog::getItem(this, "Observateur", "Choix de la salle :", lst, 0, false, &ok);
     if(ok && !lst.isEmpty()) {
       /* On go tenter une connexion */
+      cli_master._session().send(m_room.toStdString().substr(5, 8));
+      while(!cli_master._session().received()) {}
+      map_spy_info = cli_master._session().get_map();
       QMessageBox::information(this, "Information", "Salle selectionnee : "+m_room);
       continuer = false;
     } else if(ok && lst.isEmpty()) {
