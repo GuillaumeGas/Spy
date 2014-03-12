@@ -8,6 +8,7 @@ Observer::Observer(int argc, char** argv) : cli_master(argc, argv) {
 
   if(room_ok) {
   
+    create_network_connections();
     init_data();
     create_window();
       
@@ -160,4 +161,11 @@ void Observer::change_room_slot() {
 void Observer::init_data() {
   m_lst_proc.push_back("Firefox");
   m_lst_proc.push_back("Teeworld");
+}
+
+void Observer::create_network_connections() {
+  for(it : map_spy_info) {
+    vec_spy.push_back(new Client<Observer::session_on_observer>(it.second.first, it.second.second));
+    vec_spy[vec_spy.size()-1].join();
+  }
 }
