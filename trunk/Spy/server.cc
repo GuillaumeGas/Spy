@@ -51,10 +51,10 @@ namespace Spy {
       double zoom;
       s1 >> zoom;
       
-      ScreenShot sc;
+      ScreenShot sc(zoom);
       int w, h;
       cout << "zoom : " << zoom << endl;
-      sc.save("test.bmp", zoom);
+      sc.save("test.bmp");
       sc.get_stringstream("test.bmp", ss, w, h, zoom);
 
       ofstream f("truc");

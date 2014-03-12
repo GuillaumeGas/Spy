@@ -21,12 +21,12 @@ public:
   /**
    * \brief Fait appel à shot()
    */
-  ScreenShot();
+  ScreenShot(double zoom = 0);
   /**
    * \brief fait appel à shot et enregistre l'image au format bmp. Attention taille originale conservée
    * \param file représente le nom du fichier dans lequel sauvegarder l'image
    */
-  ScreenShot(const char * file);
+  ScreenShot(const char * file, double zoom = 0);
   ~ScreenShot();
 
   /**
@@ -51,20 +51,25 @@ public:
    *  \param save représente le nom du fichier dans lequel enregistrer l'image
    *  \param zoom permet de redimensioner l'image (zoom > 0 et < 1 pour diminution)
    */
-  bool save(const char * file, const double zoom);
+  // bool save(const char * file, const double zoom);
+
+  void set_zoom();
 
   void get_stringstream(const char * file, std::stringstream & ss, int &w, int &h, double zoom);
 
   static void build_bmp_fromStringstream(const char * file, std::stringstream &ss, int width, int height) {
     SDL_Surface * surf = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32, 0, 0, 0, 0);
+    std::cout << "width = " << width << ", height = " << height << std::endl;
     SDL_LockSurface(surf);
     int i = 0;
+
+    std::cout << "TAILLE ss = " << ss.str().length() << std::endl;
+    std::cout << "TAILLE alloc= " << width*height << std::endl;
+
     while(!ss.eof()) {
-      int a;
+      unsigned int a;
       ss >> a;
-      //std::cout << "a = " << a << std::endl;
       ((unsigned int *)surf->pixels)[i++] = a;
-      //std::cout << "i = " << i << std::endl;
     }
     SDL_UnlockSurface(surf);
 
@@ -79,8 +84,9 @@ private:
   void create_surface();
 
   int m_dimx, m_dimy;
+  double m_zoom;
   SDL_Surface * m_surf;
-  unsigned long * m_pixels;
+  unsigned int * m_pixels;
 
 };
 
