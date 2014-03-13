@@ -2,12 +2,13 @@
 
 using namespace std;
 
-Observer::Observer() {
+Observer::Observer(int argc, char** argv) : cli_master(argc, argv) {
 
   bool room_ok = ask_room();
 
   if(room_ok) {
   
+    create_network_connections();
     init_data();
     create_window();
       
@@ -26,6 +27,9 @@ bool Observer::ask_room() {
     m_room = QInputDialog::getItem(this, "Observateur", "Choix de la salle :", lst, 0, false, &ok);
     if(ok && !lst.isEmpty()) {
       /* On go tenter une connexion */
+      cli_master._session().send(m_room.toStdString().substr(5, 8));
+      while(!cli_master._session().received()) {}
+      map_spy_info = cli_master._session().get_map();
       QMessageBox::information(this, "Information", "Salle selectionnee : "+m_room);
       continuer = false;
     } else if(ok && lst.isEmpty()) {
@@ -88,15 +92,19 @@ void Observer::create_grid() {
   /*
     insertions de test
   */
-  for(int i = 0; i < 30; i++) {
+  /*for(int i = 0; i < 30; i++) {
     if(i%2==0) {
       vec_stations.push_back(new Miniature("img.bmp", "info21", "Cadorel"));
     } else {
       vec_stations.push_back(new Miniature("img.bmp", "info21", "Gas"));
     }
-  }
+    }*/
   /* Fin test */
   
+  for(it : map_spy) {
+    vec_stations.push_back(new Miniature("img.bmp", it.second->get_host(), it.first));
+  }
+
   int x = 0, y = 0;
   for(int i = 0; i < vec_stations.size(); i++) {
     grid_layout->addWidget(vec_stations[i], x, y);
@@ -157,4 +165,11 @@ void Observer::change_room_slot() {
 void Observer::init_data() {
   m_lst_proc.push_back("Firefox");
   m_lst_proc.push_back("Teeworld");
+}
+
+void Observer::create_network_connections() {
+  for(it : map_spy_info) {
+    map_spy[it.first] = new Client<Observer::session_on_observer>(it.second.first, it.second.second);
+    map_spy[it.first]->join();
+  }
 }

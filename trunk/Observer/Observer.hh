@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 
 #include <QApplication>
 #include <QMainWindow>
@@ -29,7 +30,7 @@ class Observer : public QMainWindow{
   Q_OBJECT
 
 public:
-  Observer();
+  Observer(int argc, char** argv);
 
   bool ask_room();
 
@@ -39,6 +40,7 @@ private slots:
 private:
   QString m_room;
   QVector<QString> m_lst_proc; //list proc a surveiller
+  map<std::string, std::pair<std::string, int> > map_spy_info;
 
   /* Elements d'affichage */
   QWidget * window;
@@ -66,8 +68,10 @@ private:
   void create_grid();
   void create_connections(); //connect les boutons...
   void init_data();
+  void create_network_connections(); //connexion à chaque spy
 
-
+  Client<master_obse> cli_master;
+  std::map<std::string, Client<Observer::session_on_observer>* > map_spy;
 };
 
 #endif

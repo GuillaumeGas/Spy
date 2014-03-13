@@ -125,25 +125,32 @@ void Stream_net::recv(char & a) {
     }
 }
 
-string Stream_net::recv_string ( int size ) {
+void Stream_net::recv_string ( int size, stringstream &ss) {
 
-    if ( size > 1000 ) {
-	char buffer[1001];
-	stringstream ss;
-	for (int i = 0 ; i < size ; i += 1000 ) {
-	    if (  int n = fread ( buffer , 1 , 1000, m_read ) > 0 ) {
+    if ( size > 20000 ) {
+	char buffer[20001];
+	int toRead = 20000;
+	for (int i = 0 ; i < size ; i += 20000 ) {
+	  if(i + 20000 > size) {
+	    toRead = size-i;
+	  }
+	  int n;
+	  if (  (n = fread ( buffer , 1 , toRead, m_read )) == 20000 ) {
 		buffer[n] = 0 ;
+		
 		ss << buffer;
-	    } 
+	    } else {
+	      buffer[n] = 0;
+	      ss << buffer;
+	      break;
+	    }
 	}
-	return ss.str();
+	cout << "sortie" << endl;
     } else {
 	char buffer [ size + 1 ];
 	if ( fread ( buffer, 1 , size , m_read )  == size ) {
 	    buffer[size] = 0;
-	    return string(buffer);   
-	} else {
-	    return string("");
+	    ss << buffer;   
 	}
     }
 }
