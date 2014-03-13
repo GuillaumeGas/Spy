@@ -31,7 +31,6 @@ void Serv_session::loop_recv() {
 		    it.second->recv( );
 		}
 	    }
-
 	} else {
 	    stop = true;
 	}

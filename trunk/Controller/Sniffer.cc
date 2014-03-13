@@ -5,9 +5,9 @@ using namespace std;
 namespace controller {
 
     Sniffer::Sniffer ( string mast_ip, int mast_port, int read , int write, int salle) 	
-	: snif_client ( "localhost" , read, write ) , 
-	link_master ( mast_ip, mast_port ), 
-	Thread < Sniffer > ( &Sniffer::loop_recv, this )  {
+	: snif_client ( "localhost" , read, write ) ,	
+	  link_master ( mast_ip, mast_port ),
+	  Thread < Sniffer > ( &Sniffer::loop_recv, this )  {
 	
 	snif_client._session().set_ip( load_hostname() ) ;
 	snif_client._session().set_port( read );
@@ -17,6 +17,7 @@ namespace controller {
 	m_salle = salle;
 	m_speed = 5000000;
 	m_stop = false;
+	snif_client._session().proto->unactive_annotation();
     }
 
     string Sniffer::load_hostname() {

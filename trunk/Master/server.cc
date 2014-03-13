@@ -67,7 +67,6 @@ namespace master {
 
 
 int main(int argc, char ** argv) {
-    master::spy_map["27"]["norbert"] = pair < string , int > ( "info27-15", 9999);
     Server <master::session_on_server> serv(argc, argv);
     serv.start();
     serv.join();
