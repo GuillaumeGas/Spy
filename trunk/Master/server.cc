@@ -50,6 +50,7 @@ namespace master {
     }
 
     void session_on_server::do_observe(string msg) {
+	cout << msg << endl;
 	stringstream s1(msg), ss;
 	string salle;
 	s1 >> salle;
@@ -67,7 +68,7 @@ namespace master {
 
 
 int main(int argc, char ** argv) {
-    master::spy_map["27"]["norbert"] = pair < string , int > ( "info27-15", 9999);
+    master::spy_map["27"]["norbert"] = pair < string , int > ( "info27-08", 9999);
     Server <master::session_on_server> serv(argc, argv);
     serv.start();
     serv.join();
