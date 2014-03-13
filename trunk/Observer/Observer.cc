@@ -2,174 +2,175 @@
 
 using namespace std;
 
-Observer::Observer(int argc, char** argv) : cli_master(argc, argv) {
+namespace observer {
+    Observer::Observer(int argc, char** argv) : cli_master(argc, argv) {
 
-  bool room_ok = ask_room();
+	bool room_ok = ask_room();
 
-  if(room_ok) {
+	if(room_ok) {
   
-    create_network_connections();
-    init_data();
-    create_window();
+	    create_network_connections();
+	    init_data();
+	    create_window();
       
-  } else{
-    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
-  }
-}
-
-bool Observer::ask_room() {
-  /* Liste de test */
-  QStringList lst;
-  lst << "info21" << "info22" << "info23";
-
-  bool ok, continuer = true;
-  while(continuer) {
-    m_room = QInputDialog::getItem(this, "Observateur", "Choix de la salle :", lst, 0, false, &ok);
-    if(ok && !lst.isEmpty()) {
-      /* On go tenter une connexion */
-      cli_master._session().send(m_room.toStdString().substr(5, 8));
-      while(!cli_master._session().received()) {}
-      map_spy_info = cli_master._session().get_map();
-      QMessageBox::information(this, "Information", "Salle selectionnee : "+m_room);
-      continuer = false;
-    } else if(ok && lst.isEmpty()) {
-      QMessageBox::critical(this, "Erreur.", "Aucune salle disponible.");
-    } else {
-      continuer = false;
+	} else{
+	    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
+	}
     }
-  }
-  return ok;
-}
 
-void Observer::create_window() {
+    bool Observer::ask_room() {
+	/* Liste de test */
+	QStringList lst;
+	lst << "info21" << "info22" << "info23" << "info27";
 
-  window = new QWidget;
-  main_layout = new QVBoxLayout;
-  menu_layout = new QHBoxLayout;
-  grid_layout = new QGridLayout;
-  content     = new QWidget;
+	bool ok, continuer = true;
+	while(continuer) {
+	    m_room = QInputDialog::getItem(this, "Observateur", "Choix de la salle :", lst, 0, false, &ok);
+	    if(ok && !lst.isEmpty()) {
+		/* On go tenter une connexion */
+		cout << m_room.toStdString().substr(4, 7) << endl;
+		cli_master._session().send(m_room.toStdString().substr(4, 7));
+		while(!cli_master._session().received()) {}
+		map_spy_info = cli_master._session().get_map();
+		QMessageBox::information(this, "Information", "Salle selectionnee : "+m_room);
+		continuer = false;
+	    } else if(ok && lst.isEmpty()) {
+		QMessageBox::critical(this, "Erreur.", "Aucune salle disponible.");
+	    } else {
+		continuer = false;
+	    }
+	}
+	return ok;
+    }
 
-  scroll = new QScrollArea;
+    void Observer::create_window() {
+
+	window = new QWidget;
+	main_layout = new QVBoxLayout;
+	menu_layout = new QHBoxLayout;
+	grid_layout = new QGridLayout;
+	content     = new QWidget;
+
+	scroll = new QScrollArea;
  
-  create_title();
-  create_menu();
-  create_grid();
+	create_title();
+	create_menu();
+	create_grid();
 
-  message_window = new MessageWindow;
-  setting_proc_win = new SettingProcWindow(&m_lst_proc);
+	message_window = new MessageWindow;
+	setting_proc_win = new SettingProcWindow(&m_lst_proc);
 
-  create_connections();
+	create_connections();
 
-  window->setLayout(main_layout);
-  setCentralWidget(window);
+	window->setLayout(main_layout);
+	setCentralWidget(window);
 
-  setMinimumSize(1320, 800);
-  setWindowIcon(QIcon("iconSPY.png"));
-  setWindowTitle("Observer");
+	setMinimumSize(1320, 800);
+	setWindowIcon(QIcon("iconSPY.png"));
+	setWindowTitle("Observer");
 
-}
-
-void Observer::create_title() {
-  title = new QLabel("<h1 align=\"center\">Observation de la salle " + m_room + "</h1>");
-  main_layout->addWidget(title);
-}
-
-void Observer::create_menu() {
-  button_sendMsg = new QPushButton("Envoyer un message a tous");
-  button_settingProc = new QPushButton("Gerer processus a surveiller");
-  button_changeRoom = new QPushButton("Changer de salle");
-  button_changeRoom->setEnabled(false);
-  button_quit = new QPushButton("Quitter");
-
-  menu_layout->addWidget(button_sendMsg);
-  menu_layout->addWidget(button_changeRoom);
-  menu_layout->addWidget(button_settingProc);
-  menu_layout->addWidget(button_quit);
-  main_layout->addLayout(menu_layout);
-}
-
-void Observer::create_grid() {
-  /*
-    insertions de test
-  */
-  /*for(int i = 0; i < 30; i++) {
-    if(i%2==0) {
-      vec_stations.push_back(new Miniature("img.bmp", "info21", "Cadorel"));
-    } else {
-      vec_stations.push_back(new Miniature("img.bmp", "info21", "Gas"));
     }
-    }*/
-  /* Fin test */
+
+    void Observer::create_title() {
+	title = new QLabel("<h1 align=\"center\">Observation de la salle " + m_room + "</h1>");
+	main_layout->addWidget(title);
+    }
+
+    void Observer::create_menu() {
+	button_sendMsg = new QPushButton("Envoyer un message a tous");
+	button_settingProc = new QPushButton("Gerer processus a surveiller");
+	button_changeRoom = new QPushButton("Changer de salle");
+	button_changeRoom->setEnabled(false);
+	button_quit = new QPushButton("Quitter");
+
+	menu_layout->addWidget(button_sendMsg);
+	menu_layout->addWidget(button_changeRoom);
+	menu_layout->addWidget(button_settingProc);
+	menu_layout->addWidget(button_quit);
+	main_layout->addLayout(menu_layout);
+    }
+
+    void Observer::create_grid() {
+	/*
+	  insertions de test
+	*/
+	/*for(int i = 0; i < 30; i++) {
+	  if(i%2==0) {
+	  vec_stations.push_back(new Miniature("img.bmp", "info21", "Cadorel"));
+	  } else {
+	  vec_stations.push_back(new Miniature("img.bmp", "info21", "Gas"));
+	  }
+	  }*/
+	/* Fin test */
   
-  for(it : map_spy) {
-    vec_stations.push_back(new Miniature("img.bmp", it.second->get_host(), it.first));
-  }
 
-  int x = 0, y = 0;
-  for(int i = 0; i < vec_stations.size(); i++) {
-    grid_layout->addWidget(vec_stations[i], x, y);
-    if(y == 2) {
-      x++;
-      y = 0;
-    } else {
-      y++;
+	int x = 0, y = 0;
+	for(int i = 0; i < vec_stations.size(); i++) {
+	    grid_layout->addWidget(vec_stations[i], x, y);
+	    if(y == 2) {
+		x++;
+		y = 0;
+	    } else {
+		y++;
+	    }
+	}
+
+	content->setLayout(grid_layout);
+	scroll->setWidget(content);
+	main_layout->addWidget(scroll);
     }
-  }
 
-  content->setLayout(grid_layout);
-  scroll->setWidget(content);
-  main_layout->addWidget(scroll);
-}
+    void Observer::create_connections() {
+	connect(button_sendMsg, SIGNAL(clicked()), message_window, SLOT(exec()));
+	connect(button_changeRoom, SIGNAL(clicked()), this, SLOT(change_room_slot()));
+	connect(button_settingProc, SIGNAL(clicked()), setting_proc_win, SLOT(exec()));
+	connect(button_quit, SIGNAL(clicked()), qApp, SLOT(quit()));
+    }
 
-void Observer::create_connections() {
-  connect(button_sendMsg, SIGNAL(clicked()), message_window, SLOT(exec()));
-  connect(button_changeRoom, SIGNAL(clicked()), this, SLOT(change_room_slot()));
-  connect(button_settingProc, SIGNAL(clicked()), setting_proc_win, SLOT(exec()));
-  connect(button_quit, SIGNAL(clicked()), qApp, SLOT(quit()));
-}
+    void Observer::change_room_slot() {
+	bool room_ok = ask_room();
 
-void Observer::change_room_slot() {
-  bool room_ok = ask_room();
-
-  if(room_ok) {
+	if(room_ok) {
   
-    /* Mise à jour de l'interface */
-    /* ERREUR
-    while(vec_posts.size() > 0) {
-      Miniature * tmp = vec_posts.front();
-      delete tmp;
-      vec_posts.pop_front();
-    }
+	    /* Mise à jour de l'interface */
+	    /* ERREUR
+	       while(vec_posts.size() > 0) {
+	       Miniature * tmp = vec_posts.front();
+	       delete tmp;
+	       vec_posts.pop_front();
+	       }
 
-    for(int i = 0; i < 6; i++) {
-      vec_posts.push_back(new Miniature("img2.bmp"));
-    }
+	       for(int i = 0; i < 6; i++) {
+	       vec_posts.push_back(new Miniature("img2.bmp"));
+	       }
 
-    int x = 0, y = 0;
-    for(int i = 0; i < vec_posts.size(); i++) {
-      grid_layout->addLayout(vec_posts[i], x, y);
-      if(y == 2) {
-	x++;
-	y = 0;
-      } else {
-	y++;
-      }
-      }*/
+	       int x = 0, y = 0;
+	       for(int i = 0; i < vec_posts.size(); i++) {
+	       grid_layout->addLayout(vec_posts[i], x, y);
+	       if(y == 2) {
+	       x++;
+	       y = 0;
+	       } else {
+	       y++;
+	       }
+	       }*/
 
     
-  } else{
-    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
-  }
-}
+	} else{
+	    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
+	}
+    }
 
-void Observer::init_data() {
-  m_lst_proc.push_back("Firefox");
-  m_lst_proc.push_back("Teeworld");
-}
+    void Observer::init_data() {
+	m_lst_proc.push_back("Firefox");
+	m_lst_proc.push_back("Teeworld");
+    }
 
-void Observer::create_network_connections() {
-  for(it : map_spy_info) {
-    map_spy[it.first] = new Client<Observer::session_on_observer>(it.second.first, it.second.second);
-    map_spy[it.first]->join();
-  }
-}
+    void Observer::create_network_connections() {
+	for(auto it : map_spy_info) {
+	    map_spy[it.first] = new Client<session_on_observer>(it.second.first, it.second.second);
+	    vec_stations.push_back(new Miniature("img.bmp", it.second.first.c_str(), it.first.c_str()));
+	    cout << "USER : " << it.first.c_str() << endl;
+	}
+    }
+};
