@@ -95,8 +95,8 @@ namespace Spy {
 
 
 
-void init_cont_session () {
-    Client_UDP<controller::spy_session> client ( "localhost", 8888, 8888 );
+void init_cont_session (int argc, char ** argv) {
+    Client_UDP<controller::spy_session> client ( argc, argv );
     char buffer[255];
     gethostname( buffer, 255 ); 
     client._session().set_ip(string(buffer));
@@ -111,7 +111,7 @@ void init_cont_session () {
 int main(int argc, char** argv) {
   Server <Spy::session_on_spy> serv(argc, argv);
   CURRENT_PORT = serv._port();
-  thread t( init_cont_session);
+  thread t( init_cont_session, argc, argv);
   serv.start();
   serv.join();
 }

@@ -4,7 +4,7 @@ using namespace std;
 
 namespace controller {
 
-    Sniffer::Sniffer ( string mast_ip, int mast_port, int read , int write, int salle) 	
+    Sniffer::Sniffer ( string mast_ip, int mast_port, int read , int write, int salle, int speed) 	
 	: snif_client ( "localhost" , read, write ) ,	
 	  link_master ( mast_ip, mast_port ),
 	  Thread < Sniffer > ( &Sniffer::loop_recv, this )  {
@@ -15,10 +15,12 @@ namespace controller {
 	m_write = write;
 	m_read = read;
 	m_salle = salle;
-	m_speed = 5000000;
+	cout << speed << endl;
+	m_speed = speed * 1000000;
 	m_stop = false;
 	snif_client._session().proto->unactive_annotation();
     }
+
 
     string Sniffer::load_hostname() {
 	system ( "hostname > rep" );
@@ -47,7 +49,6 @@ namespace controller {
     void Sniffer::loop_recv() {
 	stringstream ss;
 	while ( !m_stop ) {
-	    system ( "clear" ); 
 	    for ( int i = 1 ; i < 30 ; i++ ) {
 		ss.str("");
 		ss << "info" << m_salle << "-";
@@ -55,7 +56,7 @@ namespace controller {
 		    ss << "0";
 		} 
 		ss << i;
-		cout << ss.str() << endl;
+
 		snif_client._session().change_write_port( m_write, ss.str() );
 		snif_client._session().send();
 		if ( snif_client._session().received() ) {
@@ -70,6 +71,8 @@ namespace controller {
 	    usleep ( m_speed );
 	}
     }
+
+
 
 
     void Sniffer::launch() {
