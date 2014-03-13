@@ -28,7 +28,6 @@ protected:
     signal<void()> end;
     bool stop;
     Protocol * proto;
-
 };
 
 

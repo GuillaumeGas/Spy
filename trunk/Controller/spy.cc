@@ -7,7 +7,7 @@ using namespace std;
 namespace controller {
 
 
-    spy_session::spy_session ( int & write, int & read, string & ip ) 
+    spy_session::spy_session ( int  write, int read, string ip ) 
 	: Client_UDPSession( write, read, ip ) {
 	proto = new cont_proto( write, read, ip );
 	(*proto)["HERE?"].sig_recv.connect( boost::bind( &spy_session::do_HERE, this, _1));
@@ -43,12 +43,3 @@ namespace controller {
 
 };
 
-
-int main( int argc, char ** argv ) {
-    Client_UDP < controller::spy_session > client ( argc, argv );
-    client._session().set_port( 8888 );
-    client._session().set_ip( "info23-21" );
-    client._session().set_name( "norbert" );
-    client._session().start();
-    client.join();
-}

@@ -51,6 +51,12 @@ public:
     }
 
 
+    int & _port() {
+	return m_port;
+    }
+
+
+
     void finish() {
 	this->kill();
 	stoped();

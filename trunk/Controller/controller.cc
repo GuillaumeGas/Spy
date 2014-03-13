@@ -69,14 +69,73 @@ namespace controller {
 };
 
 
+void check(string & ip, int &port1, int &port2, int &port3, int & salle, int & speed) {
+    if ( ip == "" ){
+	ip = "localhost";
+    } 
+    if ( port1 == -1 ) {
+	port1 = 9999;
+    }
+    if ( port2 == -1 ) {
+	port2 = 9999;
+    }
+    if ( port3 == -1 ) {
+	port3 = 9999;
+    }
+    if (salle == -1 ) {
+	salle = 27;
+    }
+    if (speed == -1 ){
+	speed = 5;
+    }
+}
+
+
+
+
+void load_file_args ( string & ip, int &mast_port, int &this_port, int &write_port , int & salle, int & speed, string file_name) {
+    ifstream file (file_name.c_str() );
+    string aux;
+    while ( !file.eof() ) {
+	file >> aux;
+	if ( aux == "mast_ip=" ) {
+	    file >> ip;
+	} else if ( aux == "mast_port=" ) {
+	    file >> mast_port;
+	} else if ( aux == "this_port=") {
+	    file >> this_port;
+	} else if ( aux == "write_port=") {
+	    file >> write_port;
+	} else if ( aux =="salle=" ) {
+	    file >> salle;
+	}else if ( aux == "speed=" ){
+	    file >> speed;
+	}
+    }
+    check( ip, mast_port, this_port, write_port, salle, speed);
+    
+}
+
+
+
+string get_file_name(int argc, char ** argv) {
+    for (int i = 0 ; i < argc - 1 ; i++) {
+	if ( strcmp ( argv[i], "-f" ) == 0) {
+	    return argv[i+1];
+	}
+    }
+    return "../def.conf";
+}
 
 
 
 int main(int argc, char ** argv) {
-    int salle;
-    cout << "Salle :";
-    cin >> salle;
-    controller::Sniffer s ( "localhost", 4444, 9999, 8888, salle );
+    string ip = "";
+    int mast_port, this_port, write_port, salle, speed;
+    mast_port = this_port = write_port = salle = speed = -1;
+    load_file_args ( ip, mast_port, this_port, write_port, salle, speed, get_file_name ( argc, argv) );
+    
+    controller::Sniffer s ( ip, mast_port, this_port, write_port, salle, speed );
     s.launch();
     s.join();
 }

@@ -14,7 +14,7 @@ namespace controller {
 
     public:
 
-	Sniffer ( std::string mast_ip, int mast_port, int read , int write , int salle );
+	Sniffer ( std::string mast_ip, int mast_port, int read , int write , int salle, int speed );
 	void launch();
 	void stop();
 	void set_speed(int );
@@ -25,6 +25,7 @@ namespace controller {
 	std::string load_hostname();
 	void send_to_master();
 	void loop_recv( );
+
     
 	Client_UDP < controller_session > snif_client;
 	Client < master::master_cont > link_master;
