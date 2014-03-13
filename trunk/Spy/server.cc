@@ -22,12 +22,12 @@ namespace Spy {
     public:
 	session_on_spy(int socket) : Serv_session(socket) {
 	  
-	    proto = new proto_observer(socket);
-	    (*proto)["info"].sig_recv.connect(boost::bind(&session_on_spy::do_info, this, _1));
-	    (*proto)["warning"].sig_recv.connect(boost::bind(&session_on_spy::do_warning, this, _1));
-	    (*proto)["get_list_proc"].sig_recv.connect(boost::bind(&session_on_spy::do_get_list_proc, this, _1));
-	    (*proto)["get_screenshot"].sig_recv.connect(boost::bind(&session_on_spy::do_get_screenshot, this, _1));
-	    (*proto)["send_cmd"].sig_recv.connect(boost::bind(&session_on_spy::do_send_cmd, this, _1));
+	    proto = new observer::proto_observer(socket);
+	    (*proto)["INFO"].sig_recv.connect(boost::bind(&session_on_spy::do_info, this, _1));
+	    (*proto)["WARNING"].sig_recv.connect(boost::bind(&session_on_spy::do_warning, this, _1));
+	    (*proto)["GET_LIST_PROC"].sig_recv.connect(boost::bind(&session_on_spy::do_get_list_proc, this, _1));
+	    (*proto)["GET_SCREENSHOT"].sig_recv.connect(boost::bind(&session_on_spy::do_get_screenshot, this, _1));
+	    (*proto)["SEND_CMD"].sig_recv.connect(boost::bind(&session_on_spy::do_send_cmd, this, _1));
 	}
 
 

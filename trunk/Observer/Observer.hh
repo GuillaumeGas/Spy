@@ -18,6 +18,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QVector>
+#include <QMap>
 #include <QScrollArea>
 #include <QDesktopWidget>
 
@@ -63,7 +64,7 @@ namespace observer {
 	QPushButton * button_settingProc;
 	QPushButton * button_quit;
   
-	QVector<Miniature*> vec_stations;
+	QMap<QString, Miniature*> map_stations;
 	/* Fin éléments d'affichage */
 
 	void create_window();
@@ -73,6 +74,9 @@ namespace observer {
 	void create_connections(); //connect les boutons...
 	void init_data();
 	void create_network_connections(); //connexion à chaque spy
+
+	void update_screenshots();
+	void update_img_screenshot(std::string, std::string);
 
 	Client<master::master_obse> cli_master;
 	std::map<std::string, Client<session_on_observer>* > map_spy;

@@ -38,7 +38,7 @@ int main() {
   MsgBox::warning("C'est pas bien du tout");*/
 
   ScreenShot sc;
-  sc.save("img1.bmp");
+  sc.save("img1.bmp", 0.5);
   sc.save("img2.bmp", 0.3);
 
   /*Cmd::exec("ls");

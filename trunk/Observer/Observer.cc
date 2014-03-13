@@ -94,19 +94,18 @@ namespace observer {
 	/*
 	  insertions de test
 	*/
-	/*for(int i = 0; i < 30; i++) {
-	  if(i%2==0) {
-	  vec_stations.push_back(new Miniature("img.bmp", "info21", "Cadorel"));
-	  } else {
-	  vec_stations.push_back(new Miniature("img.bmp", "info21", "Gas"));
-	  }
-	  }*/
+	//map_stations["gas"] = new Miniature("img.bmp", "info28", "gas");
 	/* Fin test */
   
 
 	int x = 0, y = 0;
-	for(int i = 0; i < vec_stations.size(); i++) {
-	    grid_layout->addWidget(vec_stations[i], x, y);
+	QMapIterator<QString, Miniature*> i(map_stations);
+	while (i.hasNext()) {
+	    i.next();
+	    cout << "test1" << endl;
+	    cout << i.key().toStdString() << endl;
+	    grid_layout->addWidget(i.value(), x, y);
+	    cout << "test2" << endl;
 	    if(y == 2) {
 		x++;
 		y = 0;
@@ -169,8 +168,27 @@ namespace observer {
     void Observer::create_network_connections() {
 	for(auto it : map_spy_info) {
 	    map_spy[it.first] = new Client<session_on_observer>(it.second.first, it.second.second);
-	    vec_stations.push_back(new Miniature("img.bmp", it.second.first.c_str(), it.first.c_str()));
-	    cout << "USER : " << it.first.c_str() << endl;
+	    map_spy[it.first]->_session().set_name(it.first);
+	    map_spy[it.first]->_session().img_recv.connect(boost::bind(&Observer::update_img_screenshot, this, _1, _2));
+	    map_stations[QString(it.first.c_str())] = new Miniature("img.bmp", it.second.first.c_str(), it.first.c_str());
+	    
+	}
+	cout << "fun create network" << endl;
+    }
+
+
+
+    void Observer::update_screenshots() {
+	for(auto it : map_spy) {
+	    it.second->_session().proto->operator[]("GET_SCREENSHOT");
 	}
     }
+
+    void Observer::update_img_screenshot(string name, string img) {
+	auto it = map_stations.find(QString(name.c_str()));
+	if(it != map_stations.end()) {
+	    it.value()->set_img(QString(img.c_str()));
+	}
+    }
+
 };

@@ -3,22 +3,24 @@
 
 #include "../Net.hh"
 
-class proto_observer : public Protocol {
-public:
-  proto_observer(int socket) : Protocol(socket) {
-    message["info"]          = new Message("info", "1s1a", this);
-    message["warning"]       = new Message("warning", "1s1a", this);
-    message["get_list_proc"] = new Message("get_list_proc", "1s", this); //demande la liste de processu actifs
-    message["list_proc"]     = new Message("list_proc", "1s1a", this); //réponse : liste processus actifs
-   
-    /* a debug */
-    message["get_screenshot"]= new Message("get_screenshot", "1s1s", this); //demande un screenshot (param : zoom)
-    // Img_message["screenshot"]    = new Message("screenshot", "1s1a", this); //réponse : screenshot
-    /* */
-
-    message["send_cmd"] = new Message("send_cmd", "1s1a", this);
-    message["res_cmd"]  = new Message("res_cmd", "1s1a", this);
-  }
+namespace observer {
+    class proto_observer : public Protocol {
+    public:
+	proto_observer(int socket) : Protocol(socket) {
+	    message["INFO"]          = new Message("INFO", "1s1a", this);
+	    message["WARNING"]       = new Message("WARNING", "1s1a", this);
+	    message["GET_LIST_PROC"] = new Message("GET_LIST_PROC", "1s", this); //demande la liste de processu actifs
+	    message["LIST_PROC"]     = new Message("LIST_PROC", "1s1a", this); //réponse : liste processus actifs
+	    /* a debug */
+	    message["GET_SCREENSHOT"]= new Message("GET_SCREENSHOT", "1s1s", this); //demande un screenshot (param : zoom)
+	    imessage["SCREENSHOT"]    = new Img_Message("SCREENSHOT", this); //réponse : screenshot
+	    /* */
+	    message["SEND_CMD"] = new Message("SEND_CMD", "1s1a", this);
+	    message["RES_CMD"]  = new Message("RES_CMD", "1s1a", this);
+    
+    
+	}
+    };
 };
 
 #endif

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Miniature.hh"
 
 Miniature::Miniature(const char * file) {
@@ -57,4 +58,8 @@ void Miniature::set_hover_style(QString style) {
 
 void Miniature::set_style(QString style) {
   setStyleSheet("QWidget{"+style+"}");
+}
+
+void Miniature::set_img(QString file) {
+    std::cout << "file : " << file.toStdString() << std::endl;
 }

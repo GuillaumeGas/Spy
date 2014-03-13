@@ -1,73 +1,62 @@
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <map>
-
-#include "proto.hh"
-#include "../Net.hh"
-#include "../Spy/ScreenShot.hh"
-#include "../Spy/Cmd.hh"
+#include "client.hh"
 
 using namespace std;
 
-namespace Observer {
-  class session_on_observer : public Client_session {
-  public:
-    session_on_observer(int socket) : Client_session(socket) {
-      proto = new proto_observer(socket);
-      (*proto)["info"].sig_recv.connect(boost::bind(&session_on_observer::info, this, _1));
-      (*proto)["list_proc"].sig_recv.connect(boost::bind(&session_on_observer::do_list_proc, this, _1));
-      (*proto)["res_cmd"].sig_recv.connect(boost::bind(&session_on_observer::do_res_cmd, this, _1));
-      (*proto)("screenshot").sig_recv.connect(boost::bind(&session_on_observer::do_screenshot, this, _1, _2, _3));
+namespace observer {
+    session_on_observer::session_on_observer(int socket) : Client_session(socket) {
+	proto = new observer::proto_observer(socket);
+	(*proto)["INFO"].sig_recv.connect(boost::bind(&session_on_observer::info, this, _1));
+	(*proto)["LIST_PROC"].sig_recv.connect(boost::bind(&session_on_observer::do_list_proc, this, _1));
+	(*proto)["RES_CMD"].sig_recv.connect(boost::bind(&session_on_observer::do_res_cmd, this, _1));
+	(*proto)("SCREENSHOT").sig_recv.connect(boost::bind(&session_on_observer::do_screenshot, this, _1, _2, _3));
 
-      //(*proto)["info"]("Le message //end//");
-      //(*proto)["warning"]("err !! //end//");
-      //(*proto)["get_list_proc"]("");
-      (*proto)["get_screenshot"]("0.5");
-      //(*proto)["send_cmd"]("ls //end//");
+	//(*proto)["info"]("Le message //end//");
+	//(*proto)["warning"]("err !! //end//");
+	//(*proto)["get_list_proc"]("");
+	//(*proto)["get_screenshot"]("0.5");
+	//(*proto)["send_cmd"]("ls //end//");
     }
 
-    void info(string msg) {
-      cout << "msg : " << msg << endl;
+    void session_on_observer::info(string msg) {
+	cout << "msg : " << msg << endl;
     }
 
-    void do_list_proc(string data) {
-      cout << "reception processus actifs" << endl;
-      int size;
-      stringstream ss(data);
+    void session_on_observer::do_list_proc(string data) {
+	cout << "reception processus actifs" << endl;
+	int size;
+	stringstream ss(data);
       
-      map<int, string> list;
-      while(!ss.eof()) {
-	int pid;
-	string tmp;
-	ss >> pid;
-	ss >> tmp;
-	list[pid] = tmp;
+	map<int, string> list;
+	while(!ss.eof()) {
+	    int pid;
+	    string tmp;
+	    ss >> pid;
+	    ss >> tmp;
+	    list[pid] = tmp;
 	
-	cout << pid << " " << list[pid] << endl;
-      }
+	    cout << pid << " " << list[pid] << endl;
+	}
     }
 
-    void do_screenshot(string data, int w, int h) {
-      cout << "Telechargement..." << endl;
+    void session_on_observer::do_screenshot(string data, int w, int h) {
+	cout << "Telechargement..." << endl;
 
-      data = data.substr( 1 , data.length()-1 );
-      stringstream ss(data);
+	data = data.substr( 1 , data.length()-1 );
+	stringstream ss(data);
 
-      ScreenShot::build_bmp_fromStringstream("test.bmp", ss, w, h);
-      cout << "Image telechargee !!" << endl;
+	string file_name = m_name;
+	file_name += ".bmp";
+	ScreenShot::build_bmp_fromStringstream(file_name.c_str(), ss, w, h);
+	cout << "Image telechargee !!" << endl;
 
-      (*proto)["get_screenshot"]("0.5");
+	img_recv(m_name, file_name.c_str());
     }
     
-    void do_res_cmd(string data) {
-      cout << data << endl;
+    void session_on_observer::do_res_cmd(string data) {
+	cout << data << endl;
     }
 
-  };
+    void session_on_observer::set_name(string name) {
+	m_name = name;
+    }
 };
-
-int main(int argc, char** argv) {
-  Client <Observer::session_on_observer> client(argc, argv);
-  client.join();
-}

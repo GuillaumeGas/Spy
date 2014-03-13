@@ -25,6 +25,8 @@ public:
    */
   void set_hover_style(QString style);
 
+    void set_img(QString file);
+
 private:
 
   void mouseReleaseEvent(QMouseEvent * e);

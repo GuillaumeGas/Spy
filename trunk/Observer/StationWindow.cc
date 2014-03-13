@@ -35,7 +35,7 @@ StationWindow::StationWindow(QString _station, QString _user) {
   setLayout(main_layout);
   setWindowIcon(QIcon("iconSPY.png"));
 
-  message_window  = new MessageWindow(m_station, m_user);
+  message_window  = new MessageWindow;
   lst_proc_window = new ListProcWindow(m_station); 
   cmd_window      = new CmdWindow(m_station);
 
