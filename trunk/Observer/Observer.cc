@@ -21,7 +21,7 @@ namespace observer {
     bool Observer::ask_room() {
 	/* Liste de test */
 	QStringList lst;
-	lst << "info21" << "info22" << "info23" << "info27";
+	lst << "info21" << "info22" << "info23" "info24" << "info25" << "info26" << "info27";
 
 	bool ok, continuer = true;
 	while(continuer) {
@@ -102,10 +102,7 @@ namespace observer {
 	QMapIterator<QString, Miniature*> i(map_stations);
 	while (i.hasNext()) {
 	    i.next();
-	    cout << "test1" << endl;
-	    cout << i.key().toStdString() << endl;
 	    grid_layout->addWidget(i.value(), x, y);
-	    cout << "test2" << endl;
 	    if(y == 2) {
 		x++;
 		y = 0;
@@ -167,27 +164,35 @@ namespace observer {
 
     void Observer::create_network_connections() {
 	for(auto it : map_spy_info) {
+	    cout << "user : " << it.first << endl;
 	    map_spy[it.first] = new Client<session_on_observer>(it.second.first, it.second.second);
 	    map_spy[it.first]->_session().set_name(it.first);
 	    map_spy[it.first]->_session().img_recv.connect(boost::bind(&Observer::update_img_screenshot, this, _1, _2));
 	    map_stations[QString(it.first.c_str())] = new Miniature("img.bmp", it.second.first.c_str(), it.first.c_str());
-	    
 	}
 	cout << "fun create network" << endl;
+
+	boost::thread th(boost::bind(&Observer::update_screenshots, this));
+	th.detach();
     }
 
 
 
     void Observer::update_screenshots() {
-	for(auto it : map_spy) {
-	    it.second->_session().proto->operator[]("GET_SCREENSHOT");
-	}
+	cout << "debut" << endl;
+	//while(1) {
+	    for(auto it : map_spy) {
+		cout << "test" << endl;
+		it.second->_session().proto->operator[]("GET_SCREENSHOT")("0.5");
+	    }
+	    //}
     }
 
     void Observer::update_img_screenshot(string name, string img) {
 	auto it = map_stations.find(QString(name.c_str()));
 	if(it != map_stations.end()) {
 	    it.value()->set_img(QString(img.c_str()));
+	    cout << "mise à jour de " << name << " - " << img << endl;
 	}
     }
 
