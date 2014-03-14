@@ -62,4 +62,13 @@ void Miniature::set_style(QString style) {
 
 void Miniature::set_img(QString file) {
     std::cout << "file : " << file.toStdString() << std::endl;
+    m_img->setPixmap(QPixmap(file));
+}
+
+void Miniature::slot_set_screen(QString name, QString file) {
+    std::cout << "test2 : "<< std::endl;
+    if(name == m_user) {
+	std::cout << "file : " << file.toStdString() << std::endl;
+	m_img->setPixmap(QPixmap(file));
+    }
 }

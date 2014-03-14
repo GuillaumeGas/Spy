@@ -10,6 +10,8 @@
 
 class Miniature : public QWidget {
 
+    Q_OBJECT
+
 public:
   Miniature(const char * file); //constructeur de test
   Miniature(const char * file, const char * post, const char * user);
@@ -26,6 +28,9 @@ public:
   void set_hover_style(QString style);
 
     void set_img(QString file);
+
+public slots:
+    void slot_set_screen(QString, QString);
 
 private:
 

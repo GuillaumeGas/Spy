@@ -42,6 +42,9 @@ namespace observer {
     private slots:
 	void change_room_slot();
 
+    signals:
+	void sig_set_screen(QString, QString);
+
     private:
 	QString m_room;
 	QVector<QString> m_lst_proc; //list proc a surveiller
