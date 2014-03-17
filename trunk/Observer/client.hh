@@ -22,6 +22,11 @@ namespace observer {
 	void do_big_screenshot(std::string data, int w, int h);
 	void do_res_cmd(std::string data);
 
+	void do_test(std::string s);
+	void do_ok(std::string s);
+	void do_err(std::string s);
+
+
 	void set_name(std::string);
 
 	signal<void(std::string, std::string)> img_recv;
@@ -29,9 +34,9 @@ namespace observer {
 
     private:
 	std::string m_name;
-
+	int N, e;
 	Mutex mutex;
-
+	int m_d;
     };
 };
 

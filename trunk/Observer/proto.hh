@@ -3,6 +3,11 @@
 
 #include "../Net.hh"
 
+
+
+
+
+
 namespace observer {
     class proto_observer : public Protocol {
     public:
@@ -20,6 +25,11 @@ namespace observer {
 	    message["SEND_CMD"] = new Message("SEND_CMD", "1s1a", this);
 	    message["RES_CMD"]  = new Message("RES_CMD", "1s1a", this);
     
+	    message["TEST"] = new Message("TEST", "1s1s", this);
+	    message["RETOUR"] = new Message("RETOUR", "1s1s", this);
+	    message["OK"] = new Message("OK", "1s", this);
+	    message["ERR"] = new Message("ERR", "1s", this);
+	    
     
 	}
     };
