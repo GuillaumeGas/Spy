@@ -9,6 +9,7 @@ namespace observer {
 	(*proto)["LIST_PROC"].sig_recv.connect(boost::bind(&session_on_observer::do_list_proc, this, _1));
 	(*proto)["RES_CMD"].sig_recv.connect(boost::bind(&session_on_observer::do_res_cmd, this, _1));
 	(*proto)("SCREENSHOT").sig_recv.connect(boost::bind(&session_on_observer::do_screenshot, this, _1, _2, _3));
+	(*proto)("BIG_SCREENSHOT").sig_recv.connect(boost::bind(&session_on_observer::do_big_screenshot, this, _1, _2, _3));
 
 	//(*proto)["info"]("Le message //end//");
 	//(*proto)["warning"]("err !! //end//");
@@ -46,10 +47,32 @@ namespace observer {
 
 	string file_name = m_name;
 	file_name += ".bmp";
+	
+	mutex.lock();
 	ScreenShot::build_bmp_fromStringstream(file_name.c_str(), ss, w, h);
+	mutex.unlock();
+
 	cout << "Image telechargee !!" << endl;
 
 	img_recv(m_name, file_name.c_str());
+    }
+
+    void session_on_observer::do_big_screenshot(string data, int w, int h) {
+	cout << "Telechargement bigImg..." << endl;
+
+	data = data.substr( 1 , data.length()-1 );
+	stringstream ss(data);
+
+	string file_name = m_name;
+	file_name += "_big.bmp";
+	
+	mutex.lock();
+	ScreenShot::build_bmp_fromStringstream(file_name.c_str(), ss, w, h);
+	mutex.unlock();
+
+	cout << "Image telechargee !!" << endl;
+
+	big_img_recv(file_name.c_str());
     }
     
     void session_on_observer::do_res_cmd(string data) {

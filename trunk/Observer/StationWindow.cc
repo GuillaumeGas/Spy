@@ -6,9 +6,13 @@ using namespace std;
 namespace observer {
     StationWindow::StationWindow(QString _station, QString _user, Client<session_on_observer>* client) {
 
+	//	open = true;
+	
+
 	m_station = _station;
 	m_user    = _user;
 	m_client  = client;
+	m_client->_session().proto->operator[]("GET_BIG_SCREENSHOT")("0.5");
 
 	main_layout = new QVBoxLayout;
 	buttons_layout = new QHBoxLayout;
@@ -48,30 +52,42 @@ namespace observer {
 	connect(button_checkProc, SIGNAL(clicked()), lst_proc_window, SLOT(exec()));
 	connect(button_cmd, SIGNAL(clicked()), cmd_window, SLOT(exec()));
 	connect(button_close, SIGNAL(clicked()), this, SLOT(accept()));
-	connect(this, SIGNAL(sig_set_screen(QString)), this, SLOT(slot_set_screen(QString)));
+	//connect(button_close, SIGNAL(clicked()), this, SLOT(slot_close()));
+	//connect(this, SIGNAL(sig_set_screen()), this, SLOT(slot_set_screen()));
 
-	m_client->_session().big_img_recv.connect(boost::bind(&StationWindow::update_img_screenshot, this, _1));
+	/*m_client->_session().big_img_recv.connect(boost::bind(&StationWindow::update_img_screenshot, this, _1));
 	boost::thread th(boost::bind(&StationWindow::update_screenshots, this));
-	th.detach();
+	th.detach();*/
+
+	img_label->setPixmap(QPixmap(m_user + "_big.bmp"));
+
   
     }
 
     StationWindow::~StationWindow() {
-	m_client->_session().big_img_recv.disconnect(&StationWindow::update_img_screenshot);
+	//m_client->_session().big_img_recv.disconnect(boost::bind(&StationWindow::update_img_screenshot, this));
     }
 
-    void StationWindow::update_screenshots() {
+    /*void StationWindow::update_screenshots() {
 	while(1) {
 	    sleep(1);
-	    m_client->_session().proto->operator[]("GET_SCREENSHOT")("0.5");
+	    m_client->_session().proto->operator[]("GET_BIG_SCREENSHOT")("0.5");
 	}
     }
 
     void StationWindow::update_img_screenshot(string file) {
-	emit sig_set_screen(QString(file.c_str()));
+	if(open) {
+	    m_file = QString(file.c_str());
+	    sig_set_screen();
+	}
     }
 
-    void StationWindow::slot_set_screen(QString file) {
-	img_label->setPixmap(QPixmap(file));
+    void StationWindow::slot_set_screen() {
+	img_label->setPixmap(QPixmap(m_file));
     }
+
+    void StationWindow::slot_close() {
+	open = false;
+	hide();
+	}*/
 };
