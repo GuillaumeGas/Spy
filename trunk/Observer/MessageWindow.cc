@@ -1,6 +1,8 @@
 #include "MessageWindow.hh"
 #include "client.hh"
 
+using namespace std;
+
 namespace observer {
     MessageWindow::MessageWindow(map<string, Client<session_on_observer>* > *map_spy) : m_map_spy(map_spy) {
 	main_layout = new QVBoxLayout;

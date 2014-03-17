@@ -18,6 +18,7 @@
 #include <QCheckBox>
 
 #include "../Net.hh"
+//#include "client.hh"
 
 namespace observer {
 
