@@ -6,6 +6,9 @@
  *Propose à l'utilisateur d'envoyer un message
 */
 
+#include <map>
+#include <string>
+
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -13,18 +16,32 @@
 #include <QTextEdit>
 #include <QLabel>
 
-class MessageWindow : public QDialog {
-public:
-  MessageWindow();
+#include "../Net.hh"
 
-private:
-  QVBoxLayout * main_layout;
-  QHBoxLayout * buttons_layout;
+namespace observer {
 
-  QLabel * title_label;
-  QTextEdit * text_area;
-  QPushButton * send_button;
-  QPushButton * close_button;
+    class session_on_observer;
+
+    class MessageWindow : public QDialog {
+
+	Q_OBJECT
+
+    public:
+	MessageWindow(std::map<std::string, Client<session_on_observer>* > *map_spy);
+
+    public slots:
+	void send_msg();
+
+    private:
+	QVBoxLayout * main_layout;
+	QHBoxLayout * buttons_layout;
+
+	QLabel * title_label;
+	QTextEdit * text_area;
+	QPushButton * send_button;
+	QPushButton * close_button;
+
+	std::map<std::string, Client<session_on_observer>* > *m_map_spy;
+    };
 };
-
 #endif

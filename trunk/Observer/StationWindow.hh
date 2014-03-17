@@ -18,29 +18,30 @@
 #include "ListProcWindow.hh"
 #include "CmdWindow.hh"
 
-class StationWindow : public QDialog {
+namespace observer {
+    class StationWindow : public QDialog {
 
-public:
-  StationWindow(QString _station, QString _user);
+    public:
+	StationWindow(QString _station, QString _user);
 
-private:
-  QVBoxLayout * main_layout;
-  QHBoxLayout * buttons_layout;
+    private:
+	QVBoxLayout * main_layout;
+	QHBoxLayout * buttons_layout;
 
-  QLabel * title_label;
-  QLabel * img_label;
-  QLabel * activity_label;
-  QPushButton * button_sendMsg;
-  QPushButton * button_checkProc;
-  QPushButton * button_cmd;
-  QPushButton * button_close;
+	QLabel * title_label;
+	QLabel * img_label;
+	QLabel * activity_label;
+	QPushButton * button_sendMsg;
+	QPushButton * button_checkProc;
+	QPushButton * button_cmd;
+	QPushButton * button_close;
 
-  MessageWindow * message_window;
-  ListProcWindow * lst_proc_window;
-  CmdWindow * cmd_window;
+	MessageWindow * message_window;
+	ListProcWindow * lst_proc_window;
+	CmdWindow * cmd_window;
 
-  QString m_station;
-  QString m_user;
+	QString m_station;
+	QString m_user;
+    };
 };
-
 #endif

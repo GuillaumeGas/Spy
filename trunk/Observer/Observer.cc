@@ -57,7 +57,7 @@ namespace observer {
 	create_menu();
 	create_grid();
 
-	message_window = new MessageWindow;
+	message_window = new MessageWindow(&map_spy);
 	setting_proc_win = new SettingProcWindow(&m_lst_proc);
 
 	create_connections();

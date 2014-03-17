@@ -8,42 +8,43 @@
 
 #include "StationWindow.hh"
 
-class Miniature : public QWidget {
+namespace observer {
+    class Miniature : public QWidget {
 
-    Q_OBJECT
+	Q_OBJECT
 
-public:
-  Miniature(const char * file); //constructeur de test
-  Miniature(const char * file, const char * post, const char * user);
+	public:
+	Miniature(const char * file); //constructeur de test
+	Miniature(const char * file, const char * post, const char * user);
 
-  /**
-   *  \brief Permet de modifier le style du widget courant
-   *  \param style est le style désiré
-   */
-  void set_style(QString style);
-    /**
-   *  \brief Permet de modifier le style lors du survol de la sourie du widget courant
-   *  \param style est le style désiré
-   */
-  void set_hover_style(QString style);
+	/**
+	 *  \brief Permet de modifier le style du widget courant
+	 *  \param style est le style désiré
+	 */
+	void set_style(QString style);
+	/**
+	 *  \brief Permet de modifier le style lors du survol de la sourie du widget courant
+	 *  \param style est le style désiré
+	 */
+	void set_hover_style(QString style);
 
-    void set_img(QString file);
+	void set_img(QString file);
 
-public slots:
-    void slot_set_screen(QString, QString);
+    public slots:
+	void slot_set_screen(QString, QString);
 
-private:
+    private:
 
-  void mouseReleaseEvent(QMouseEvent * e);
+	void mouseReleaseEvent(QMouseEvent * e);
 
-  QVBoxLayout * main_layout;
-  QLabel * m_img;
-  QLabel * m_station_label;
-  QLabel * m_user_label;
+	QVBoxLayout * main_layout;
+	QLabel * m_img;
+	QLabel * m_station_label;
+	QLabel * m_user_label;
 
-  QString m_station;
-  QString m_user;
+	QString m_station;
+	QString m_user;
 
+    };
 };
-
 #endif
