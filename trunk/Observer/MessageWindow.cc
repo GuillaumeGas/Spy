@@ -2,7 +2,7 @@
 #include "client.hh"
 
 namespace observer {
-    MessageWindow::MessageWindow(map<string, Client<session_on_observer>* > *map_spy) {
+    MessageWindow::MessageWindow(map<string, Client<session_on_observer>* > *map_spy) : m_map_spy(map_spy) {
 	main_layout = new QVBoxLayout;
 	buttons_layout = new QHBoxLayout;
 
@@ -28,5 +28,10 @@ namespace observer {
 
     void MessageWindow::send_msg() {
 	QString msg = text_area->toPlainText();
+	msg += " //end//";
+
+	for(auto it : *m_map_spy) {
+	    it.second->_session().proto->operator[]("INFO")(msg.toStdString());
+	}
     }
 };

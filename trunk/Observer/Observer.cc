@@ -168,7 +168,7 @@ namespace observer {
 	    map_spy[it.first] = new Client<session_on_observer>(it.second.first, it.second.second);
 	    map_spy[it.first]->_session().set_name(it.first);
 	    map_spy[it.first]->_session().img_recv.connect(boost::bind(&Observer::update_img_screenshot, this, _1, _2));
-	    map_stations[QString(it.first.c_str())] = new Miniature("img.bmp", it.second.first.c_str(), it.first.c_str());
+	    map_stations[QString(it.first.c_str())] = new Miniature("gas.bmp", it.second.first.c_str(), it.first.c_str());
 	    
 	    connect(this, SIGNAL(sig_set_screen(QString, QString)), map_stations[QString(it.first.c_str())], SLOT(slot_set_screen(QString, QString)));
 	}
@@ -183,9 +183,10 @@ namespace observer {
     void Observer::update_screenshots() {
 	cout << "debut" << endl;
 	while(1) {
+	    sleep(1);
 	    for(auto it : map_spy) {
 		cout << "test" << endl;
-		it.second->_session().proto->operator[]("GET_SCREENSHOT")("0.5");
+		it.second->_session().proto->operator[]("GET_SCREENSHOT")("0.3");
 	    }
 	}
     }
