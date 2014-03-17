@@ -14,27 +14,32 @@
 #include <QHeaderView>
 #include <QMessageBox>
 
+#include "../Net.hh"
+
 class SettingProcWindow : public QDialog {
 
-  Q_OBJECT
+    class session_on_observer;
 
-public:
-  SettingProcWindow(QVector<QString> * vec_proc);
+    Q_OBJECT
+
+    public:
+    SettingProcWindow(QVector<QString> * vec_proc, Client<session_on_observer>* map_spy);
 
 private slots:
-  void add_to_procTable();
+    void add_to_procTable();
 
 private:
-  QVector<QString> * m_vec_proc;
+    QVector<QString> * m_vec_proc;
+    Client<session_on_observer>* m_map_spy;
 
-  QVBoxLayout * main_layout;
-  QHBoxLayout * buttons_layout;
+    QVBoxLayout * main_layout;
+    QHBoxLayout * buttons_layout;
 
-  QLabel * title_label;
-  QTableWidget * proc_table;
-  QLineEdit * line_edit;
-  QPushButton * button_addProc;
-  QPushButton * button_close;
+    QLabel * title_label;
+    QTableWidget * proc_table;
+    QLineEdit * line_edit;
+    QPushButton * button_addProc;
+    QPushButton * button_close;
 
 };
 

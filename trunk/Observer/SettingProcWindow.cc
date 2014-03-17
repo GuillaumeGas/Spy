@@ -1,6 +1,7 @@
 #include "SettingProcWindow.hh"
+#include "client.hh"
 
-SettingProcWindow::SettingProcWindow(QVector<QString> * vec_proc) {
+SettingProcWindow::SettingProcWindow(QVector<QString> * vec_proc, Client<session_on_observer>* map_spy) : m_map_spy(map_spy) {
 
   m_vec_proc = vec_proc;
 
@@ -56,6 +57,12 @@ void SettingProcWindow::add_to_procTable() {
       proc_table->insertRow(count);
       proc_table->setItem(0, count, new QTableWidgetItem(content));
       m_vec_proc->push_back(content);
+
+      /* On envoie au spy le nouveau processus à surveiller */
+      for(auto it : *m_map_spy) {
+	  it.second->(*_session().proto)["ADD_PROC"](content.toStdString());
+      }
+
     } else {
       QMessageBox::critical(this, "Erreur", "Le processus se trouve deja dans la liste !");
     }
