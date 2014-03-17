@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Miniature.hh"
+#include "client.hh"
 
 namespace observer {
     Miniature::Miniature(const char * file) {
@@ -21,9 +22,10 @@ namespace observer {
 	setLayout(main_layout);
     }
 
-    Miniature::Miniature(const char * _file, const char * _station, const char * _user) {
+    Miniature::Miniature(const char * _file, const char * _station, const char * _user, Client<session_on_observer>* client) {
 	m_station = _station;
-	m_user = _user;
+	m_user    = _user;
+	m_client  = client;
 
 	main_layout = new QVBoxLayout;
 
@@ -49,7 +51,7 @@ namespace observer {
     }
 
     void Miniature::mouseReleaseEvent(QMouseEvent * e) {
-	StationWindow station_win(m_station, m_user);
+	StationWindow station_win(m_station, m_user, m_client);
 	station_win.exec();
     }
 

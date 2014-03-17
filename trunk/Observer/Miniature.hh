@@ -9,13 +9,16 @@
 #include "StationWindow.hh"
 
 namespace observer {
+
+    class session_on_observer;
+
     class Miniature : public QWidget {
 
 	Q_OBJECT
 
 	public:
 	Miniature(const char * file); //constructeur de test
-	Miniature(const char * file, const char * post, const char * user);
+	Miniature(const char * file, const char * post, const char * user, Client<session_on_observer> * client);
 
 	/**
 	 *  \brief Permet de modifier le style du widget courant
@@ -44,6 +47,7 @@ namespace observer {
 
 	QString m_station;
 	QString m_user;
+	Client<session_on_observer>* m_client;
 
     };
 };
