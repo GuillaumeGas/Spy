@@ -4,7 +4,7 @@
 using namespace std;
 
 namespace observer {
-    SettingProcWindow::SettingProcWindow(QVector<QString> * vec_proc, map<string, Client<session_on_observer>* >* map_spy) : m_map_spy(map_spy) {
+    SettingProcWindow::SettingProcWindow(QVector<QString> * vec_proc, map<string, Client<session_on_observer>* >& map_spy) : m_map_spy(map_spy) {
 
 	m_vec_proc = vec_proc;
 
@@ -62,7 +62,7 @@ namespace observer {
 		m_vec_proc->push_back(content);
 
 		/* On envoie au spy le nouveau processus à surveiller */
-		for(auto it : *m_map_spy) {
+		for(auto it : m_map_spy) {
 		    it.second->_session().proto->operator[]("INFO")(content.toStdString());
 		}
 

@@ -20,21 +20,22 @@
 #include "../Net.hh"
 
 namespace observer {
-    class SettingProcWindow : public QDialog {
 
-	class session_on_observer;
+    class session_on_observer;
+
+    class SettingProcWindow : public QDialog {
 
 	Q_OBJECT
 
 	public:
-	SettingProcWindow(QVector<QString> * vec_proc, std::map<std::string, Client<session_on_observer>* >* map_spy);
+	SettingProcWindow(QVector<QString> * vec_proc, std::map<std::string, Client<session_on_observer>* >& map_spy);
 
     private slots:
 	void add_to_procTable();
 
     private:
 	QVector<QString> * m_vec_proc;
-	std::map<std::string, Client<session_on_observer>* >* m_map_spy;
+	std::map<std::string, Client<session_on_observer>* > m_map_spy;
 
 	QVBoxLayout * main_layout;
 	QHBoxLayout * buttons_layout;
