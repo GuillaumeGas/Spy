@@ -9,6 +9,7 @@ using namespace std;
 
 Serv_session::Serv_session(int sock) : Thread<Serv_session>(&Serv_session::session, this) {
     stop = false;
+    auth = true;
 }
 
 
@@ -47,4 +48,9 @@ void Serv_session::session() {
 
 Serv_session::~Serv_session() {
     //quit(sock); pour plus tard
+}
+
+
+void Serv_session::finish() {
+    stop = true;
 }

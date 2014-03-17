@@ -22,10 +22,13 @@ public:
   
     int get_sock()const;
     bool IsStopped()const;
+    
+    void finish();
 
     void set_stop();
 
     Protocol * proto;
+    bool auth;
 
 protected:
     signal<void()> begin;
