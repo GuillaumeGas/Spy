@@ -40,9 +40,12 @@ namespace Spy {
 	
 	void on_begin() {
 	    m_content = rand()%20000;
+	    cout << m_content << endl;;
 	    unsigned long value  = expMod ( m_content, e, N );
+	    cout << expMod ( value, d, N) << endl;
 	    stringstream ss;
 	    ss << value;
+	    cout << value << endl;
 	    (*proto)["TEST"](ss.str());
 	}
 

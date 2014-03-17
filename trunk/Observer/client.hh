@@ -34,9 +34,9 @@ namespace observer {
 
     private:
 	std::string m_name;
-	int N, e;
+	unsigned long N, e;
 	Mutex mutex;
-	int m_d;
+	unsigned long m_d;
     };
 };
 

@@ -4,24 +4,24 @@
 #include "../Net.hh"
 
 
-int N = 75044909;
-int e = 5342377;
+
+unsigned long N = 3041567;
+unsigned long e = 2656193;
+unsigned long d = 2660897;
 
 
-unsigned long expMod ( unsigned long value, unsigned long exp, int mod ) {
-    if ( exp == 0 ) {
-	return 1;
-    } else {
-	int q = exp/2;
-	int r = exp%2;
-	unsigned long a2 = expMod(value, q, mod )%mod;
-	if ( r == 1 ) {
-	    return (a2 * a2) %mod  * value % mod;
-	} else {
-	    return (a2 * a2) % mod;
-	}
-    }
+
+
+
+long long int expMod(long long int n, long long int p,long long  int m) {
+   if (p == 0) return 1;
+   int nm = n % m;
+   long long int r = expMod(nm, p / 2, m);
+   r = (r * r) % m;
+   if (p % 2 == 0) return r;
+   return (r * nm) % m;
 }
+
 
 
 namespace observer {

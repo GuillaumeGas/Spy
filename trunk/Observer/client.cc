@@ -3,30 +3,27 @@
 using namespace std;
 
 
-
-unsigned long expMod ( unsigned long value, unsigned long exp, int mod ) {
-    if ( exp == 0 ) {
-	return 1;
-    } else {
-	int q = exp/2;
-	int r = exp%2;
-	unsigned long a2 = expMod(value, q, mod )%mod;
-	if ( r == 1 ) {
-	    return (a2 * a2) %mod  * value % mod;
-	} else {
-	    return (a2 * a2) % mod;
-	}
-    }
+long long int expMod(long long int n, long long int p,long long  int m) {
+   if (p == 0) return 1;
+   int nm = n % m;
+   long long int r = expMod(nm, p / 2, m);
+   r = (r * r) % m;
+   if (p % 2 == 0) return r;
+   return (r * nm) % m;
 }
+
 
 
 
 namespace observer {
     session_on_observer::session_on_observer(int socket) : Client_session(socket) {
 
-	N = 75044909;
-	e = 5342377;
-	m_d = 74633221;
+
+	N = 3041567;
+	e = 2656193;
+	m_d = 2660897;
+
+
 	proto = new observer::proto_observer(socket);
 	(*proto)["INFO"].sig_recv.connect(boost::bind(&session_on_observer::info, this, _1));
 	(*proto)["LIST_PROC"].sig_recv.connect(boost::bind(&session_on_observer::do_list_proc, this, _1));
@@ -54,10 +51,10 @@ namespace observer {
 	unsigned long content;
 	ss >> content;
 	cout << content << endl;
-	content = expMod( content, m_d, N);
-	cout << content << endl;
+	unsigned long a  = expMod( content, m_d, N);
+	cout << a << endl;
 	stringstream ss2;
-	ss2 << content;
+	ss2 << a;
 	(*proto)["RETOUR"](ss2.str());
     }
 
