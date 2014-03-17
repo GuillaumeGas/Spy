@@ -15,6 +15,7 @@
 #include <QPushButton>
 #include <QTextEdit>
 #include <QLabel>
+#include <QCheckBox>
 
 #include "../Net.hh"
 
@@ -31,13 +32,19 @@ namespace observer {
 
     public slots:
 	void send_msg();
+	//void set_checkbox();
 
     private:
 	QVBoxLayout * main_layout;
+	QHBoxLayout * check_layout;
 	QHBoxLayout * buttons_layout;
 
 	QLabel * title_label;
 	QTextEdit * text_area;
+	QLabel * check_info_label;
+	QCheckBox * check_info;
+	QLabel * check_warning_label;
+	QCheckBox * check_warning;
 	QPushButton * send_button;
 	QPushButton * close_button;
 
