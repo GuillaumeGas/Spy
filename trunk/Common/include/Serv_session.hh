@@ -21,13 +21,20 @@ public:
     void loop_recv();
     void session();
 
+    void finish();
+    bool auth;
     ~Serv_session();
 
+
+    Protocol * proto;
+
 protected:
+    
     signal<void()> begin;
     signal<void()> end;
     bool stop;
-    Protocol * proto;
+
+
 };
 
 

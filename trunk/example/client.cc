@@ -10,17 +10,31 @@ public:
     
     session_on_client(int socket) : Client_session(socket) {
 	proto = new proto1(socket);
-	proto->message["salut"]->sig_recv.connect(boost::bind(&session_on_client::salut, this, _1));
-	proto->message["ERR"]->sig_recv.connect(boost::bind(&session_on_client::do_err, this, _1));
-	proto->message["salut"]->operator()("1 2 3");
-	(*proto)("IMG1").sig_recv.connect ( boost::bind ( & session_on_client::do_img, this, _1 , _2 , _3 ));
+	(*proto)["OK"].sig_recv.connect ( boost::bind ( &session_on_client::do_ok, this, _1));
+	(*proto)["ERR"].sig_recv.connect ( boost::bind ( &session_on_client::do_err, this, _1));
+	(*proto)["TEST"].sig_recv.connect ( boost::bind ( &session_on_client::do_test, this, _1));
     }
 
 
     void do_err(string msg) {
-	cout << "[SYS] -> ERR :! " << msg << endl;
+	cout << "[SYS] -> ERR :! " << endl;
     }
-
+    
+    void do_ok(string msg ){
+	cout << "[SYS] -> OK :! " << endl;
+	(*proto)["salut"]("");
+    }
+    
+    void do_test ( string msg ) {
+	int content;
+	stringstream ss(msg);
+	ss >> content;
+	content = expMod ( content, e, N);
+	stringstream ss2;
+	ss2 << content;
+	(*proto)["RETOUR"](ss2.str());
+    }
+    
     void salut(string msg) {
 	stringstream ss(msg);
 	int value;
@@ -37,6 +51,8 @@ public:
     void do_img ( string img, int h, int l ) {
 	cout << "image de " << h << " * " << l << "contenant " << img << endl; 
     }
+
+
 
 };
 

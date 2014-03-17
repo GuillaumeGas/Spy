@@ -11,7 +11,6 @@ Protocol::Protocol(int sock): my_stream(sock) {
 }
 
 void Protocol::send_msg(Message &m, string content) {
-
     stringstream ss(content);
     string format = m.get_format();
     my_stream << format.c_str() << m.get_name().c_str();
@@ -55,6 +54,8 @@ void Protocol::send_msg(Message &m, string content) {
     if ( !my_stream.send() ) {
 	a.show ( Annotation::ERROR, " Message mal forme " );
 	my_stream.clean();
+    } else {
+	a.show ( Annotation::INFO, "Message envoye" );
     }
 }
 
@@ -68,7 +69,6 @@ string Protocol::wait(Message &m) {
 		    string msg;
 		    my_stream >> msg;
 		    while ( msg != "//end//" ) {
-			cout << msg << endl;
 			total << msg << " ";
 			my_stream >> msg;
 		    }

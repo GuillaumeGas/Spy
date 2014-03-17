@@ -7,6 +7,7 @@ using namespace std;
 Client_session::Client_session(int _sock) : Thread<Client_session>(&Client_session::loop_recv, this) {
   m_sock = _sock;
   m_stop = false;
+  auth = false;
 }
 
 void Client_session::loop_recv() {
@@ -46,3 +47,6 @@ void Client_session::set_stop() {
   m_stop = !m_stop;
 }
 
+void Client_session::finish() {
+    m_stop = true;
+}
