@@ -4,13 +4,27 @@
 using namespace std;
 
 namespace observer {
-    MessageWindow::MessageWindow(map<string, Client<session_on_observer>* > *map_spy) : m_map_spy(map_spy) {
+    MessageWindow::MessageWindow(QString room, map<string, Client<session_on_observer>* > *map_spy) : m_room(room), m_map_spy(map_spy) {
+	m_spy = NULL;
+	create_window();
+    }
+    MessageWindow::MessageWindow(QString name, Client<session_on_observer>* spy) : m_name(name), m_spy(spy) {
+	m_map_spy = NULL;
+	create_window();
+    }
+
+    void MessageWindow::create_window() {
 	main_layout = new QVBoxLayout;
 	buttons_layout = new QHBoxLayout;
 	check_layout = new QHBoxLayout;
 
-	title_label = new QLabel("<h2 align=\"center\">Envoie d'un message a tous les etudiants de la salle<br> info01</h2>");
-	main_layout->addWidget(title_label);
+	if(m_map_spy != NULL) {
+	    title_label = new QLabel("<h2 align=\"center\">Envoie d'un message a tous les etudiants de la salle<br> " + m_room + "</h2>");
+	    main_layout->addWidget(title_label);
+	} else {
+	    title_label = new QLabel("<h2 align=\"center\">Envoie d'un message a " + m_name + "</h2>");
+	    main_layout->addWidget(title_label);
+	}
 
 	text_area = new QTextEdit;
 	main_layout->addWidget(text_area);
@@ -35,7 +49,8 @@ namespace observer {
 	setLayout(main_layout);
 	resize(350, 450);
 
-	//connect(check_info, SIGNAL(stateChanged()), this, SLOT(set_checkbox()));	//connect(check_warning, SIGNAL(stateChanged()), this, SLOT(set_checkbox()));
+	//connect(check_info, SIGNAL(stateChanged()), this, SLOT(set_checkbox()));	
+	//connect(check_warning, SIGNAL(stateChanged()), this, SLOT(set_checkbox()));
 	connect(send_button, SIGNAL(clicked()), this, SLOT(send_msg()));
 	connect(close_button, SIGNAL(clicked()), this, SLOT(accept()));
     }
@@ -44,11 +59,19 @@ namespace observer {
 	QString msg = text_area->toPlainText();
 	msg += " //end//";
 
-	for(auto it : *m_map_spy) {
+	if(m_map_spy != NULL) {
+	    for(auto it : *m_map_spy) {
+		if(check_info->isChecked()) {
+		    it.second->_session().proto->operator[]("INFO")(msg.toStdString());
+		} else {
+		    it.second->_session().proto->operator[]("WARNING")(msg.toStdString());
+		}
+	    }
+	} else {
 	    if(check_info->isChecked()) {
-		it.second->_session().proto->operator[]("INFO")(msg.toStdString());
+		m_spy->_session().proto->operator[]("INFO")(msg.toStdString());
 	    } else {
-		it.second->_session().proto->operator[]("WARNING")(msg.toStdString());
+		m_spy->_session().proto->operator[]("WARNING")(msg.toStdString());
 	    }
 	}
     }
