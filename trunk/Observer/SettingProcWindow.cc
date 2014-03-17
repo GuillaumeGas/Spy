@@ -63,7 +63,7 @@ namespace observer {
 
 		/* On envoie au spy le nouveau processus à surveiller */
 		for(auto it : m_map_spy) {
-		    it.second->_session().proto->operator[]("INFO")(content.toStdString());
+		    it.second->_session().proto->operator[]("INFO")(content.toStdString()+" //end//");
 		}
 
 	    } else {
