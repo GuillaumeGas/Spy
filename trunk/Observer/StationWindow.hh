@@ -7,6 +7,8 @@
  *  Trois boutons principaux : envoyer un msg au user, afficher les processus en cours sur sa machine, executer une commande sur son poste
  */
 
+#include <iostream>
+
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -18,13 +20,30 @@
 #include "ListProcWindow.hh"
 #include "CmdWindow.hh"
 
+#include "../Net.hh"
+
 namespace observer {
+
+    class session_on_observer;
+
     class StationWindow : public QDialog {
 
+	Q_OBJECT
+
     public:
-	StationWindow(QString _station, QString _user);
+	StationWindow(QString _station, QString _user, Client<session_on_observer>* client);
+	~StationWindow();
+
+    public slots:
+	void slot_set_screen(QString);
+
+    signals:
+	void sig_set_screen(QString);
 
     private:
+	void update_screenshots();
+	void update_img_screenshot(std::string);
+
 	QVBoxLayout * main_layout;
 	QHBoxLayout * buttons_layout;
 
@@ -42,6 +61,7 @@ namespace observer {
 
 	QString m_station;
 	QString m_user;
+	Client<session_on_observer>* m_client;
     };
 };
 #endif
