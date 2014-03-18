@@ -26,6 +26,7 @@ namespace observer {
 	void do_ok(std::string s);
 	void do_err(std::string s);
 
+	void do_alert_proc(std::string);
 
 	void set_name(std::string);
 

@@ -31,8 +31,8 @@ namespace observer {
 	(*proto)("SCREENSHOT").sig_recv.connect(boost::bind(&session_on_observer::do_screenshot, this, _1, _2, _3));
 	(*proto)("BIG_SCREENSHOT").sig_recv.connect(boost::bind(&session_on_observer::do_big_screenshot, this, _1, _2, _3));
 
-
-
+	(*proto)["ALERT_PROC"].sig_recv.connect(boost::bind(&session_on_observer::do_alert_proc, this, _1));
+	
 	(*proto)["ERR"].sig_recv.connect( boost::bind ( &session_on_observer::do_err, this, _1));
 	(*proto)["OK"].sig_recv.connect( boost::bind ( &session_on_observer::do_ok, this, _1));
 	(*proto)["TEST"].sig_recv.connect( boost::bind ( &session_on_observer::do_test, this, _1));
@@ -129,5 +129,9 @@ namespace observer {
 
     void session_on_observer::set_name(string name) {
 	m_name = name;
+    }
+
+    void session_on_observer::do_alert_proc(string pid) {
+	cout << "pid : " << pid << endl;
     }
 };
