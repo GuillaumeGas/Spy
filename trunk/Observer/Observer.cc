@@ -18,6 +18,24 @@ namespace observer {
 	}
     }
 
+    Observer::Observer(string ip, int port) : cli_master(ip, port) {
+
+	bool room_ok = ask_room();
+
+	if(room_ok) {
+  
+	    create_network_connections();
+	    init_data();
+	    create_window();
+      
+	} else{
+	    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
+	}
+    }
+
+    
+    
+
     bool Observer::ask_room() {
 	/* Liste de test */
 	QStringList lst;

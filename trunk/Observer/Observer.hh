@@ -37,7 +37,7 @@ namespace observer {
 
 	public:
 	Observer(int argc, char** argv);
-
+	Observer( std::string, int );
 	bool ask_room();
 
     private slots:
