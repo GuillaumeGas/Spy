@@ -1,7 +1,7 @@
 #include <iostream>
 #include "server.hh"
 #include <sstream>
-
+#include <fstream>
 using namespace std;
 
 
@@ -67,8 +67,37 @@ namespace master {
 };
 
 
+void load_file_args (  int &mast_port, string file_name) {
+    ifstream file (file_name.c_str() );
+    string aux;
+    while ( !file.eof() ) {
+	file >> aux;
+	if ( aux == "mast_port=" ) {
+	    file >> mast_port;
+	}
+    } 
+    if ( mast_port == -1 ) {
+	mast_port = 4444;
+    }
+}
+
+
+string get_file_name(int argc, char ** argv) {
+    for (int i = 0 ; i < argc - 1 ; i++) {
+	if ( strcmp ( argv[i], "-f" ) == 0) {
+	    return argv[i+1];
+	}
+    }
+    return "../def.conf";
+}
+
+
+
 int main(int argc, char ** argv) {
-    Server <master::session_on_server> serv(argc, argv);
+
+    int mast_port = -1;
+    load_file_args( mast_port, get_file_name(argc, argv));
+    Server <master::session_on_server> serv(mast_port);
     serv.start();
     serv.join();
 }
