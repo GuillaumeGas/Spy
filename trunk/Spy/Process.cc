@@ -61,15 +61,15 @@ void Process::refresh() {
 void Process::show_list_process() {
   cout << " - PID -  - PROCESSUS - " << endl;
   for(auto it = m_lst_proc.begin(); it != m_lst_proc.end(); it++) {
-    cout << it->first << " -- " << it->second << endl;
+      cout << it->first << " -- [" << it->second <<"]"<< endl;
   }
 }
 
 bool Process::process_is_running(string proc_name)const {
-  for(auto it = m_lst_proc.begin(); it != m_lst_proc.end(); it++) {
-    if(it->second == proc_name) {
-      return true;
-    }
+    for(auto it = m_lst_proc.begin(); it != m_lst_proc.end(); it++) {
+	if(strcmp(it->second.c_str(), proc_name.c_str()) == 0) {
+	  return true;
+      }
   }
   return false;
 }

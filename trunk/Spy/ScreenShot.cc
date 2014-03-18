@@ -86,7 +86,7 @@ bool ScreenShot::save(const char * file, const double zoom) {
 void ScreenShot::get_stringstream(const char * file, std::stringstream & ss, int &w, int &h, double zoom) {
   w = m_dimx;
   h = m_dimy;
-  cout << "dimx = " << w << " dimy = " << h << " prod = " <<  w*h << endl;
+  //cout << "dimx = " << w << " dimy = " << h << " prod = " <<  w*h << endl;
   for(int i = 0; i < h*w; i++) {
     ss << m_pixels[i] << " ";
   }
@@ -123,7 +123,7 @@ void ScreenShot::set_zoom() {
     m_dimx *= m_zoom;
     m_dimy *= m_zoom;
 
-    cout << "DIMX = " << m_dimx << ", DIMY = " << m_dimy << endl;
+    //cout << "DIMX = " << m_dimx << ", DIMY = " << m_dimy << endl;
 
     if(m_pixels)
       delete[] m_pixels;
