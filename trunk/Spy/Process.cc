@@ -11,6 +11,9 @@ map<int, string> Process::get_list_process() {
 }
 
 void Process::refresh() {
+
+    m_lst_proc.clear();
+
   DIR * dir_proc = NULL;
   dir_proc = opendir("/proc/");
 
