@@ -35,6 +35,7 @@ namespace observer {
 
     public slots:
 	void slot_set_screen(QString, QString);
+	void slot_reset_style();
 
     private:
 
