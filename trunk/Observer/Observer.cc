@@ -8,11 +8,6 @@ namespace observer {
 	bool room_ok = ask_room();
 
 	if(room_ok) {
-  
-	    create_network_connections();
-	    init_data();
-	    create_window();
-      
 	} else{
 	    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
 	}
@@ -22,12 +17,7 @@ namespace observer {
 
 	bool room_ok = ask_room();
 
-	if(room_ok) {
-  
-	    create_network_connections();
-	    init_data();
-	    create_window();
-      
+	if(room_ok) {     
 	} else{
 	    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
 	}
@@ -35,6 +25,12 @@ namespace observer {
 
     
     
+    void Observer::Init_all() {
+	boost::thread th(boost::bind(&Observer::update_screenshots, this));
+	th.detach();
+	init_data();
+	create_window();
+    }
 
     bool Observer::ask_room() {
 	/* Liste de test */
@@ -180,6 +176,19 @@ namespace observer {
 	m_lst_proc.push_back("Teeworld");
     }
 
+
+    QMap <QString, Miniature*> & Observer::get_map_stations() {
+	return map_stations;
+    } 
+
+    map< string, pair<string , int> >& Observer::get_map() {
+	return map_spy_info;
+    }
+    
+    map<string, Client<session_on_observer>* > & Observer::get_map_client() {
+	return map_spy;
+    }
+
     void Observer::create_network_connections() {
 	for(auto it : map_spy_info) {
 	    cout << "user : " << it.first << endl;
@@ -194,8 +203,7 @@ namespace observer {
 	}
 	cout << "fun create network" << endl;
 
-	boost::thread th(boost::bind(&Observer::update_screenshots, this));
-	th.detach();
+
     }
 
 

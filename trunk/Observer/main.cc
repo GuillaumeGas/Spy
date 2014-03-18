@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "Observer.hh"
+#include "Miniature.hh"
 #include <iostream>
 using namespace std;
 
@@ -44,6 +45,22 @@ int main(int argc, char** argv) {
   string mast_ip = "localhost";
   load_file_args( mast_ip, mast_port, get_file_name(argc, argv));
   observer::Observer obs(mast_ip, mast_port);
+  map < string, pair < string, int> > & map_spy = obs.get_map();
+  QMap<QString, observer::Miniature*> & map_station = obs.get_map_stations();
+  map < string, Client<observer::session_on_observer> * > & client = obs.get_map_client();
+  
+  for ( auto it : map_spy ) {
+      client[it.first] = new Client<observer::session_on_observer>(it.second.first, it.second.second);
+      client[it.first]->_session().set_name(it.first);
+      client[it.first]->_session().img_recv.connect(boost::bind(&observer::Observer::update_img_screenshot, &obs, _1, _2));
+      client[it.first]->_session().proc_recv.connect(boost::bind(&observer::Observer::proc_detected, &obs, _1));
+      map_station[QString(it.first.c_str())] = new observer::Miniature("def.bmp", it.second.first.c_str(), it.first.c_str(), client[it.first]);
+
+      QObject::connect( &obs, SIGNAL(sig_set_screen(QString, QString)), map_station[QString(it.first.c_str())], SLOT(slot_set_screen(QString,QString)));
+  }
+  
+  obs.Init_all();
+  
   obs.show();
   
   return app.exec();

@@ -39,13 +39,23 @@ namespace observer {
 	Observer(int argc, char** argv);
 	Observer( std::string, int );
 	bool ask_room();
+	void Init_all();
+	std::map <std::string, Client<session_on_observer> * > & get_map_client();
+	QMap<QString, Miniature*> &get_map_stations();
+	std::map<std::string, std::pair<std::string, int> > & get_map();	       
 
-    private slots:
-	void change_room_slot();
+	void update_img_screenshot(std::string, std::string);
+	void proc_detected(std::string);
+
 
     signals:
 	void sig_set_screen(QString, QString);
 
+		       
+    private slots:
+	void change_room_slot();
+
+    
     private:
 	QString m_room;
 	QVector<QString> m_lst_proc; //list proc a surveiller
@@ -80,11 +90,11 @@ namespace observer {
 	void create_network_connections(); //connexion à chaque spy
 
 	void update_screenshots();
-	void update_img_screenshot(std::string, std::string);
+
 
 	Client<master::master_obse> cli_master;
 	std::map<std::string, Client<session_on_observer>* > map_spy;
-	void proc_detected(std::string);
+
     };
 };
 
