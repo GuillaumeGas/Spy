@@ -75,4 +75,8 @@ namespace observer {
 	    m_img->setPixmap(QPixmap(file));
 	}
     }
+
+    void Miniature::slot_reset_style() {
+	setStyleSheet("QWidget:hover{background-color: #808080;}");
+    }
 };

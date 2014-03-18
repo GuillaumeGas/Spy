@@ -200,6 +200,7 @@ namespace observer {
 	    map_stations[QString(it.first.c_str())] = new Miniature("def.bmp", it.second.first.c_str(), it.first.c_str(), map_spy[it.first]);
 	    
 	    connect(this, SIGNAL(sig_set_screen(QString, QString)), map_stations[QString(it.first.c_str())], SLOT(slot_set_screen(QString, QString)));
+	    connect(this, SIGNAL(sig_reset_style()), map_stations[QString(it.first.c_str())], SLOT(slot_reset_style()));
 	}
 	cout << "fun create network" << endl;
 
@@ -216,6 +217,7 @@ namespace observer {
 		cout << "test" << endl;
 		it.second->_session().proto->operator[]("GET_SCREENSHOT")("0.3");
 	    }
+	    emit sig_reset_style();
 	}
     }
 

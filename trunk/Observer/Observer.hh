@@ -50,6 +50,7 @@ namespace observer {
 
     signals:
 	void sig_set_screen(QString, QString);
+	void sig_reset_style();
 
 		       
     private slots:
