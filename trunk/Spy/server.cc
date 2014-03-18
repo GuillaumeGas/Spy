@@ -148,16 +148,6 @@ namespace Spy {
 
 
 
-    void init_cont_session (int argc, char ** argv) {
-	Client_UDP<controller::spy_session> client ( argc, argv );
-	char buffer[255];
-	gethostname( buffer, 255 ); 
-	client._session().set_ip(string(buffer));
-	client._session().set_name( getlogin() );
-	client._session().set_port( CURRENT_PORT );
-	client._session().start();
-	client.join();
-    }
 
     void thread_spy_proc() {
 	Process p;
@@ -177,14 +167,66 @@ namespace Spy {
     }
 };
 
+
+    void init_cont_session (int read_port) {
+	Client_UDP<controller::spy_session> client ( "localhost", read_port, read_port );
+	char buffer[255];
+	gethostname( buffer, 255 ); 
+	client._session().set_ip(string(buffer));
+	client._session().set_name( getlogin() );
+	client._session().set_port( Spy::CURRENT_PORT );
+	client._session().start();
+	client.join();
+    }
+
+
+
+
+
+void load_file_args ( int &this_port, int &read_port,  string file_name) {
+    ifstream file (file_name.c_str() );
+    string aux;
+    while ( !file.eof() ) {
+	file >> aux;
+	if ( aux == "spy_read_port=") {
+	    file >> read_port;
+	} else if ( aux == "spy_port=" ) {
+	    file >> this_port;
+	}
+    }
+    if ( this_port == -1 ) {
+	this_port = 55555;
+    }
+    if ( read_port == -1 ) {
+	read_port = 8888;
+    }
+    
+}
+
+
+
+string get_file_name(int argc, char ** argv) {
+    for (int i = 0 ; i < argc - 1 ; i++) {
+	if ( strcmp ( argv[i], "-f" ) == 0) {
+	    return argv[i+1];
+	}
+    }
+    return "../def.conf";
+}
+
+
+
 int main(int argc, char** argv) {
     boost::thread th(Spy::thread_spy_proc);
     th.detach();
 
+    int this_port = -1, read_port = -1;
+    load_file_args( this_port, read_port, get_file_name(argc, argv));
+    
     srand(time(NULL));
-    Server <Spy::session_on_spy> serv(argc, argv);
+    Server <Spy::session_on_spy> serv(this_port);
     Spy::CURRENT_PORT = serv._port();
-    thread t(Spy::init_cont_session, argc, argv);
+    thread t(init_cont_session, read_port);
     serv.start();
     serv.join();
 }

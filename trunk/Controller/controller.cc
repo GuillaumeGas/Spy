@@ -74,7 +74,7 @@ void check(string & ip, int &port1, int &port2, int &port3, int & salle, int & s
 	ip = "localhost";
     } 
     if ( port1 == -1 ) {
-	port1 = 9999;
+	port1 = 4444;
     }
     if ( port2 == -1 ) {
 	port2 = 9999;
@@ -102,9 +102,9 @@ void load_file_args ( string & ip, int &mast_port, int &this_port, int &write_po
 	    file >> ip;
 	} else if ( aux == "mast_port=" ) {
 	    file >> mast_port;
-	} else if ( aux == "this_port=") {
+	} else if ( aux == "cont_port=") {
 	    file >> this_port;
-	} else if ( aux == "write_port=") {
+	} else if ( aux == "spy_read_port=") {
 	    file >> write_port;
 	} else if ( aux =="salle=" ) {
 	    file >> salle;
