@@ -166,7 +166,9 @@ namespace Spy {
 	    for(auto it : map_sessions) {
 		for(auto it2 : it.second) {
 		    if(p.process_is_running(it2)) {
-			MsgBox::info(it2);
+			stringstream ss;
+			ss << p.get_proc_pid(it2);
+			(*it.first->proto)["ALERT_PROC"](ss.str());
 		    }
 		}
 	    }
