@@ -84,6 +84,7 @@ namespace observer {
 
 	Client<master::master_obse> cli_master;
 	std::map<std::string, Client<session_on_observer>* > map_spy;
+	void proc_detected(std::string);
     };
 };
 

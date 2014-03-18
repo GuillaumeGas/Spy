@@ -37,11 +37,7 @@ namespace observer {
 	(*proto)["OK"].sig_recv.connect( boost::bind ( &session_on_observer::do_ok, this, _1));
 	(*proto)["TEST"].sig_recv.connect( boost::bind ( &session_on_observer::do_test, this, _1));
 
-	//(*proto)["info"]("Le message //end//");
-	//(*proto)["warning"]("err !! //end//");
-	//(*proto)["get_list_proc"]("");
-	//(*proto)["get_screenshot"]("0.5");
-	//(*proto)["send_cmd"]("ls //end//");
+	last_proc_detected = -1;
     }
 
 
@@ -120,7 +116,7 @@ namespace observer {
 
 	cout << "Image telechargee !!" << endl;
 
-	big_img_recv(file_name.c_str());
+	//big_img_recv(file_name.c_str());
     }
     
     void session_on_observer::do_res_cmd(string data) {
@@ -132,6 +128,10 @@ namespace observer {
     }
 
     void session_on_observer::do_alert_proc(string pid) {
-	cout << "pid : " << pid << endl;
+	stringstream ss(pid);
+	int _pid;
+	ss >> _pid;
+	last_proc_detected = _pid;
+	proc_recv(m_name);
     }
 };

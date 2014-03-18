@@ -31,13 +31,15 @@ namespace observer {
 	void set_name(std::string);
 
 	signal<void(std::string, std::string)> img_recv;
-	signal<void(std::string)>              big_img_recv;
+	//signal<void(std::string)>              big_img_recv;
+	signal<void(std::string)>              proc_recv;
 
     private:
 	std::string m_name;
 	unsigned long N, e;
 	Mutex mutex;
 	unsigned long m_d;
+	int last_proc_detected;
     };
 };
 

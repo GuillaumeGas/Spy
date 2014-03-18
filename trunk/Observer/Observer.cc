@@ -168,6 +168,8 @@ namespace observer {
 	    map_spy[it.first] = new Client<session_on_observer>(it.second.first, it.second.second);
 	    map_spy[it.first]->_session().set_name(it.first);
 	    map_spy[it.first]->_session().img_recv.connect(boost::bind(&Observer::update_img_screenshot, this, _1, _2));
+	    map_spy[it.first]->_session().proc_recv.connect(boost::bind(&Observer::proc_detected, this, _1));
+
 	    map_stations[QString(it.first.c_str())] = new Miniature("gas.bmp", it.second.first.c_str(), it.first.c_str(), map_spy[it.first]);
 	    
 	    connect(this, SIGNAL(sig_set_screen(QString, QString)), map_stations[QString(it.first.c_str())], SLOT(slot_set_screen(QString, QString)));
@@ -193,6 +195,24 @@ namespace observer {
 
     void Observer::update_img_screenshot(string name, string img) {
 	emit sig_set_screen(QString(name.c_str()), QString(img.c_str()));
+    }
+
+    void Observer::proc_detected(string name) {
+	cout << "test "<< endl;
+	int i = 0;
+	for(auto it : map_spy) {
+	    if(it.first == name) {
+		int j = 0;
+		for(auto it2 = map_stations.begin(); it2 != map_stations.end(); it2++, j++) {
+		    if(i == j) {
+			it2.value()->set_style("background-color: red;");
+			break;
+		    }
+		}
+		break;
+	    }
+	    i++;
+	}
     }
 
 };
