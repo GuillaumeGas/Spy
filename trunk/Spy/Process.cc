@@ -42,6 +42,7 @@ void Process::refresh() {
 	      }
 	    }
 	  }
+	  closedir(dir_pid);
 	} else {
 	  perror("opendir()");
 	}
@@ -101,6 +102,7 @@ string Process::read_file(const string file) {
       res += tmp;
     }
   }
+  fichier.close();
   return res;
 }
 
