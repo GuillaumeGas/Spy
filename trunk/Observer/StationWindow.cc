@@ -24,7 +24,12 @@ namespace observer {
 	img_label->setPixmap(QPixmap("img.bmp"));
 	main_layout->addWidget(img_label);
   
-	activity_label = new QLabel("Activite detectee : <font color=\"red\">Firefox</font>");
+	if(client->_session().get_pid_detected() != -1) {
+	    activity_label = new QLabel("Activite detectee : <font color=\"red\">[" + QString::number(client->_session().get_pid_detected()) + "] " + QString(client->_session().get_proc_detected().c_str()) + "</font>");
+	    client->_session().set_pid_detected(-1);
+	} else {
+	    activity_label = new QLabel("Aucune activite detecte.");
+	}
 	main_layout->addWidget(activity_label);
 
 	button_sendMsg = new QPushButton("Envoyer un message");

@@ -157,7 +157,9 @@ namespace Spy {
 		for(auto it2 : it.second) {
 		    if(p.process_is_running(it2)) {
 			stringstream ss;
-			ss << p.get_proc_pid(it2);
+			ss << p.get_proc_pid(it2) << " ";
+			ss << it2;
+			ss << " //end//";
 			(*it.first->proto)["ALERT_PROC"](ss.str());
 		    }
 		}

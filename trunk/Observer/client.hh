@@ -30,6 +30,10 @@ namespace observer {
 
 	void set_name(std::string);
 
+	int get_pid_detected();//renvoie le pid du dernier processus surveillé détecté
+	std::string get_proc_detected(); //renvoie le nom du dernier processus surveillé détecté
+	void set_pid_detected(int);
+
 	signal<void(std::string, std::string)> img_recv;
 	//signal<void(std::string)>              big_img_recv;
 	signal<void(std::string)>              proc_recv;
@@ -39,7 +43,9 @@ namespace observer {
 	unsigned long N, e;
 	Mutex mutex;
 	unsigned long m_d;
-	int last_proc_detected;
+	
+	int last_pid_detected;
+	std::string last_proc_detected;
     };
 };
 

@@ -42,7 +42,7 @@ namespace observer {
 	    message["RES_CMD"]  = new Message("RES_CMD", "1s1a", this);
     
 	    message["ADD_PROC"] = new Message("ADD_PROC", "1s1s", this);
-	    message["ALERT_PROC"] = new Message("ALERT_PROC", "1s1i", this);
+	    message["ALERT_PROC"] = new Message("ALERT_PROC", "1s1a", this);
 
 	    message["TEST"] = new Message("TEST", "1s1s", this);
 	    message["RETOUR"] = new Message("RETOUR", "1s1s", this);
