@@ -37,7 +37,7 @@ namespace observer {
 	(*proto)["OK"].sig_recv.connect( boost::bind ( &session_on_observer::do_ok, this, _1));
 	(*proto)["TEST"].sig_recv.connect( boost::bind ( &session_on_observer::do_test, this, _1));
 
-	last_proc_detected = -1;
+	last_pid_detected = -1;
     }
 
 
@@ -127,11 +127,23 @@ namespace observer {
 	m_name = name;
     }
 
-    void session_on_observer::do_alert_proc(string pid) {
-	stringstream ss(pid);
+    void session_on_observer::do_alert_proc(string proc) {
+	stringstream ss(proc);
 	int _pid;
-	ss >> _pid;
-	last_proc_detected = _pid;
+	string _proc;
+	ss >> _pid >> _proc;
+	last_pid_detected = _pid;
+	last_proc_detected = _proc;
 	proc_recv(m_name);
+    }
+
+    int session_on_observer::get_pid_detected() {
+	return last_pid_detected;
+    }
+    string session_on_observer::get_proc_detected() {
+	return last_proc_detected;
+    }
+    void session_on_observer::set_pid_detected(int pid) {
+	last_pid_detected = pid;
     }
 };
