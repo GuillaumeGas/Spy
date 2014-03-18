@@ -34,6 +34,15 @@ public:
     }
     
 
+    Server( int port ) : Thread< Server<T> >(&Server::loop_accept, this) {
+	m_port = port;
+	init_sock();
+	init_addr();
+	do_bind();
+	do_listen();
+	m_stop = false;
+    }
+
     void loop_accept() {
 	socklen_t size_addr = sizeof(sin);
 	started();
