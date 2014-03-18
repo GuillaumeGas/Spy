@@ -59,12 +59,12 @@ public:
 
   static void build_bmp_fromStringstream(const char * file, std::stringstream &ss, int width, int height) {
     SDL_Surface * surf = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32, 0, 0, 0, 0);
-    std::cout << "width = " << width << ", height = " << height << std::endl;
+    //std::cout << "width = " << width << ", height = " << height << std::endl;
     SDL_LockSurface(surf);
     int i = 0;
 
-    std::cout << "TAILLE ss = " << ss.str().length() << std::endl;
-    std::cout << "TAILLE alloc= " << width*height << std::endl;
+    //std::cout << "TAILLE ss = " << ss.str().length() << std::endl;
+    //std::cout << "TAILLE alloc= " << width*height << std::endl;
 
     while(!ss.eof()) {
       unsigned int a;

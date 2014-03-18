@@ -62,8 +62,9 @@ namespace observer {
 		m_vec_proc->push_back(content);
 
 		/* On envoie au spy le nouveau processus à surveiller */
+		string proc_name = content.toStdString();
 		for(auto it : m_map_spy) {
-		    it.second->_session().proto->operator[]("INFO")(content.toStdString()+" //end//");
+		    it.second->_session().proto->operator[]("ADD_PROC")(proc_name);
 		}
 
 	    } else {
