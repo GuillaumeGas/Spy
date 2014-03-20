@@ -114,5 +114,10 @@ namespace observer {
 
     void StationWindow::set_list_proc(QMap<int, QString> list) {
 	cout << "              ok 2!!!!!!!! " << endl;
+	if(lst_proc_window) {
+	    lst_proc_window->set_list_proc(list);
+	} else {
+	    cout << "shèèèèèèèè" << endl;
+	}
     }
 };

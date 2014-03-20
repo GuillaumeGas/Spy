@@ -3,6 +3,8 @@
 /* Test */
 #include "../Spy/Process.hh"
 
+using namespace std;
+
 namespace observer {
     ListProcWindow::ListProcWindow(QString _station, Client<session_on_observer> * client) {
 	client->_session().proto->operator[]("GET_LIST_PROC")("");
@@ -28,14 +30,14 @@ namespace observer {
 	main_layout->addWidget(proc_table);
 
 	/* Test */
-	Process pr;
+	/*Process pr;
 	std::map<int, std::string> lst = pr.get_list_process();
 	for(auto it = lst.begin(); it != lst.end(); it++) {
 	    int count = proc_table->rowCount();
 	    proc_table->insertRow(count);
 	    proc_table->setItem(count, 0, new QTableWidgetItem(QString::number(it->first)));
 	    proc_table->setItem(count, 1, new QTableWidgetItem(QString(it->second.c_str())));
-	}
+	    }*/
 	/* fin test */
 
 	button_close = new QPushButton("Fermer");
@@ -46,5 +48,15 @@ namespace observer {
 	resize(300, 400);
 
 	connect(button_close, SIGNAL(clicked()), this, SLOT(accept()));
+    }
+
+    void ListProcWindow::set_list_proc(QMap<int, QString> list) {
+	cout << "SUPER OK" << endl;
+	for(auto it = list.begin(); it != list.end(); it++) {
+	    int count = proc_table->rowCount();
+	    proc_table->insertRow(count);
+	    proc_table->setItem(count, 0, new QTableWidgetItem(QString::number(it.key())));
+	    proc_table->setItem(count, 1, new QTableWidgetItem(it.value()));
+	}
     }
 };

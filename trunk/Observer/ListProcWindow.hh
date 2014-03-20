@@ -5,6 +5,8 @@
  *  Classe permettant d'afficher les processus en cours sur un poste
  */
 
+#include <iostream>
+
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -12,6 +14,7 @@
 #include <QPushButton>
 #include <QHeaderView>
 #include <QStringList>
+#include <QMap>
 
 #include "../Net.hh"
 
@@ -20,6 +23,8 @@ namespace observer {
     class ListProcWindow : public QDialog {
     public:
 	ListProcWindow(QString _station, Client<session_on_observer> * client);
+
+	void set_list_proc(QMap<int, QString> list);
 
     private:
 	QVBoxLayout * main_layout;
