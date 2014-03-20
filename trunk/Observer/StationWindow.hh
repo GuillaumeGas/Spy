@@ -34,7 +34,10 @@ namespace observer {
 	StationWindow(QString _station, QString _user, Client<session_on_observer>* client);
 	~StationWindow();
 
-	//    public slots:
+    public slots:
+	void open_msgWin();
+	void open_procWin();
+	void open_cmdWin();
 	//void slot_set_screen();
 	//void slot_close();
 

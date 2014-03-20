@@ -6,13 +6,14 @@ using namespace std;
 namespace observer {
     StationWindow::StationWindow(QString _station, QString _user, Client<session_on_observer>* client) {
 
-	//	open = true;
-	
-
 	m_station = _station;
 	m_user    = _user;
 	m_client  = client;
 	m_client->_session().proto->operator[]("GET_BIG_SCREENSHOT")("0.5");
+
+	message_window  = NULL;
+	lst_proc_window = NULL;
+	cmd_window      = NULL;
 
 	main_layout = new QVBoxLayout;
 	buttons_layout = new QHBoxLayout;
@@ -49,13 +50,9 @@ namespace observer {
 	setLayout(main_layout);
 	setWindowIcon(QIcon("iconSPY.png"));
 
-	//message_window  = new MessageWindow;
-	lst_proc_window = new ListProcWindow(m_station); 
-	cmd_window      = new CmdWindow(m_station);
-
-	//connect(button_sendMsg, SIGNAL(clicked()), message_window, SLOT(exec()));
-	connect(button_checkProc, SIGNAL(clicked()), lst_proc_window, SLOT(exec()));
-	connect(button_cmd, SIGNAL(clicked()), cmd_window, SLOT(exec()));
+	connect(button_sendMsg, SIGNAL(clicked()), this, SLOT(open_msgWin()));
+	connect(button_checkProc, SIGNAL(clicked()), this, SLOT(open_procWin()));
+	connect(button_cmd, SIGNAL(clicked()), this, SLOT(open_cmdWin()));
 	connect(button_close, SIGNAL(clicked()), this, SLOT(accept()));
 	//connect(button_close, SIGNAL(clicked()), this, SLOT(slot_close()));
 	//connect(this, SIGNAL(sig_set_screen()), this, SLOT(slot_set_screen()));
@@ -71,6 +68,25 @@ namespace observer {
 
     StationWindow::~StationWindow() {
 	//m_client->_session().big_img_recv.disconnect(boost::bind(&StationWindow::update_img_screenshot, this));
+    }
+
+    void StationWindow::open_msgWin() {
+	message_window = new MessageWindow(m_user, m_client);
+	message_window->exec();
+	delete message_window;
+	message_window = NULL;
+    }
+    void StationWindow::open_procWin() {
+	lst_proc_window = new ListProcWindow(m_station);
+	lst_proc_window->exec();
+	delete lst_proc_window;
+	lst_proc_window = NULL;
+    }
+    void StationWindow::open_cmdWin() {
+	cmd_window = new CmdWindow(m_station);
+	cmd_window->exec();
+	delete cmd_window;
+	cmd_window = NULL;
     }
 
     /*void StationWindow::update_screenshots() {
