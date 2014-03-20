@@ -189,25 +189,6 @@ namespace observer {
 	return map_spy;
     }
 
-    void Observer::create_network_connections() {
-	for(auto it : map_spy_info) {
-	    cout << "user : " << it.first << endl;
-	    map_spy[it.first] = new Client<session_on_observer>(it.second.first, it.second.second);
-	    map_spy[it.first]->_session().set_name(it.first);
-	    map_spy[it.first]->_session().img_recv.connect(boost::bind(&Observer::update_img_screenshot, this, _1, _2));
-	    map_spy[it.first]->_session().proc_recv.connect(boost::bind(&Observer::proc_detected, this, _1));
-
-	    map_stations[QString(it.first.c_str())] = new Miniature("def.bmp", it.second.first.c_str(), it.first.c_str(), map_spy[it.first]);
-	    
-	    connect(this, SIGNAL(sig_set_screen(QString, QString)), map_stations[QString(it.first.c_str())], SLOT(slot_set_screen(QString, QString)));
-	    connect(this, SIGNAL(sig_reset_style()), map_stations[QString(it.first.c_str())], SLOT(slot_reset_style()));
-	}
-	cout << "fun create network" << endl;
-
-
-    }
-
-
 
     void Observer::update_screenshots() {
 	cout << "debut" << endl;

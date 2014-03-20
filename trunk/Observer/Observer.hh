@@ -88,7 +88,6 @@ namespace observer {
 	void create_grid();
 	void create_connections(); //connect les boutons...
 	void init_data();
-	void create_network_connections(); //connexion à chaque spy
 
 	void update_screenshots();
 

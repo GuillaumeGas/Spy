@@ -57,6 +57,7 @@ int main(int argc, char** argv) {
       map_station[QString(it.first.c_str())] = new observer::Miniature("def.bmp", it.second.first.c_str(), it.first.c_str(), client[it.first]);
 
       QObject::connect( &obs, SIGNAL(sig_set_screen(QString, QString)), map_station[QString(it.first.c_str())], SLOT(slot_set_screen(QString,QString)));
+      QObject::connect( &obs, SIGNAL(sig_reset_style()), map_station[QString(it.first.c_str())], SLOT(slot_reset_style()));
   }
   
   obs.Init_all();
