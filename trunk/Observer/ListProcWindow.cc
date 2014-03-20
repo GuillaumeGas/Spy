@@ -5,6 +5,8 @@
 
 namespace observer {
     ListProcWindow::ListProcWindow(QString _station, Client<session_on_observer> * client) {
+	client->_session().proto->operator[]("GET_LIST_PROC")("");
+
 	main_layout = new QVBoxLayout;
 
 	title_label = new QLabel("Processus actifs sur " + _station);

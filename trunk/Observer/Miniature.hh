@@ -1,6 +1,8 @@
 #ifndef _MINIATURE
 #define _MINIATURE
 
+#include <iostream>
+
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -17,7 +19,6 @@ namespace observer {
 	Q_OBJECT
 
 	public:
-	Miniature(const char * file); //constructeur de test
 	Miniature(const char * file, const char * post, const char * user, Client<session_on_observer> * client);
 
 	/**
@@ -33,6 +34,8 @@ namespace observer {
 
 	void set_img(QString file);
 
+	void set_proc_list(QMap<int, QString> list);
+
     public slots:
 	void slot_set_screen(QString, QString);
 	void slot_reset_style();
@@ -40,6 +43,8 @@ namespace observer {
     private:
 
 	void mouseReleaseEvent(QMouseEvent * e);
+
+	StationWindow * station_win;
 
 	QVBoxLayout * main_layout;
 	QLabel * m_img;

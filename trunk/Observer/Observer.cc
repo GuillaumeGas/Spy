@@ -226,7 +226,7 @@ namespace observer {
     void Observer::lst_proc_recved(QString name, QMap<int, QString> list) {
 	auto it = map_stations.find(name);
 	if(it != map_stations.end()) {
-	    cout << ">> ok! " << endl;
+	    it.value()->set_proc_list(list);
 	}
     }
 

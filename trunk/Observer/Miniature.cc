@@ -2,30 +2,15 @@
 #include "Miniature.hh"
 #include "client.hh"
 
+using namespace std;
+
 namespace observer {
-    Miniature::Miniature(const char * file) {
-	m_user = "user_test";
-	m_station = "post_test";
-
-	main_layout = new QVBoxLayout;
-  
-	m_img = new QLabel;
-	m_img->setPixmap(QPixmap(file));
-
-	m_station_label = new QLabel("<center><b>info21-01</b></center>");
-	m_user_label = new QLabel("<center><b>Gas</b></center>");
-
-	main_layout->addWidget(m_img);
-	main_layout->addWidget(m_station_label);
-	main_layout->addWidget(m_user_label);
-
-	setLayout(main_layout);
-    }
-
     Miniature::Miniature(const char * _file, const char * _station, const char * _user, Client<session_on_observer>* client) {
 	m_station = _station;
 	m_user    = _user;
 	m_client  = client;
+
+	station_win = NULL;
 
 	main_layout = new QVBoxLayout;
 
@@ -51,8 +36,10 @@ namespace observer {
     }
 
     void Miniature::mouseReleaseEvent(QMouseEvent * e) {
-	StationWindow station_win(m_station, m_user, m_client);
-	station_win.exec();
+	station_win = new StationWindow(m_station, m_user, m_client);
+	station_win->exec();
+	delete station_win;
+	station_win = NULL;
     }
 
     void Miniature::set_hover_style(QString style) {
@@ -78,5 +65,12 @@ namespace observer {
 
     void Miniature::slot_reset_style() {
 	setStyleSheet("QWidget:hover{background-color: #808080;}");
+    }
+
+    void Miniature::set_proc_list(QMap<int, QString> list) {
+	cout << "ok !!" << endl;
+	if(station_win) {
+	    station_win->set_list_proc(list);
+	}
     }
 };

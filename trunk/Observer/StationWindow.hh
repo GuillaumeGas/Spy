@@ -15,6 +15,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QPixmap>
+#include <QMap>
 
 #include "MessageWindow.hh"
 #include "ListProcWindow.hh"
@@ -33,6 +34,8 @@ namespace observer {
     public:
 	StationWindow(QString _station, QString _user, Client<session_on_observer>* client);
 	~StationWindow();
+
+	void set_list_proc(QMap<int, QString> list);
 
     public slots:
 	void open_msgWin();

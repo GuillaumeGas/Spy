@@ -111,4 +111,8 @@ namespace observer {
 	open = false;
 	hide();
 	}*/
+
+    void StationWindow::set_list_proc(QMap<int, QString> list) {
+	cout << "              ok 2!!!!!!!! " << endl;
+    }
 };
