@@ -77,7 +77,7 @@ namespace observer {
 	message_window = NULL;
     }
     void StationWindow::open_procWin() {
-	lst_proc_window = new ListProcWindow(m_station);
+	lst_proc_window = new ListProcWindow(m_station, m_client);
 	lst_proc_window->exec();
 	delete lst_proc_window;
 	lst_proc_window = NULL;

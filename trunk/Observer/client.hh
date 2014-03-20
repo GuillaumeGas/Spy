@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+#include <QMap>
+#include <QString>
+
 #include "../Net.hh"
 #include "proto.hh"
 #include "../Spy/ScreenShot.hh"
@@ -37,6 +40,7 @@ namespace observer {
 	signal<void(std::string, std::string)> img_recv;
 	//signal<void(std::string)>              big_img_recv;
 	signal<void(std::string)>              proc_recv;
+	signal<void(QString, QMap<int, QString>)> lst_proc_recv;
 
     private:
 	std::string m_name;

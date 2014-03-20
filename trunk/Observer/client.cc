@@ -71,16 +71,17 @@ namespace observer {
 	int size;
 	stringstream ss(data);
       
-	map<int, string> list;
+	QMap<int, QString> list;
 	while(!ss.eof()) {
 	    int pid;
 	    string tmp;
 	    ss >> pid;
 	    ss >> tmp;
-	    list[pid] = tmp;
+	    list[pid] = QString(tmp.c_str());
 	
-	    cout << pid << " " << list[pid] << endl;
+	    //	    cout << pid << " " << list[pid] << endl;
 	}
+	lst_proc_recv(QString(m_name.c_str()), list);
     }
 
     void session_on_observer::do_screenshot(string data, int w, int h) {

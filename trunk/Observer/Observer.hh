@@ -20,6 +20,7 @@
 #include <QPushButton>
 #include <QVector>
 #include <QMap>
+#include <QString>
 #include <QScrollArea>
 #include <QDesktopWidget>
 
@@ -46,7 +47,7 @@ namespace observer {
 
 	void update_img_screenshot(std::string, std::string);
 	void proc_detected(std::string);
-
+	void lst_proc_recved(QString, QMap<int, QString>);
 
     signals:
 	void sig_set_screen(QString, QString);

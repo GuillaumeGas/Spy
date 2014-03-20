@@ -13,16 +13,20 @@
 #include <QHeaderView>
 #include <QStringList>
 
-class ListProcWindow : public QDialog {
-public:
-  ListProcWindow(QString _station);
+#include "../Net.hh"
 
-private:
-  QVBoxLayout * main_layout;
+namespace observer {
+    class session_on_observer;
+    class ListProcWindow : public QDialog {
+    public:
+	ListProcWindow(QString _station, Client<session_on_observer> * client);
+
+    private:
+	QVBoxLayout * main_layout;
   
-  QLabel * title_label;
-  QTableWidget * proc_table;
-  QPushButton * button_close;
+	QLabel * title_label;
+	QTableWidget * proc_table;
+	QPushButton * button_close;
+    };
 };
-
 #endif

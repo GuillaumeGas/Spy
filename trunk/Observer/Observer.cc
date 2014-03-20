@@ -188,8 +188,7 @@ namespace observer {
     map<string, Client<session_on_observer>* > & Observer::get_map_client() {
 	return map_spy;
     }
-
-
+    
     void Observer::update_screenshots() {
 	cout << "debut" << endl;
 	while(1) {
@@ -221,6 +220,13 @@ namespace observer {
 		break;
 	    }
 	    i++;
+	}
+    }
+
+    void Observer::lst_proc_recved(QString name, QMap<int, QString> list) {
+	auto it = map_stations.find(name);
+	if(it != map_stations.end()) {
+	    cout << ">> ok! " << endl;
 	}
     }
 
