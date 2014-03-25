@@ -29,6 +29,7 @@ namespace observer {
 
 	public:
 	CmdWindow(QString _station, Client<session_on_observer> * client);
+	void set_cmd(QString);
 
     private slots:
 	void exec_cmd();

@@ -36,6 +36,7 @@ namespace observer {
 	~StationWindow();
 
 	void set_list_proc(QMap<int, QString> list);
+	void set_cmd(QString);
 
     public slots:
 	void open_msgWin();
