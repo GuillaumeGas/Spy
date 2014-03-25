@@ -35,6 +35,7 @@ namespace Spy {
 	int         m_port;
 	bool        auth;
 	unsigned long m_content;
+	Cmd cmd;
     };
 
     int CURRENT_PORT;

