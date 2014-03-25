@@ -205,35 +205,16 @@ namespace observer {
     }
 
     void Observer::proc_detected(string name) {
-	int i = 0;
-	for(auto it : map_spy) {
-	    if(it.first == name) {
-		int j = 0;
-		for(auto it2 = map_stations.begin(); it2 != map_stations.end(); it2++, j++) {
-		    if(i == j) {
-			emit sig_proc_detected();
-			
-			break;
-		    }
-		}
-		break;
-	    }
-	    i++;
-	}
+	emit sig_proc_detected(QString(name.c_str()));
     }
 
-    void Observer::lst_proc_recved(QString name, QMap<int, QString> list) {
-	auto it = map_stations.find(name);
-	if(it != map_stations.end()) {
-	    it.value()->set_proc_list(list);
-	}
+    void Observer::lst_proc_recved(QString name,string list) {
+	emit sig_proc_list(name, QString(list.c_str()));
     }
 
     void Observer::res_cmd_recved(std::string name, std::string data) {
-	auto it = map_stations.find(QString(name.c_str()));
-	if(it != map_stations.end()) {
-	    it.value()->set_cmd(QString(data.c_str()));
-	}
+	cout << "Observer:: " << data << endl;
+	emit sig_cmd_recv(QString(name.c_str()), QString(data.c_str())); 
     }
 
 };

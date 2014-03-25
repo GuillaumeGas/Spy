@@ -47,11 +47,13 @@ namespace observer {
 
 	void update_img_screenshot(std::string, std::string);
 	void proc_detected(std::string);
-	void lst_proc_recved(QString, QMap<int, QString>);
+	void lst_proc_recved(QString, std::string);
 	void res_cmd_recved(std::string, std::string);
 
     signals:
-	void sig_proc_detected();
+	void sig_proc_detected(QString);
+	void sig_proc_list(QString, QString);
+	void sig_cmd_recv(QString, QString);
 	void sig_set_screen(QString, QString);
 	void sig_reset_style();
 			      

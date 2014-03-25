@@ -68,24 +68,12 @@ namespace observer {
 
     void session_on_observer::do_list_proc(string data) {
 	cout << "reception processus actifs" << endl;
-	int size;
-	stringstream ss(data);
-      
-	QMap<int, QString> list;
-	while(!ss.eof()) {
-	    int pid;
-	    string tmp;
-	    ss >> pid;
-	    ss >> tmp;
-	    list[pid] = QString(tmp.c_str());
-	
-	    //	    cout << pid << " " << list[pid] << endl;
-	}
-	lst_proc_recv(QString(m_name.c_str()), list);
+
+	lst_proc_recv(QString(m_name.c_str()), data);
     }
 
     void session_on_observer::do_screenshot(string data, int w, int h) {
-	cout << "Telechargement..." << endl;
+	//cout << "Telechargement..." << endl;
 
 	data = data.substr( 1 , data.length()-1 );
 	stringstream ss(data);
@@ -97,7 +85,7 @@ namespace observer {
 	ScreenShot::build_bmp_fromStringstream(file_name.c_str(), ss, w, h);
 	mutex.unlock();
 
-	cout << "Image telechargee !!" << endl;
+	//cout << "Image telechargee !!" << endl;
 
 	img_recv(m_name, file_name.c_str());
     }
@@ -121,6 +109,7 @@ namespace observer {
     }
     
     void session_on_observer::do_res_cmd(string data) {
+	cout << data << endl;
 	res_cmd_recv(m_name, data);
     }
 

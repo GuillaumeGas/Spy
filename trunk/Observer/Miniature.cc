@@ -51,14 +51,14 @@ namespace observer {
     }
 
     void Miniature::set_img(QString file) {
-	std::cout << "file : " << file.toStdString() << std::endl;
+	//std::cout << "file : " << file.toStdString() << std::endl;
 	m_img->setPixmap(QPixmap(file));
     }
 
     void Miniature::slot_set_screen(QString name, QString file) {
-	std::cout << "test2 : "<< std::endl;
+	//std::cout << "test2 : "<< std::endl;
 	if(name == m_user) {
-	    std::cout << "file : " << file.toStdString() << std::endl;
+	    //std::cout << "file : " << file.toStdString() << std::endl;
 	    m_img->setPixmap(QPixmap(file));
 	}
     }
@@ -68,19 +68,49 @@ namespace observer {
     }
 
 
-    void Miniature::slot_proc_detected() {
-	set_style("background-color: red;");
+    void Miniature::slot_proc_detected(QString name) {
+	if ( name == m_user ) {
+	    set_style("background-color: red;");
+	}
     }
 
     void Miniature::set_proc_list(QMap<int, QString> list) {
 	if(station_win) {
-	    station_win->set_list_proc(list);
+	
 	}
     }
 
     void Miniature::set_cmd(QString data) {
 	if(station_win) {
-	    //station_win->set_cmd(data);
+	
 	}
     }
+
+
+    void Miniature::slot_cmd_recv(QString name, QString cmd) {
+	if ( m_user == name ) {
+	    station_win->set_cmd(cmd);
+	}
+    }
+
+
+    void Miniature::slot_proc_list(QString _list, QString name) {
+	if ( m_user == name ) {
+	    //construction QMap
+	    stringstream ss(_list.toStdString());
+	    QMap<int, QString> list;
+	    while(!ss.eof()) {
+		int pid;
+		string tmp;
+		ss >> pid;
+		ss >> tmp;
+		list[pid] = QString(tmp.c_str());
+		
+		//	    cout << pid << " " << list[pid] << endl;
+	    }
+	    station_win->set_list_proc(list);
+	}
+    }
+
+
 };
