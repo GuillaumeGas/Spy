@@ -211,7 +211,8 @@ namespace observer {
 		int j = 0;
 		for(auto it2 = map_stations.begin(); it2 != map_stations.end(); it2++, j++) {
 		    if(i == j) {
-			it2.value()->set_style("background-color: red;");
+			emit sig_proc_detected();
+			
 			break;
 		    }
 		}

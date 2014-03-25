@@ -67,6 +67,11 @@ namespace observer {
 	setStyleSheet("QWidget:hover{background-color: #808080;}");
     }
 
+
+    void Miniature::slot_proc_detected() {
+	set_style("background-color: red;");
+    }
+
     void Miniature::set_proc_list(QMap<int, QString> list) {
 	if(station_win) {
 	    station_win->set_list_proc(list);

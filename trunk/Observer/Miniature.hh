@@ -38,6 +38,7 @@ namespace observer {
 	void set_cmd(QString data);
 
     public slots:
+	void slot_proc_detected();
 	void slot_set_screen(QString, QString);
 	void slot_reset_style();
 

@@ -32,7 +32,7 @@
 #include "client.hh"
 
 namespace observer {
-    class Observer : public QMainWindow{
+    class Observer : public QMainWindow {
 
 	Q_OBJECT
 
@@ -51,8 +51,10 @@ namespace observer {
 	void res_cmd_recved(std::string, std::string);
 
     signals:
+	void sig_proc_detected();
 	void sig_set_screen(QString, QString);
 	void sig_reset_style();
+			      
 
 		       
     private slots:
