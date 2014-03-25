@@ -132,9 +132,11 @@ namespace Spy {
 	    Cmd cmd;
 	    cout << "cmd : " << _cmd << endl;
 	    cmd.exec(_cmd.c_str());
-	    stringstream ss(cmd.get_res());
+	    stringstream ss;
+	    ss << cmd.get_res();
 	    ss << " //end//";
 	    (*proto)["RES_CMD"](ss.str());
+	    cout << "Envoie de la commande effectuee !!!" << endl;
 	} else {
 	    (*proto)["ERR"]("");
 	    finish();
