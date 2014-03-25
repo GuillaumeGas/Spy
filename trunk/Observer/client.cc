@@ -121,7 +121,7 @@ namespace observer {
     }
     
     void session_on_observer::do_res_cmd(string data) {
-	cout << data << endl;
+	res_cmd_recv(m_name, data);
     }
 
     void session_on_observer::set_name(string name) {

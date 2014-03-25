@@ -68,9 +68,14 @@ namespace observer {
     }
 
     void Miniature::set_proc_list(QMap<int, QString> list) {
-	cout << "ok !!" << endl;
 	if(station_win) {
 	    station_win->set_list_proc(list);
+	}
+    }
+
+    void Miniature::set_cmd(QString data) {
+	if(station_win) {
+	    //station_win->set_cmd(data);
 	}
     }
 };

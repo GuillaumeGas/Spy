@@ -35,6 +35,7 @@ namespace observer {
 	void set_img(QString file);
 
 	void set_proc_list(QMap<int, QString> list);
+	void set_cmd(QString data);
 
     public slots:
 	void slot_set_screen(QString, QString);

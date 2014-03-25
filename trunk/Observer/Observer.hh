@@ -48,6 +48,7 @@ namespace observer {
 	void update_img_screenshot(std::string, std::string);
 	void proc_detected(std::string);
 	void lst_proc_recved(QString, QMap<int, QString>);
+	void res_cmd_recved(std::string, std::string);
 
     signals:
 	void sig_set_screen(QString, QString);

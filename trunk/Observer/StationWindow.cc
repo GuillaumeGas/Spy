@@ -83,7 +83,7 @@ namespace observer {
 	lst_proc_window = NULL;
     }
     void StationWindow::open_cmdWin() {
-	cmd_window = new CmdWindow(m_station);
+	cmd_window = new CmdWindow(m_station, m_client);
 	cmd_window->exec();
 	delete cmd_window;
 	cmd_window = NULL;

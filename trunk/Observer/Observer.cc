@@ -194,7 +194,6 @@ namespace observer {
 	while(1) {
 	    sleep(1);
 	    for(auto it : map_spy) {
-		cout << "test" << endl;
 		it.second->_session().proto->operator[]("GET_SCREENSHOT")("0.3");
 	    }
 	    emit sig_reset_style();
@@ -206,7 +205,6 @@ namespace observer {
     }
 
     void Observer::proc_detected(string name) {
-	cout << "test "<< endl;
 	int i = 0;
 	for(auto it : map_spy) {
 	    if(it.first == name) {
@@ -227,6 +225,13 @@ namespace observer {
 	auto it = map_stations.find(name);
 	if(it != map_stations.end()) {
 	    it.value()->set_proc_list(list);
+	}
+    }
+
+    void Observer::res_cmd_recved(std::string name, std::string data) {
+	auto it = map_stations.find(QString(name.c_str()));
+	if(it != map_stations.end()) {
+	    it.value()->set_cmd(QString(data.c_str()));
 	}
     }
 

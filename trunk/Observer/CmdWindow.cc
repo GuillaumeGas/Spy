@@ -1,6 +1,10 @@
 #include "CmdWindow.hh"
+#include "client.hh"
 
-CmdWindow::CmdWindow(QString _station) : pos(0), m_station(_station) {
+using namespace std;
+
+namespace observer {
+CmdWindow::CmdWindow(QString _station, Client<session_on_observer>* client) : pos(0), m_station(_station), m_client(client) {
 
   main_layout = new QVBoxLayout;
 
@@ -29,13 +33,16 @@ CmdWindow::CmdWindow(QString _station) : pos(0), m_station(_station) {
 
 void CmdWindow::exec_cmd() {
   std::string cmd = (line_edit->text()).toStdString();
-  m_cmd.exec(cmd.c_str());
-  std::string res = m_cmd.get_res();
+  cmd += " //end//";
+  cout << "CMD : " << cmd << endl;
+  //m_cmd.exec(cmd.c_str());
+  /*std::string res = m_cmd.get_res();
   std::stringstream content; 
   content << res << "\n<" << m_station.toStdString() << " " << m_cmd.get_path() << "> ";
-  text_edit->append(QString(content.str().c_str()));
+  text_edit->append(QString(content.str().c_str()));*/
   lst_cmd.push_back(line_edit->text());
   pos = lst_cmd.size();
+  m_client->_session().proto->operator[]("SEND_CMD")(cmd);
 }
 
 void CmdWindow::keyPressEvent(QKeyEvent *event) {
@@ -76,3 +83,4 @@ QString CmdWindow::get_next_cmd() {
     return "";
   }
 }
+};

@@ -41,6 +41,7 @@ namespace observer {
 	//signal<void(std::string)>              big_img_recv;
 	signal<void(std::string)>              proc_recv;
 	signal<void(QString, QMap<int, QString>)> lst_proc_recv;
+	signal<void(std::string, std::string)>    res_cmd_recv;
 
     private:
 	std::string m_name;

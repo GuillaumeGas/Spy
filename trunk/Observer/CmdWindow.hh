@@ -5,6 +5,7 @@
  *  Classe permettant à l'utilisateur d'executer des commandes sur un poste
  */
 
+#include <iostream>
 #include <sstream>
 
 #include <QDialog>
@@ -17,34 +18,39 @@
 #include <QMessageBox>
 
 /* Test */
-#include "../Spy/Cmd.hh"
+//#include "../Spy/Cmd.hh"
+#include "../Net.hh"
 
-class CmdWindow : public QDialog {
+namespace observer {
+    class session_on_observer;
+    class CmdWindow : public QDialog {
 
-  Q_OBJECT
+	Q_OBJECT
 
-public:
-  CmdWindow(QString _station);
+	public:
+	CmdWindow(QString _station, Client<session_on_observer> * client);
 
-private slots:
-  void exec_cmd();
+    private slots:
+	void exec_cmd();
 
-private:
-  void keyPressEvent(QKeyEvent *event);
-  QString get_prev_cmd();
-  QString get_next_cmd();
+    private:
+	void keyPressEvent(QKeyEvent *event);
+	QString get_prev_cmd();
+	QString get_next_cmd();
 
-  QVBoxLayout * main_layout;
+	QVBoxLayout * main_layout;
 
-  QLabel * title_label;
-  QTextEdit * text_edit;
-  QLineEdit * line_edit;
-  QPushButton * button_close;
+	QLabel * title_label;
+	QTextEdit * text_edit;
+	QLineEdit * line_edit;
+	QPushButton * button_close;
 
-  Cmd m_cmd;
-  QVector<QString> lst_cmd;
-  int pos;
-  QString m_station;
+	Client<session_on_observer> * m_client;
+
+	//	Cmd m_cmd;
+	QVector<QString> lst_cmd;
+	int pos;
+	QString m_station;
+    };
 };
-
 #endif
