@@ -22,7 +22,12 @@ TARGET_LINK_LIBRARIES(Net -lboost_thread -lboost_system)
 file(
   GLOB_RECURSE
   Obs_header_files
-  Observer/*.hh
+  Observer/CmdWindow.hh
+  Observer/MessageWindow.hh
+  Observer/SettingProcWindow.hh
+  Observer/Observer.hh
+  Observer/StationWindow.hh
+  Observer/Miniature.hh
 )
 
 QT4_WRAP_CPP(MOCSrcs ${Obs_header_files})
