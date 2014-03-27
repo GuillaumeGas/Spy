@@ -6,6 +6,7 @@ namespace Spy {
     session_on_spy::session_on_spy(int socket) : Serv_session(socket) {
 	auth = false;
 	proto = new observer::proto_observer(socket);
+	proto->a.unactive_all();
 	(*proto)["INFO"].sig_recv.connect(boost::bind(&session_on_spy::do_info, this, _1));
 	(*proto)["WARNING"].sig_recv.connect(boost::bind(&session_on_spy::do_warning, this, _1));
 	(*proto)["GET_LIST_PROC"].sig_recv.connect(boost::bind(&session_on_spy::do_get_list_proc, this, _1));
@@ -66,11 +67,10 @@ namespace Spy {
     
     void session_on_spy::do_get_list_proc(string) {
 	if ( auth ) {
+	    cout << "get list recv" << endl;
 	    Process proc;
 	    map<int, string> m = proc.get_list_process();
 	    stringstream ss;
-		
-	    cout << "taille : " << m.size() << endl;
 	    for(auto it : m) {
 		ss << it.first << " " << it.second << " ";
 	    }

@@ -94,7 +94,7 @@ namespace observer {
     }
 
 
-    void Miniature::slot_proc_list(QString _list, QString name) {
+    void Miniature::slot_proc_list(QString name, QString _list) {
 	if ( m_user == name ) {
 	    //construction QMap
 	    stringstream ss(_list.toStdString());
@@ -105,8 +105,6 @@ namespace observer {
 		ss >> pid;
 		ss >> tmp;
 		list[pid] = QString(tmp.c_str());
-		
-		//	    cout << pid << " " << list[pid] << endl;
 	    }
 	    station_win->set_list_proc(list);
 	}

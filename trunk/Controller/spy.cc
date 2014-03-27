@@ -10,6 +10,7 @@ namespace controller {
     spy_session::spy_session ( int  write, int read, string ip ) 
 	: Client_UDPSession( write, read, ip ) {
 	proto = new cont_proto( write, read, ip );
+	proto->a.unactive_all();
 	(*proto)["HERE?"].sig_recv.connect( boost::bind( &spy_session::do_HERE, this, _1));
     }
 
@@ -19,8 +20,6 @@ namespace controller {
 	string addr;
 	ss >> addr >> port;
 	change_write_port(port, addr);
-	cout << " send to "<< addr << ":" << port << endl;
-	cout << "[SYS] -> Are You Here ??" << endl;
 	ss.str("");
 	ss << m_name << " " << m_ip << " " << m_port;
 	(*proto)["YES"](ss.str());

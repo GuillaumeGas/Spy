@@ -209,6 +209,7 @@ namespace observer {
     }
 
     void Observer::lst_proc_recved(QString name,string list) {
+	cout << "Observer lst" << endl;
 	emit sig_proc_list(name, QString(list.c_str()));
     }
 

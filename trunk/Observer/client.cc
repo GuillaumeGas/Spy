@@ -25,6 +25,7 @@ namespace observer {
 
 
 	proto = new observer::proto_observer(socket);
+	proto->a.unactive_all();
 	(*proto)["INFO"].sig_recv.connect(boost::bind(&session_on_observer::info, this, _1));
 	(*proto)["LIST_PROC"].sig_recv.connect(boost::bind(&session_on_observer::do_list_proc, this, _1));
 	(*proto)["RES_CMD"].sig_recv.connect(boost::bind(&session_on_observer::do_res_cmd, this, _1));
@@ -69,12 +70,11 @@ namespace observer {
     }
 
     void session_on_observer::info(string msg) {
-	cout << "msg : " << msg << endl;
+	//cout << "msg : " << msg << endl;
     }
 
     void session_on_observer::do_list_proc(string data) {
 	cout << "reception processus actifs" << endl;
-
 	lst_proc_recv(QString(m_name.c_str()), data);
     }
 
@@ -97,7 +97,7 @@ namespace observer {
     }
 
     void session_on_observer::do_big_screenshot(string data, int w, int h) {
-	cout << "Telechargement bigImg..." << endl;
+	//	cout << "Telechargement bigImg..." << endl;
 
 	data = data.substr( 1 , data.length()-1 );
 	stringstream ss(data);
@@ -109,7 +109,7 @@ namespace observer {
 	ScreenShot::build_bmp_fromStringstream(file_name.c_str(), ss, w, h);
 	mutex.unlock();
 
-	cout << "Image telechargee !!" << endl;
+	//cout << "Image telechargee !!" << endl;
 
 	//big_img_recv(file_name.c_str());
     }
