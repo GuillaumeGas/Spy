@@ -48,8 +48,8 @@ namespace observer {
 
     void CmdWindow::set_cmd(QString data) {
 	cout << "SUPER TEST"<< endl;
-	MsgBox::info(data.toStdString());
-	//text_edit->append(data);
+	//MsgBox::info(data.toStdString());
+	text_edit->append(data);
     }
 
     void CmdWindow::keyPressEvent(QKeyEvent *event) {

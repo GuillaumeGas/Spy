@@ -80,7 +80,7 @@ namespace observer {
 	setCentralWidget(window);
 
 	setMinimumSize(1320, 800);
-	setWindowIcon(QIcon("iconSPY.png"));
+	setWindowIcon(QIcon("../img/iconSPY.png"));
 	setWindowTitle("Observer");
 
     }
