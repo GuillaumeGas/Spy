@@ -29,17 +29,6 @@ namespace observer {
 
 	main_layout->addWidget(proc_table);
 
-	/* Test */
-	/*Process pr;
-	std::map<int, std::string> lst = pr.get_list_process();
-	for(auto it = lst.begin(); it != lst.end(); it++) {
-	    int count = proc_table->rowCount();
-	    proc_table->insertRow(count);
-	    proc_table->setItem(count, 0, new QTableWidgetItem(QString::number(it->first)));
-	    proc_table->setItem(count, 1, new QTableWidgetItem(QString(it->second.c_str())));
-	    }*/
-	/* fin test */
-
 	button_close = new QPushButton("Fermer");
 	main_layout->addWidget(button_close);
 
@@ -51,7 +40,6 @@ namespace observer {
     }
 
     void ListProcWindow::set_list_proc(QMap<int, QString> list) {
-	cout << "SUPER OK" << endl;
 	for(auto it = list.begin(); it != list.end(); it++) {
 	    int count = proc_table->rowCount();
 	    proc_table->insertRow(count);

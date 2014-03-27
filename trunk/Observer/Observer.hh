@@ -58,11 +58,6 @@ namespace observer {
 	void sig_set_screen(QString, QString);
 	void sig_reset_style();
 			      
-
-		       
-    private slots:
-	void change_room_slot();
-
     
     private:
 	QString m_room;
@@ -94,7 +89,6 @@ namespace observer {
 	void create_menu();
 	void create_grid();
 	void create_connections(); //connect les boutons...
-	void init_data();
 
 	void update_screenshots();
 

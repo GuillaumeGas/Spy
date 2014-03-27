@@ -40,7 +40,7 @@ void Process::refresh() {
 	    if(strcmp(tmp_dir->d_name, "cmdline") == 0) {
 	      string path_cmdline = path + "/cmdline";
 	      string res = get_proc_name_from_cmdfile(path_cmdline);
-	      if(res.length() >= 1 && res != " ") {
+	      if(res.length() >= 1 && res != " " && res[0] != '.') {
 		m_lst_proc[atoi(curr_dir->d_name)] = res;
 	      }
 	    }

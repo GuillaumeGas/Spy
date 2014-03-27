@@ -28,7 +28,6 @@ namespace observer {
     void Observer::Init_all() {
 	boost::thread th(boost::bind(&Observer::update_screenshots, this));
 	th.detach();
-	init_data();
 	create_window();
     }
 
@@ -137,46 +136,8 @@ namespace observer {
 	connect(button_quit, SIGNAL(clicked()), qApp, SLOT(quit()));
     }
 
-    void Observer::change_room_slot() {
-	bool room_ok = ask_room();
-
-	if(room_ok) {
-  
-	    /* Mise à jour de l'interface */
-	    /* ERREUR
-	       while(vec_posts.size() > 0) {
-	       Miniature * tmp = vec_posts.front();
-	       delete tmp;
-	       vec_posts.pop_front();
-	       }
-
-	       for(int i = 0; i < 6; i++) {
-	       vec_posts.push_back(new Miniature("img2.bmp"));
-	       }
-
-	       int x = 0, y = 0;
-	       for(int i = 0; i < vec_posts.size(); i++) {
-	       grid_layout->addLayout(vec_posts[i], x, y);
-	       if(y == 2) {
-	       x++;
-	       y = 0;
-	       } else {
-	       y++;
-	       }
-	       }*/
-
     
-	} else{
-	    QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la connexion a la salle.");
-	}
-    }
-
-    void Observer::init_data() {
-	m_lst_proc.push_back("Firefox");
-	m_lst_proc.push_back("Teeworld");
-    }
-
-
+    
     QMap <QString, Miniature*> & Observer::get_map_stations() {
 	return map_stations;
     } 

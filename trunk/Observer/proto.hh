@@ -16,7 +16,7 @@ namespace observer {
 	    message["WARNING"]       = new Message("WARNING", "1s1a", this);
 	    message["GET_LIST_PROC"] = new Message("GET_LIST_PROC", "1s", this); //demande la liste de processu actifs
 	    message["LIST_PROC"]     = new Message("LIST_PROC", "1s1a", this); //réponse : liste processus actifs
-	    /* a debug */
+	    
 	    message["GET_SCREENSHOT"]= new Message("GET_SCREENSHOT", "1s1s", this); //demande un screenshot (param : zoom)
 	    message["GET_BIG_SCREENSHOT"] = new Message("GET_BIG_SCREENSHOT", "1s1s", this);
 	    imessage["SCREENSHOT"]    = new Img_Message("SCREENSHOT", this); //réponse : screenshot
