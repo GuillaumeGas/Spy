@@ -58,6 +58,7 @@ int main(int argc, char** argv) {
       map_station[QString(it.first.c_str())] = new observer::Miniature("../img/def.bmp", it.second.first.c_str(), it.first.c_str(), client[it.first]);
       client[it.first]->_session().lst_proc_recv.connect(boost::bind(&observer::Observer::lst_proc_recved, &obs, _1, _2));
       client[it.first]->_session().res_cmd_recv.connect(boost::bind(&observer::Observer::res_cmd_recved, &obs, _1, _2));
+      client[it.first]->_session().quit.connect(boost::bind(&observer::Observer::quit_recv, &obs, _1));
 
       QObject::connect( &obs, SIGNAL(sig_set_screen(QString, QString)), map_station[QString(it.first.c_str())], SLOT(slot_set_screen(QString,QString)));
       QObject::connect( &obs, SIGNAL(sig_reset_style()), map_station[QString(it.first.c_str())], SLOT(slot_reset_style()));

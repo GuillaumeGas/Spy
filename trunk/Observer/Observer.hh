@@ -49,6 +49,7 @@ namespace observer {
 	void proc_detected(std::string);
 	void lst_proc_recved(QString, std::string);
 	void res_cmd_recved(std::string, std::string);
+	void quit_recv(std::string);
 
     signals:
 	void sig_proc_detected(QString);

@@ -217,4 +217,15 @@ namespace observer {
 	emit sig_cmd_recv(QString(name.c_str()), QString(data.c_str())); 
     }
 
+
+    void Observer::quit_recv(string name) {
+	auto it = map_stations.find(QString(name.c_str()));
+	if ( it != map_stations.end()) {
+	    delete it.value();
+	    map_stations.erase(it);
+	}
+
+    }
+
+
 };

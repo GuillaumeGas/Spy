@@ -19,6 +19,7 @@ namespace observer {
     public:
 	session_on_observer(int socket);
 
+	void on_end();
 	void info(std::string msg);
 	void do_list_proc(std::string data);
 	void do_screenshot(std::string data, int w, int h);
@@ -42,7 +43,7 @@ namespace observer {
 	signal<void(std::string)>              proc_recv;
 	signal<void(QString, std::string)> lst_proc_recv;
 	signal<void(std::string, std::string)>    res_cmd_recv;
-
+	signal<void(std::string)> quit;
     private:
 	std::string m_name;
 	unsigned long N, e;

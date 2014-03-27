@@ -36,10 +36,16 @@ namespace observer {
 	(*proto)["ERR"].sig_recv.connect( boost::bind ( &session_on_observer::do_err, this, _1));
 	(*proto)["OK"].sig_recv.connect( boost::bind ( &session_on_observer::do_ok, this, _1));
 	(*proto)["TEST"].sig_recv.connect( boost::bind ( &session_on_observer::do_test, this, _1));
-
+	end.connect(boost::bind(&session_on_observer::on_end, this));
 	last_pid_detected = -1;
     }
 
+
+
+
+    void session_on_observer::on_end() {
+	quit(m_name);
+    }
 
 
     void session_on_observer::do_test(string msg) {
