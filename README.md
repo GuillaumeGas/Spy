@@ -1,5 +1,10 @@
-Spy
+Spy - Projet universitaire
 ===
+
+But du projet : Permettre à un professeur de surveiller à distance les machines d'une salle.
+Fonctionnalités : 
+Le professeur peut sélectionner une salle via une interface Qt, la liste des postes sur lesquels des étudiants sont connectés s'affiche. Pour chaque poste, on a un screenshot, raffraichi toutes les secondes. Ce dernier clignote en rouge si l'étudiant lance un processus faisant partie des processus à surveiller. Le professeur peut envoyer des commandes à un poste en particulier, envoyer un message qui s'affichera devant l'étudiant.
+Le professeur peut également ouvrir une fenêtre affichant la liste des processus à surveiller, en ajouter et en supprimer.
 
 Recuperer le Depot
 
